@@ -1,0 +1,152 @@
+.nft-exchange-detail {
+  width: 90vw;
+  max-width: 500px;
+}
+
+.nft-exchange-detail .nft-section {
+  margin-bottom: 20px;
+}
+
+.nft-exchange-detail h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.nft-exchange-detail .nft-item {
+  display: flex;
+  align-items: center;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.nft-exchange-detail .nft-item img {
+  width: 45px;
+  height: 45px;
+  margin-right: 15px;
+  border-radius: 5px;
+}
+
+.nft-exchange-detail .nft-info p {
+  margin: 0;
+}
+
+.nft-exchange-detail .nft-info p:first-child {
+  font-size: 15px;
+  color: black;
+}
+
+.nft-exchange-detail .nft-info .nft-quantity {
+  font-size: 12px;
+  color: #585858;
+}
+
+.nft-exchange-detail .nft-info button {
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.nft-exchange-detail .token-history {
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  max-height: 230px;
+  overflow-y: auto;
+}
+.nft-exchange-detail .token-history::-webkit-scrollbar {
+  width: 6px;
+  background-color: #c6c6c6;
+  border-radius: 10px;
+}
+.nft-exchange-detail .token-history::-webkit-scrollbar-thumb {
+  background-color: #a2a2a2;
+  border-radius: 10px;
+}
+
+.nft-exchange-detail .token-history h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4d4d4d;
+  margin: 10px 10px;
+}
+
+.nft-exchange-detail .history-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.nft-exchange-detail .history-header,
+.nft-exchange-detail .history-row {
+  display: flex;
+  background-color: #f8f8f8;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.nft-exchange-detail .history-header {
+  font-weight: bold;
+  background-color: #e0e0e0;
+  font-size: 10px;
+}
+
+.nft-exchange-detail .history-column {
+  flex: 1;
+  word-break: break-all;
+  padding: 0 4px;
+}
+
+.nft-exchange-detail .history-row {
+  background-color: #ffffff;
+  font-size: 10px;
+}
+
+.nft-exchange-detail .history-column a {
+  color: black;
+  text-decoration: none;
+  svg {
+    height: 9px;
+  }
+}
+
+.nft-exchange-detail .history-column a:hover {
+  text-decoration: underline;
+}
+
+.nft-exchange-detail .action-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #f16d9a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.nft-exchange-detail .action-button:hover {
+  background-color: #cb5d82;
+}
+.nft-exchange-detail .action-button.mine {
+  background-color: #f47735;
+}
+.nft-exchange-detail .action-button.mine:hover {
+  background-color: #cc652d;
+}
+
+.nft-exchange-error {
+  width: 90vw;
+  max-width: 500px;
+}
+
+.nft-exchange-error p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+}

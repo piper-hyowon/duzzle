@@ -1,0 +1,26 @@
+/* MyHeader */
+
+header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+}
+
+header > div {
+  display: flex;
+}
+
+header .head_text {
+  width: 50%;
+  font-size: 25px;
+  justify-content: center;
+  font-family: "Roboto";
+  font-weight: 700;
+}
+
+header .head_btn_left {
+  width: 25%;
+  justify-content: start;
+}

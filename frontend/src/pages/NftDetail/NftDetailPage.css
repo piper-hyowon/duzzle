@@ -1,0 +1,43 @@
+.nft-detail-page {
+  /* min-height: 100vh; */
+  background-color: #f4f1e3;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.nft-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.back-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.nft-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.three-d-container {
+  width: 100%;
+  height: calc(100vh - 160px);
+  /* 헤더(60px)와 네비게이션 바(100px) 높이를 제외 */
+  background-color: #f0f8ff;
+}

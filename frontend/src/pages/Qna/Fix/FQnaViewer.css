@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+
+.Viewer {
+  font-family: "Roboto", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.Viewer > section {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Viewer .info_title1 {
+  color: rgba(52, 168, 83, 1);
+  padding: 10px;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+}
+
+.Viewer .info_section {
+  height: 100px;
+  max-width: 420px;
+  width: 70vw;
+  margin: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #ececec;
+  border-radius: 5px;
+  word-wrap: break-word;
+  font-family: "Roboto", sans-serif;
+}
+
+.Viewer .content_wrapper {
+  width: 80vw;
+  max-width: 458px;
+  margin: 20px;
+  min-height: 230px;
+  background-color: #ececec;
+  border-radius: 5px;
+  word-break: keep-all;
+  overflow: break-word;
+}
+
+.Viewer .content_title > div {
+  color: rgba(52, 168, 83, 1);
+  padding: 10px;
+  font-weight: bold;
+}
+
+.Viewer .content_wrapper > p {
+  padding: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 2.5;
+  word-wrap: break-word;
+}

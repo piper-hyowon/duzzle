@@ -1,0 +1,14 @@
+.Faq {
+  height: 100%;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.Faq .Faq_wrapper {
+  width: 90vw;
+  max-width: 500px;
+}
+
+.Faq .Faq_wrapper::-webkit-scrollbar {
+  width: 12px;
+}

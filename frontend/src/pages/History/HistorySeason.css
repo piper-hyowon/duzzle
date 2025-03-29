@@ -1,0 +1,51 @@
+/* HistorySeason */
+.HistorySeason {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.HistorySeason .hs {
+  margin-top: 100px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  gap: 30px;
+}
+
+.HistorySeason .hs_puzzle,
+.HistorySeason .hs_ranking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ececec;
+  padding: 20px;
+  margin: 0px 20px 0px 20px;
+  border-radius: 20px;
+
+  img {
+    height: 20vh;
+    max-height: 150px;
+    padding: 10px;
+  }
+
+  button {
+    width: 40vw;
+    max-width: 200px;
+    background-color: #9ad4a9;
+    padding: 10px 20px 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #545454;
+    border: none;
+    border-bottom-color: rgba(0, 0, 0, 0.34);
+    border-radius: 10px;
+    box-shadow: #34a853 0px 5px 0px 0px;
+    cursor: pointer;
+  }
+  button:active {
+    top: 5px;
+    position: relative;
+    box-shadow: none;
+  }
+}

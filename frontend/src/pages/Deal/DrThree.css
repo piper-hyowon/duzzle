@@ -1,0 +1,56 @@
+/* DrThree */
+.DrThree {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.DrThree .dr_title {
+  font-size: 20px;
+  margin: 0;
+  padding-top: 26px;
+  padding-bottom: 25px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.DrThree .exchangeNfts_main {
+  background-color: #ececec;
+  border-radius: 5px;
+  height: 55vh;
+  margin-top: 10px;
+  overflow: auto;
+  padding: 10px 20px;
+  p {
+    margin: 5px 0 0 10px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .enTxt {
+    font-size: 17px;
+    margin: 10px 0 10px 0;
+    font-weight: 700;
+  }
+}
+
+.DrThree .dr3Buttons {
+  display: flex;
+}
+
+.DrThree .dr3_btn {
+  margin: 20px 20px 0 20px;
+  color: white;
+  background-color: #00b5cc;
+  border: none;
+  border-radius: 20px;
+  width: 50%;
+  padding: 10px 0 10px 0;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.DrThree .dr3_btn.back {
+  background-color: #a2a2a2;
+  cursor: pointer;
+}

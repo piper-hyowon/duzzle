@@ -1,0 +1,135 @@
+.approval-modal .modal-overlay,
+.login-modal .modal-overlay,
+.logout-modal .modal-overlay,
+.confirm-cancel-modal .modal-overlay,
+.alert-modal .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.approval-modal .modal-content,
+.login-modal .modal-content,
+.logout-modal .modal-content,
+.confirm-cancel-modal .modal-content,
+.alert-modal .modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 450px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.approval-modal .modal-title,
+.login-modal .modal-title,
+.logout-modal .modal-title,
+.confirm-cancel-modal .modal-title,
+.alert-modal .modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.approval-modal .approval-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.approval-modal .approval-item:last-child {
+  border-bottom: none;
+}
+
+.approval-modal .token-name {
+  font-weight: bold;
+  color: #555;
+}
+
+.approval-modal .approval-status {
+  font-weight: bold;
+}
+
+.approval-modal .approval-status.approved {
+  color: #34a853;
+}
+
+.approval-modal .approval-status.not-approved {
+  color: #f44336;
+}
+
+.approval-modal .button,
+.login-modal .button,
+.logout-modal .button,
+.confirm-cancel-modal .button,
+.alert-modal .button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.approval-modal .button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.approval-modal .button-approve {
+  background-color: #34a853;
+  color: white;
+}
+
+.approval-modal .button-approve:hover:not(:disabled) {
+  background-color: #288040;
+}
+
+.approval-modal .button-revoke {
+  background-color: #f44336;
+  color: white;
+}
+
+.approval-modal .button-revoke:hover:not(:disabled) {
+  background-color: #d32f2f;
+}
+
+.approval-modal .submit-button,
+.login-modal .submit-button,
+.logout-modal .submit-button,
+.confirm-cancel-modal .submit-button,
+.alert-modal .submit-button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: #01c5de;
+  color: white;
+}
+
+.approval-modal .submit-button:hover:not(:disabled),
+.login-modal .submit-button:hover:not(:disabled),
+.logout-modal .submit-button:hover:not(:disabled),
+.confirm-cancel-modal .submit-button:hover:not(:disabled),
+.alert-modal .submit-button:hover:not(:disabled) {
+  background-color: #00b5cc;
+}
+
+.approval-modal .cancel-button,
+.login-modal .cancel-button,
+.logout-modal .cancel-button,
+.confirm-cancel-modal .cancel-button {
+  padding: 0.75rem;
+}

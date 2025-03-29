@@ -1,0 +1,201 @@
+.QuestAcid .container-fluid {
+  width: 89.2vw;
+  max-width: 500px;
+}
+
+.QuestAcid .my-score {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin-right: 10px;
+}
+
+.QuestAcid #score-1 {
+  color: rgb(66, 207, 250);
+}
+
+.QuestAcid #failed {
+  color: red;
+}
+
+.QuestAcid #control-panel {
+  margin: 5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.QuestAcid input[type="text"] {
+  width: 50%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid rgb(249, 11, 213);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.QuestAcid #game-panel {
+  height: 600px;
+  padding-top: 30px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  position: relative;
+}
+
+.QuestAcid #control-panel-frame {
+  height: 20%;
+  border-style: solid;
+  border-color: rgb(25, 185, 213);
+}
+
+.QuestAcid #end-score {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 4rem;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.QuestAcid #board {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* z-index: 1; */
+}
+
+.QuestAcid #help-div {
+  justify-content: center;
+  text-align: center;
+  width: 90vw;
+  max-width: 500px;
+  font-size: 18px;
+  padding: 10px;
+  margin-top: 50px;
+  background-color: rgb(255, 255, 255);
+}
+
+.QuestAcid #help-div > #de {
+  margin: 23px;
+  line-height: 1.84;
+  background-color: rgb(235, 241, 241);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px 0 rgb(214, 218, 218);
+}
+
+.QuestAcid #help-div > #help-title {
+  margin-top: 120px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.QuestAcid #help-div > #bt {
+  text-align: center;
+}
+
+.QuestAcid #help-div b {
+  color: rgb(249, 11, 213);
+}
+
+.QuestAcid #restart-btn,
+.QuestAcid #help-btn,
+.QuestAcid #start-btn {
+  font-size: 2.5rem;
+}
+
+.QuestAcid .word {
+  position: absolute;
+  font-size: 16px;
+}
+
+.QuestAcid .buttonstart {
+  background-image: linear-gradient(
+    to right,
+    rgb(66, 207, 250),
+    rgb(66, 207, 250)
+  );
+  box-shadow: 0 4px 15px 0 rgb(19, 222, 232);
+  width: 210px;
+  height: 90px;
+  font-size: 31px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 40px;
+  text-align: center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 2.5rem;
+}
+
+.QuestAcid .container-fluid .score {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  width: 90vw;
+  padding: 60px;
+  margin-top: 160px;
+  padding-bottom: 240px;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+}
+
+.QuestAcid .score #end-score {
+  font-size: 55px;
+  margin-bottom: 100px;
+}
+
+.QuestAcid .score .restart {
+  background-image: linear-gradient(
+    to right,
+    rgb(66, 207, 250),
+    rgb(66, 207, 250)
+  );
+  box-shadow: 0 4px 15px 0 rgb(19, 222, 232);
+  width: 210px;
+  height: 90px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 15px;
+  text-align: center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 2.5rem;
+  margin-left: 30px;
+}
+
+.QuestAcid .score .explain {
+  background-image: linear-gradient(
+    to right,
+    rgb(79, 235, 97),
+    rgb(79, 235, 97)
+  );
+  box-shadow: 0 4px 15px 0 rgb(79, 235, 97);
+  width: 210px;
+  height: 90px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 2.5rem;
+  margin-left: 20px;
+}

@@ -1,0 +1,213 @@
+.Deal {
+  width: 90vw;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 110px;
+}
+
+.Deal .search-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.Deal .but1,
+.Deal .but2 {
+  flex: 0 1 calc(33.333% - 10px);
+  margin: 3px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #a0a2a0;
+  color: white;
+  cursor: pointer;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.Deal .search-section input {
+  flex: 1 1 calc(33.333% - 10px);
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 0;
+}
+
+.Deal .search-section select {
+  flex: 1 1 calc(33.333% - 10px);
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 0;
+}
+
+.Deal .search-section button {
+  flex: 0 1 calc(33.333% - 10px);
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b5cc;
+  color: white;
+  cursor: pointer;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.Deal .search-section button:hover {
+  background-color: #03d6f1;
+}
+
+@media (max-width: 600px) {
+  .Deal .search-section input,
+  .Deal .search-section select,
+  .Deal .search-section button {
+    flex: 1 1 100%;
+  }
+}
+
+/* .Deal .trade-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+.Deal .pro {
+  font-size: 18px;
+}
+
+.Deal .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 60px;
+  margin-right: 20px;
+}
+
+.Deal .user-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.Deal .user-info .userT {
+  margin: 0;
+  font-size: 0.2em;
+  text-align: center;
+}
+
+.Deal .user-info .userT1 {
+  margin: 0;
+  font-size: 0.5em;
+  text-align: center;
+}
+
+.offered,
+.requested {
+  width: 70%;
+}
+
+.nft-info {
+  display: flex;
+  width: 65%;
+}
+
+.Deal .nft-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.nft-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Deal .off1 {
+  margin: 0;
+  font-size: 0.8em;
+  margin-bottom: 3px;
+}
+
+.Deal .off2 {
+  margin: 0;
+  font-size: 0.8em;
+}
+
+.Deal .ree1 {
+  margin: 0;
+  font-size: 0.8em;
+  margin-bottom: 3px;
+}
+
+.Deal .ree2 {
+  margin: 0;
+  font-size: 0.8em;
+}
+
+.Deal .status {
+  text-align: right;
+  font-size: 0.8em;
+  color: #555;
+}
+
+.Deal .status p {
+  font-weight: bold;
+  margin: 0;
+}
+
+.Deal .user-trade-list h3,
+.trade-list h3 {
+  margin: 20px 0 10px 20px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: left;
+}
+
+.Deal .my-trade-list h3 {
+  margin: 20px 0 10px 20px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: left;
+}
+
+.Deal .pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.Deal .pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.Deal .pagination button:hover {
+  background-color: #eee;
+} */

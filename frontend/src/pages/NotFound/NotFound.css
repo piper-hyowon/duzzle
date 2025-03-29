@@ -1,0 +1,27 @@
+/* NotFound */
+.NotFound {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+  text-align: center;
+  img {
+    margin-top: 100px;
+    width: 80vw;
+    max-width: 450px;
+  }
+  p {
+    padding-top: 100px;
+    margin: 0;
+    font-size: large;
+    color: #00b5cc;
+    cursor: default;
+  }
+  button {
+    margin-top: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #80dae6;
+    color: white;
+  }
+}

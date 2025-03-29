@@ -1,0 +1,6 @@
+.faq-viewer {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  max-width: 500px;
+}

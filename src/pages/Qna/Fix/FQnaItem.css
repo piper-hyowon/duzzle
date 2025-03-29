@@ -1,0 +1,74 @@
+.QnaItem {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0px;
+  border-bottom: 1px solid gray;
+}
+
+.QnaItem .infor_section {
+  flex: 1;
+  cursor: pointer;
+}
+
+.QnaItem .infor_section .created_date {
+  font-size: 13px;
+  color: grey;
+}
+
+.QnaItem .infor_section .content {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.QnaItem .answer_section {
+  font-size: 15px;
+  color: blue;
+  padding: 2px 0px;
+}
+
+.QnaItem .button_section {
+  display: flex;
+}
+
+.QnaItem .button_section button {
+  background-color: rgb(256, 256, 256);
+  border-radius: 5px;
+  border: 1px solid rgb(179, 179, 179);
+  padding: 2px;
+  margin: 1px;
+  cursor: pointer;
+  color: rgba(52, 168, 83, 1);
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .QnaItem .infor_section .created_date {
+    font-size: 11px;
+  }
+
+  .QnaItem .infor_section .question {
+    font-size: 16px;
+  }
+
+  .QnaItem .answer_section {
+    font-size: 13px;
+  }
+
+  .QnaItem .button_section button {
+    padding: 1px;
+    margin: 0px;
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .QnaItem .infor_section .question {
+    font-size: 14px;
+  }
+
+  .QnaItem .button_section button {
+    font-size: 12px;
+  }
+}

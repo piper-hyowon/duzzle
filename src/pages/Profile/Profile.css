@@ -1,0 +1,262 @@
+/* Profile */
+.Profile {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.Profile .profile_title {
+  margin: 10px;
+  text-align: center;
+  p {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 700;
+    color: #8c8c8c;
+  }
+}
+
+.Profile .profile_img {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  img {
+    height: 15vh;
+    max-width: 15vh;
+    border-radius: 50%;
+  }
+  button {
+    position: absolute;
+    top: 12vh;
+    left: 50vw;
+    border: none;
+    border-radius: 50%;
+    background-color: #00b5cc;
+    cursor: pointer;
+    svg {
+      margin-top: 2px;
+      padding: 5px;
+      height: 2vh;
+    }
+  }
+}
+
+.Profile .profile_list_title {
+  margin-left: 30px;
+  margin-bottom: 20px;
+  p {
+    font-size: 15px;
+    margin: 0;
+    color: #f16d9a;
+    font-weight: 700;
+  }
+}
+.Profile .profile_list {
+  display: grid;
+  gap: 10px;
+  grid-template-rows: repeat(4, auto);
+  justify-content: center;
+  p {
+    margin: 0;
+    font-size: 12px;
+    color: #8c8c8c;
+    font-weight: 700;
+  }
+}
+
+.Profile section {
+  display: flex;
+  border-radius: 20px;
+  padding: 25px 15px;
+  width: 80vw;
+  max-width: 460px;
+  background-color: #ececec;
+}
+
+.Profile .profile_list .list_name {
+  color: #00b5cc;
+}
+
+.Profile .profile_list .wallet {
+  display: flex;
+  align-items: center;
+  width: 45vw;
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: 2vw;
+  p {
+    font-size: 10px;
+    word-break: break-all;
+  }
+  button {
+    border: none;
+    cursor: pointer;
+    position: relative;
+    background-color: transparent;
+    svg {
+      height: 20px;
+      width: 20px;
+    }
+  }
+}
+
+.Profile .profile_wallet .toast {
+  visibility: hidden;
+  background-color: #343434;
+  min-width: 80px;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding: 6px 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.Profile .profile_wallet .toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.Profile .profile_list .name {
+  margin-left: auto;
+  margin-right: 2vw;
+  display: flex;
+  align-items: center;
+  button {
+    margin-left: 2px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    svg {
+      margin-top: 2.5px;
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  textarea {
+    resize: none;
+    width: 20vw;
+    max-width: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: black;
+    background-color: #cbcbcb;
+    border: 2.5px solid #8c8c8c;
+    border-radius: 10px;
+    padding: 0.75em 0 0 10px;
+    line-height: 0.7;
+    &::placeholder {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.2);
+    }
+    &:focus {
+      outline: none;
+      border-color: #00b5cc;
+    }
+  }
+}
+
+.Profile .profile_list .email {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 2vw;
+}
+
+.Profile .profile_list .achievement {
+  display: flex;
+  flex-direction: column;
+  width: 45vw;
+  max-width: 150px;
+  margin-left: auto;
+  margin-right: 2vw;
+  p {
+    font-size: 10px;
+  }
+}
+.Profile .record {
+  text-align: right;
+}
+
+.Profile .profile_list .type {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 2vw;
+}
+.Profile .profile_list .type .typeBtn {
+  border: #00b5cc 2px solid;
+  color: black;
+  background-color: #cbcbcb;
+  border-radius: 10px;
+  padding: 3px;
+  font-size: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.Profile .profile_list .type .edit {
+  border: none;
+  cursor: pointer;
+  margin-left: 2px;
+  background-color: transparent;
+  svg {
+    margin-top: 2.5px;
+    height: 20px;
+    width: 20px;
+  }
+}
+.Profile .profile_type .tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  svg {
+    width: 20px;
+  }
+}
+.Profile .profile_type .tooltip_text {
+  visibility: hidden;
+  width: 170px;
+  background-color: #f47735;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: -100%;
+  left: -80%;
+  margin-left: -60px;
+  transition: opacity 0.5s;
+  opacity: 0;
+}
+.Profile .profile_type .tooltip:hover .tooltip_text {
+  visibility: visible;
+  opacity: 1;
+  font-size: 12px;
+  &::after {
+    border-bottom: 10px solid #f47735;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: 45%;
+  }
+}
+
+@media all and (min-width: 540px) {
+  .Profile .profile_img {
+    button {
+      left: 280px;
+    }
+  }
+}

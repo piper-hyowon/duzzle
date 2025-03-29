@@ -1,0 +1,142 @@
+/* Items */
+.Items {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.Items .items_title {
+  margin: 10px;
+  text-align: center;
+  p {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 700;
+    color: #8c8c8c;
+    cursor: default;
+  }
+}
+
+.Items .tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  svg {
+    width: 20px;
+  }
+}
+
+.Items .tooltip .tooltip_text {
+  visibility: hidden;
+  width: 300px;
+  background-color: #f47735;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: -120%;
+  left: -450%;
+  margin-left: -60px;
+  transition: opacity 0.5s;
+  opacity: 0;
+}
+
+.Items .tooltip:hover .tooltip_text {
+  visibility: visible;
+  opacity: 1;
+  font-size: 13px;
+  &::after {
+    border-bottom: 10px solid #f47735;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: -30%;
+    left: 50%;
+  }
+}
+
+.Items .items_total {
+  display: flex;
+  img {
+    margin-left: auto;
+    margin-top: 5px;
+    margin-right: 3px;
+    height: 18px;
+  }
+  p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    padding-right: 30px;
+    color: #34a853;
+    cursor: default;
+  }
+}
+
+.Items .items_main {
+  height: 58vh;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 5%;
+  overflow: auto;
+}
+
+.items_main::-webkit-scrollbar {
+  width: 6px;
+  background-color: #ececec;
+  border-radius: 10px;
+}
+.items_main::-webkit-scrollbar-thumb {
+  background-color: #34a853;
+  border-radius: 10px;
+}
+
+.Items .item {
+  text-align: center;
+  border-radius: 30px;
+  img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    background-color: #ececec;
+    padding: 15px;
+    border-radius: 20px;
+  }
+  p {
+    margin: 0;
+    color: #00b5cc;
+    font-weight: bold;
+    cursor: default;
+    font-size: 11px;
+  }
+}
+
+.Items .store_btn {
+  position: absolute;
+  margin-top: 30px;
+  left: calc(50% - 52.3px);
+  cursor: pointer;
+  display: flex;
+  width: fit-content;
+  background-color: #f16d9a;
+  padding: 8px;
+  padding-left: 20px;
+  padding-right: 25px;
+  border-radius: 30px;
+  svg {
+    height: 20px;
+    margin-top: 1.5px;
+    margin-right: 12px;
+  }
+  p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+  }
+}

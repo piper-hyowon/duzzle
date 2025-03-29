@@ -1,0 +1,88 @@
+.c1 .container_story {
+  width: 90vw;
+  max-width: 500px;
+  align-items: center;
+  text-align: center;
+}
+
+.c1 .Story_title {
+  text-align: center;
+  font-size: 50px;
+  color: #00b5cc;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  padding-top: 30px;
+}
+.c1 .img_story {
+  width: 330px;
+  max-width: 500px;
+}
+.c1 .ul_story {
+  list-style: none;
+  padding: 0;
+  height: 40vh;
+  overflow-y: auto;
+}
+.c1 .ul_story::-webkit-scrollbar {
+  width: 8px;
+  background-color: #c6c6c6;
+  border-radius: 10px;
+}
+.c1 .ul_story::-webkit-scrollbar-thumb {
+  background-color: #00b5cc;
+  border-radius: 10px;
+}
+
+.c1 .li_story {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.c1 .story_name {
+  font-size: 17px;
+}
+.c1 .readstory {
+  font-size: 15px;
+}
+
+.c1 .h2 {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+}
+
+.c1 .button_b {
+  margin: 5px;
+  padding: 3px 5px;
+  background-color: #00b5cc;
+
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.c1 .button_b:hover {
+  background-color: #41423f;
+}
+.c1 .progress-bar_1 {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.c1 .progress-bar-inner_1 {
+  height: 100%;
+  background-color: #178593;
+  border-radius: 10px 0 0 10px;
+}
+
+.c1 .page-info {
+  font-size: 14px;
+  color: #666;
+}

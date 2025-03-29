@@ -1,0 +1,117 @@
+.QnaList {
+  width: 100%;
+}
+.QnaList .menu_bar .option{
+  text-align: center;
+}
+
+.QnaList .menu_bar {
+  margin: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.QnaList .menu_bar select {
+  background-color: rgb(236, 236, 236);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.QnaList .menu_bar button {
+  border: none;
+  border-radius: 5px;
+  background-color: #50cf72;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.QnaList .list_wrapper {
+  width: 100%;
+}
+
+
+.QnaList {
+  width: 100%;
+}
+
+.QnaList .menu_bar {
+  margin: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 아이템을 상하로 가운데 정렬합니다. */
+  padding: 10px;
+}
+
+.QnaList .menu_bar select {
+  background-color: rgb(236, 236, 236);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 200px;
+}
+
+.QnaList .menu_bar button {
+  border: none;
+  border-radius: 5px;
+  background-color: #50cf72;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 10px 20px;
+  width: 200px;
+}
+
+.QnaList .list_wrapper {
+  width: 100%;
+}
+
+/* PC (해상도 1024px)*/ 
+@media all and (min-width: 1024px) {
+  .QnaList .menu_bar {
+      gap: 150px;
+  }
+}
+
+/* 테블릿 가로, 테블릿 세로 (해상도 768px ~ 1023px)*/ 
+@media all and (min-width: 768px) and (max-width: 1023px) {
+  .QnaList .menu_bar {
+      gap: 50px;
+  }
+
+  .QnaList .menu_bar select {
+      padding: 8px 15px;
+      font-size: 13px;
+      width: 150px;
+  }
+
+  .QnaList .menu_bar button {
+      font-size: 13px;
+      width: 150px;
+  }
+}
+
+/* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/ 
+@media all and (max-width: 767px) {
+  .QnaList .menu_bar {
+      display: flex;
+      padding: 10px;
+      align-items: center;
+      flex-direction: column;
+  }
+
+  .QnaList .menu_bar select {
+      width: 60%;
+      margin-bottom: 10px;
+  }
+  
+  .QnaList .menu_bar button {
+      width: 60%;
+  }
+}
+

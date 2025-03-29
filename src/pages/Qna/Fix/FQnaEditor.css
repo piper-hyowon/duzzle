@@ -1,0 +1,294 @@
+@media all and (min-width: 768px) {
+  .Editor {
+    padding: 20px;
+  }
+
+  .Editor .sort_section {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+  .Editor .pl {
+    width: 200px;
+    border: 1px solid #c4c4c4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .Editor .pl:focus {
+    border: 1px solid #9b51e0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #f8e4ff;
+    border-radius: 10px;
+  }
+
+  .Editor .sort_title {
+    color: rgba(52, 168, 83, 1);
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+  .Editor .menu_bar {
+    margin-top: 8px;
+  }
+
+  .Editor .menu_bar select {
+    width: 100%;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .Editor .email_section {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 8px;
+  }
+
+  .Editor .email_title {
+    color: rgba(52, 168, 83, 1);
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-right: 6px;
+  }
+
+  .Editor .email_section input {
+    width: 30%;
+    padding: 4px;
+    font-size: 10px;
+    margin-right: 3px;
+    height: 20px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+  }
+
+  .Editor .email_bar {
+    width: 30%;
+    margin-bottom: 5x;
+  }
+
+  .Editor .email_bar select {
+    width: 100%;
+    padding: 4px;
+    font-size: 13px;
+    margin-left: 3px;
+  }
+  .Editor .pl2 {
+    width: 200px;
+    border: 1px solid #c4c4c4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .Editor .pl2:focus {
+    border: 1px solid #9b51e0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #f8e4ff;
+    border-radius: 10px;
+  }
+
+  .Editor .content_section {
+    text-align: center;
+  }
+
+  .Editor .content_title {
+    color: rgba(52, 168, 83, 1);
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .Editor > section > textarea {
+    padding: 10px;
+    width: 90%;
+    min-height: 300px;
+    font-size: 13px;
+    height: 20px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+  }
+
+  .Editor .button_section {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .Editor .button_section button {
+    flex: 0.35;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(63, 205, 101);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+  }
+}
+
+/* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/
+@media all and (max-width: 767px) {
+  .Editor {
+    margin: 19px;
+  }
+
+  .Editor .sort_section {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 13px;
+  }
+
+  .Editor .sort_title {
+    color: rgba(52, 168, 83, 1);
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+  .Editor .menu_bar {
+    margin-top: 4px;
+  }
+  .Editor .pl {
+    width: 200px;
+    border: 1px solid #c4c4c4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .Editor .pl:focus {
+    border: 1px solid #9b51e0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #f8e4ff;
+    border-radius: 10px;
+  }
+  .Editor .menu_bar select {
+    width: 100%;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .Editor .email_section {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 13px;
+  }
+
+  .Editor .email_title {
+    color: rgba(52, 168, 83, 1);
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-right: 15px;
+  }
+
+  .Editor .email_section input {
+    width: 25%;
+    padding: 4px;
+    font-size: 10px;
+    margin-right: 1px;
+    margin-left: 3px;
+    height: 15px;
+    font-size: 13px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+  }
+  .Editor .pl2 {
+    width: 200px;
+    border: 1px solid #c4c4c4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .Editor .pl2:focus {
+    border: 1px solid #9b51e0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #f8e4ff;
+    border-radius: 10px;
+  }
+
+  .Editor .email_bar {
+    width: 32%;
+  }
+
+  .Editor .email_bar select {
+    width: 100%;
+    padding: 4px;
+    font-size: 13px;
+    margin-left: 3px;
+  }
+
+  .Editor .content_section {
+    text-align: center;
+  }
+
+  .Editor .content_title {
+    color: rgba(52, 168, 83, 1);
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .Editor > section > textarea {
+    padding: 10px;
+    width: 90%;
+    min-height: 200px;
+    font-size: 13px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+  }
+
+  .Editor .button_section {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .Editor .button_section button {
+    flex: 0.35;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(63, 205, 101);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+  }
+}

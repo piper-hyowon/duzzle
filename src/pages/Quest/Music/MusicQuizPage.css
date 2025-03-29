@@ -1,0 +1,92 @@
+/* quiz-music */
+.quiz-music {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+  text-align: center;
+}
+
+.quiz-music .qm-title {
+  margin: 0;
+  color: #00b5cc;
+  font-size: 50px;
+  font-weight: bolder;
+  padding-top: 40px;
+}
+
+.quiz-music .qm-info {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bolder;
+  padding-top: 140px;
+}
+
+.quiz-music .btn.start {
+  margin-top: 50px;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 1rem 60px;
+  background-color: #f16d9a;
+  box-shadow: 0 4px 15px 0 #f8b6cd;
+  &:hover {
+    background-color: #cd5e83;
+  }
+}
+
+.quiz-music .qm-question {
+  margin: 0 0 10px 0;
+  padding-top: 80px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #00b5cc;
+}
+
+.quiz-music .qm-time-info {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 25px;
+  margin: 40px 0;
+  font-weight: bold;
+  p {
+    margin: 0;
+  }
+}
+.quiz-music .time-second {
+  color: #f16d9a;
+  padding-left: 10px;
+}
+
+.quiz-music .qm-buttons {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.quiz-music .btn.submit,
+.quiz-music .btn.quit {
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  width: 150px;
+  padding: 1rem 0;
+  background-color: #00b5cc;
+  box-shadow: 0 4px 15px 0 #99c9d0;
+  border-radius: 50px;
+  cursor: pointer;
+  &:hover {
+    background-color: #019cb1;
+  }
+}
+.quiz-music .btn.quit {
+  background-color: #9a9c9d;
+  box-shadow: 0 4px 15px 0 #828282;
+  &:hover {
+    background-color: #828282;
+  }
+}

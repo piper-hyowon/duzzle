@@ -1,0 +1,192 @@
+/* DrOne */
+.DrOne {
+  font-family: "Noto Sans KR", sans-serif;
+  width: 90vw;
+  max-width: 500px;
+}
+
+.DrOne .head_text {
+  font-size: 20px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.dr_stepbar {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  p {
+    font-weight: 600;
+    font-size: 15px;
+    color: #00b5cc;
+    margin: 5px;
+  }
+}
+
+.dr_stepbar .container {
+  margin-top: 20px;
+  height: 18px;
+  width: 100%;
+  background-color: #ececec;
+  border-radius: 10px;
+}
+
+.dr_stepbar .filler {
+  height: 100%;
+  background-color: #00b5cc;
+  border-radius: inherit;
+}
+
+.DrOne .offerNfts_main {
+  background-color: #ececec;
+  border-radius: 5px;
+  height: 45vh;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  overflow: auto;
+  padding: 20px 20px;
+  justify-items: center;
+}
+
+.DrOne .offerNfts_main::-webkit-scrollbar {
+  width: 8px;
+  background-color: #c6c6c6;
+  border-radius: 10px;
+}
+.DrOne .offerNfts_main::-webkit-scrollbar-thumb {
+  background-color: #a2a2a2;
+  border-radius: 10px;
+}
+
+.DrOne .offer-nft {
+  width: 100%;
+  max-width: 140px;
+  height: 130px;
+  cursor: pointer;
+  background-color: #80dae667;
+  border: #00b5cc solid 2px;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+  p {
+    z-index: 1;
+    text-align: center;
+    position: absolute;
+    margin: 0;
+    padding: 2px 3px 2px 3px;
+    font-size: 11px;
+    font-weight: 500;
+    border: black solid 1.5px;
+    background-color: white;
+    border-radius: 10px;
+    bottom: 33%;
+  }
+}
+
+.DrOne .offer-nft.selected {
+  border-color: #ffe056;
+}
+
+.DrOne .offer-nft .quantity-controls {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  button {
+    background-color: #00b5cc;
+    width: 24px;
+    height: 24px;
+    color: white;
+    margin-left: 10px;
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  span {
+    background-color: white;
+    padding: 2px 7px 2px 7px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.DrOne .offer-nft .quantity-controls button.disabled {
+  opacity: 0.2;
+}
+
+.DrOne .selected-nfts {
+  margin-top: 20px;
+  padding: 10px 0 15px 15px;
+  background-color: #ececec;
+  border-radius: 5px;
+  height: 10vh;
+  overflow: auto;
+  p {
+    margin: 5px 0 0 10px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .snTxt {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+}
+
+.DrOne .selected-nfts::-webkit-scrollbar {
+  width: 8px;
+  background-color: #c6c6c6;
+  border-radius: 10px;
+}
+.DrOne .selected-nfts::-webkit-scrollbar-thumb {
+  background-color: #a2a2a2;
+  border-radius: 10px;
+}
+
+.DrOne .dr1_btn {
+  margin: 20px 20px 0 20px;
+  padding: 10px 0 10px 0;
+  width: calc(100% - 40px);
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  background-color: #00b5cc;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.DrOne .dr1_btn.disabled {
+  background-color: #a2a2a2;
+  cursor: default;
+}
+
+.DrOne .back-button {
+  border: none;
+  border-radius: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 20px;
+  font-size: 18px;
+  white-space: nowrap;
+  background-color: #00b5cc;
+  cursor: pointer;
+  svg {
+    width: 20px;
+    color: white;
+  }
+}

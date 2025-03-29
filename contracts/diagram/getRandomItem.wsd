@@ -1,0 +1,35 @@
+
+@startuml getRandomItem
+start
+:DAL burn;
+if (재료 vs 설계도면) then (재료)
+    if (남은 재료?) then (있다)
+        : 재료 아이템 발행;
+        kill
+    else (없다)
+        if (남은 설계도면?) then (없다)
+            #pink:revert SoldOutItems();
+            kill
+        else (있다)
+            : 설계도면 아이템 발행;
+            kill
+        endif
+        kill
+    endif
+else (설계도면)
+    if (남은 설계도면?) then (있다)
+        :설계도면 아이템 발행;
+        kill
+    else (없다)
+        if (남은 재료?) then (있다)
+            : 재료 아이템 발행;
+            kill
+        else (없다)
+            #pink:revert SoldOutItems();
+            kill
+        endif
+    endif
+    ' #palegreen:action;
+endif
+' stop
+@enduml

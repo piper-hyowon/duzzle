@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "name": "Duzzle API Server",
+      "script": "dist/src/main.js",
+      "kill_timeout": 12000,
+      "instances": 1,
+      "exec_mode": "cluster",
+      "max_memory_restart": "1200M",
+      "merge_logs": true,
+      "log_date_format": "",
+      "out_file": "/home/root/logs",
+      "error_file": "/dev/null"
+    }
+  ]
+}

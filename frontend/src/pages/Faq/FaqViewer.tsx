@@ -1,71 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import FaqItem from "./FaqItem";
-import axios from "axios";
 import "./FaqViewer.css";
 
 const FaqViewer: React.FC = () => {
-  const [faqs, setFaqs] = useState([]);
-  const RequestURL = import.meta.env.VITE_REQUEST_URL;
-
-  useEffect(() => {
-    fetchFaq();
-  }, []);
-
-  const fetchFaq = async () => {
-    try {
-      const response = await axios.get(RequestURL + "/v1/support/faq");
-      console.log(response);
-      const data = await response.data;
-      setFaqs(data.data.list);
-    } catch (error) {
-      console.error("Error fetching FAQ:", error);
-
-      // API 호출에 실패할 경우에만 Mock 데이터 사용
-      const mockData = [
-        { question: "암호화폐 지갑이란?", answer: "암호화폐 지갑 답변" },
-        {
-          question: "보유자산은 실시간으로 업데이트 되나요?",
-          answer:
-            "마이페이지, 상점에 진입할 때마다 최신 정보가 업데이트 돼요. 화면을 새로고침하여 직접 업데이트도 가능해요.",
-        },
-        {
-          question: "Duzzle에 연락하려면 어떻게 해야 하나요?",
-          answer: "duzzle팀 이메일: dukdol@duksung.ac.kr",
-        },
-        {
-          question: "“404” 오류는 무엇을 의미하나요?",
-          answer:
-            "404 오류는 사용자가 사이트에서 존재하지 않는 URL을 탐색했을 때 발생합니다.",
-        },
-        {
-          question: "NFT 를 삭제하려면 어떻게 해야 합니까?",
-          answer: "duzzle팀에게 문의 주세요",
-        },
-      ];
-      setFaqs(mockData);
-    }
-  };
-  async function getData() {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        "http://duzzle-dev-env.eba-tesapmjt.ap-northeast-2.elasticbeanstalk.com/v1/support/faq",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
     <div className="faq-viewer">
-      {faqs.map((faq, index) => (
+      {[
+        {
+          question: "dApp이란 무엇인가요?",
+          answer:
+            "dApp(분산 애플리케이션)은 블록체인 네트워크에서 동작하는 애플리케이션으로, 중앙화된 서버 없이 분산된 P2P 네트워크에서 실행됩니다. 스마트 컨트랙트를 기반으로 하며 투명성, 검열 저항성, 개방성 등의 특징을 가집니다.",
+        },
+        {
+          question: "dApp을 사용하기 위해 지갑이 필요한 이유는 무엇인가요?",
+          answer:
+            "블록체인 지갑은 dApp과 상호작용할 때 사용자의 신원을 증명하고 트랜잭션에 서명하는 데 필요합니다. 지갑은 개인 키를 안전하게 보관하고 블록체인 네트워크에 트랜잭션을 전송하는 역할을 합니다. 이를 통해 사용자는 자신의 디지털 자산을 관리하고 dApp의 기능을 이용할 수 있습니다.",
+        },
+        {
+          question: "트랜잭션 수수료(가스비)는 왜 지불해야 하나요?",
+          answer:
+            "트랜잭션 수수료(가스비)는 블록체인 네트워크 자원 사용에 대한 비용입니다. 이 수수료는 네트워크 검증자(채굴자)들에게 지급되어 트랜잭션을 검증하고 블록체인에 포함시키는 대가가 됩니다. 또한 스팸 트랜잭션을 방지하고 네트워크 리소스를 효율적으로 사용하게 하는 경제적 장치로 작동합니다.",
+        },
+        {
+          question: "NFT 민팅과 거래는 어떻게 이루어지나요?",
+          answer:
+            "NFT 민팅은 디지털 자산을 블록체인에 등록하는 과정으로, 스마트 컨트랙트를 통해 이루어집니다. 사용자는 이미지나 파일을 업로드하고 민팅 트랜잭션에 서명하면 고유한 토큰이 생성됩니다. NFT 거래는 스마트 컨트랙트 기반 마켓플레이스에서 이루어지며, 판매자가 가격을 설정하고 구매자가 해당 가격에 구매하면 소유권이 블록체인에 기록됩니다.",
+        },
+        {
+          question: "dApp에서 개인 정보는 어떻게 보호되나요?",
+          answer:
+            "dApp에서는 사용자의 신원을 공개키(지갑 주소)로만 식별하므로 실명이나 개인정보 없이도 서비스를 이용할 수 있습니다. 그러나 모든 트랜잭션은 블록체인에 공개적으로 기록되므로, 주소와 관련된 활동은 추적 가능합니다. 개인정보 보호를 위해서는 제로지식증명과 같은 프라이버시 기술이 적용된 dApp을 선택하거나, 중요한 개인정보는 블록체인 외부에 저장하는 방식을 사용합니다.",
+        },
+      ].map((faq, index) => (
         <FaqItem key={index} question={faq.question} answer={faq.answer} />
       ))}
     </div>

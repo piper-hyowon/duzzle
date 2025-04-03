@@ -581,7 +581,7 @@ export const mockApiService = {
       }
 
       MOCK_NFT_EXCHANGES[exchangeIndex].status =
-        NftExchangeOfferStatus.CANCELED;
+        NftExchangeOfferStatus.SYSTEM_CANCELLED;
 
       return {
         data: true,

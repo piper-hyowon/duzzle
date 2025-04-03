@@ -7,7 +7,7 @@
   max-width: 500px;
 }
 
-.Viewer > section {
+.Viewer>section {
   width: 100%;
   margin-bottom: 10px;
   display: flex;
@@ -45,16 +45,73 @@
   overflow: break-word;
 }
 
-.Viewer .content_title > div {
+.Viewer .content_title>div {
   color: rgba(52, 168, 83, 1);
   padding: 10px;
   font-weight: bold;
 }
 
-.Viewer .content_wrapper > p {
+.Viewer .content_wrapper>p {
   padding: 20px;
   font-size: 15px;
   font-weight: 400;
   line-height: 2.5;
   word-wrap: break-word;
+}
+
+.QnaViewer {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.QnaViewer section {
+  margin-bottom: 25px;
+}
+
+.QnaViewer h4 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.QnaViewer .content_wrapper {
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f6f6f6;
+  min-height: 30px;
+  font-size: 18px;
+  white-space: pre-wrap;
+}
+
+.QnaViewer .answer_section {
+  margin-top: 20px;
+  border-top: 2px solid #f0f0f0;
+  padding-top: 20px;
+}
+
+.QnaViewer .answer {
+  background-color: #e8f4ff;
+}
+
+.QnaViewer .no_answer_section {
+  margin-top: 20px;
+  border-top: 2px solid #f0f0f0;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.QnaViewer .waiting_msg {
+  color: #999;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  width: 100%;
 }

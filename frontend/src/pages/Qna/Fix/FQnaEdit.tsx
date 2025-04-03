@@ -4,11 +4,9 @@ import MyButton from "../../../components/MyButton/MyButton";
 import Button from "./Button";
 import FQnaEditor from "./FQnaEditor";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import "./FQnaEdit.css";
-
-const RequestURL = import.meta.env.VITE_REQUEST_URL;
+import { mockDataService } from "./mock";
 
 const FQnaEdit = () => {
   const params = useParams();
@@ -31,42 +29,33 @@ const FQnaEdit = () => {
 
   async function getData() {
     try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        RequestURL + `/v1/support/qna/${questionId}`,
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      //.log("GET 성공", response);
-
+      const response = await mockDataService.getQnaById(questionId);
       const data = response.data.data;
+
+      // 이메일 주소에서 이메일과 도메인 분리
+      const emailParts = data.email.split("@");
+
+      // 상태 변수 업데이트
+      setSortType(data.category);
+      setEmail(emailParts[0]);
+      setEmailType(emailParts[1] || "naver.com");
+      setContent(data.question);
+
+      // initData 객체 업데이트
       setInitData({
         sortType: data.category,
-        email: data.email.split("@")[0],
-        emailType: data.email.split("@")[1],
+        email: emailParts[0],
+        emailType: emailParts[1] || "naver.com",
         content: data.question,
       });
     } catch (error) {
       console.error(error);
     }
   }
+
   async function onDelete(questionId) {
     try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.delete(
-        RequestURL + `/v1/support/qna/${questionId}`,
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      //console.log("DELETE 성공", response);
+      await mockDataService.deleteQna(questionId);
     } catch (error) {
       console.error(error);
     }
@@ -74,6 +63,7 @@ const FQnaEdit = () => {
 
   async function onUpdate(questionId, sortType, email, emailType, content) {
     try {
+      // 원래 코드와 같이 카테고리 변환 로직 유지
       let category = "";
       if (sortType === "거래") {
         category = "MARKET";
@@ -86,25 +76,12 @@ const FQnaEdit = () => {
       } else if (sortType === "기타") {
         category = "ETC";
       }
-      const token = localStorage.getItem("accessToken");
-      //console.log("questionId:", questionId);
-      //console.log("email:", email);
-      //console.log("content:", content);
-      const response = await axios.put(
-        RequestURL + `/v1/support/qna/${questionId}`,
-        {
-          category: sortType,
-          email: email + "@" + emailType,
-          question: content,
-        },
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      //console.log("PUT 성공", response.data);
+
+      await mockDataService.updateQna(questionId, {
+        category: sortType,
+        email: email + "@" + emailType,
+        question: content,
+      });
     } catch (error) {
       console.error("요청 실패:", error);
     }
@@ -127,7 +104,6 @@ const FQnaEdit = () => {
         input.content
       );
       nav("/qna");
-      //console.log(initData.content);
     }
   };
 

@@ -1,30 +1,49 @@
-import "./FQnaViewer.css";
+import "../Fix/FQnaViewer.css";
 
-const FQnaViewer = ({ sortType, email, content }) => {
-  const sortTypeLabels = {
-    MARKET: "거래",
-    ACCOUNT: "계정",
-    QUEST: "퀘스트",
-    STORY: "스토리",
-    ETC: "기타",
+const FQnaViewer = ({ sortType, email, content, answer, isAnswered }) => {
+  // 카테고리 한글 변환
+  const getCategoryText = (category) => {
+    switch (category) {
+      case "MARKET":
+        return "거래";
+      case "ACCOUNT":
+        return "계정";
+      case "QUEST":
+        return "퀘스트";
+      case "STORY":
+        return "스토리";
+      case "ETC":
+        return "기타";
+      default:
+        return category;
+    }
   };
 
   return (
-    <div className="Viewer">
-      <div className="info_title1">🌙 문의자 정보</div>
-      <section className="info_section">
-        <div>문의 종류 🧩: {sortTypeLabels[sortType] || "기타"} </div>
-        <div>이메일 💌: {email}</div>
+    <div className="QnaViewer">
+      <section>
+        <h4>분류</h4>
+        <div className="content_wrapper">{getCategoryText(sortType)}</div>
       </section>
-      <section className="content_section">
-        <div className="content_title">
-          <div>🌙 문의 사항</div>
-        </div>
+      <section>
+        <h4>이메일</h4>
+        <div className="content_wrapper">{email}</div>
+      </section>
+      <section>
+        <h4>문의내용</h4>
+        <div className="content_wrapper">{content}</div>
+      </section>
 
-        <div className="content_wrapper">
-          <p>{content}</p>
-        </div>
-      </section>
+      {isAnswered ? (
+        <section className="answer_section">
+          <h4>답변</h4>
+          <div className="content_wrapper answer">{answer}</div>
+        </section>
+      ) : (
+        <section className="no_answer_section">
+          <div className="waiting_msg">답변 대기 중입니다.</div>
+        </section>
+      )}
     </div>
   );
 };

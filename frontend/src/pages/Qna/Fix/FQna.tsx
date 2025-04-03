@@ -1,11 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import FQnaList from "./FQnaList";
 import MyHeader from "../../../components/MyHeader/MyHeader";
 import MyButton from "../../../components/MyButton/MyButton";
 import "./FQna.css";
-
-const RequestURL = import.meta.env.VITE_REQUEST_URL;
+import { mockDataService } from "./mock";
 
 const FQna = () => {
   const [qnas, setQnas] = useState([]);
@@ -16,15 +14,8 @@ const FQna = () => {
 
   async function getData() {
     try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(RequestURL + "/v1/support/qna", {
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      });
-      //console.log("GET 성공", response);
-      setQnas(response.data["data"]["list"]);
+      const response = await mockDataService.getQnaList();
+      setQnas(response.data.list);
     } catch (error) {
       console.error(error);
     }

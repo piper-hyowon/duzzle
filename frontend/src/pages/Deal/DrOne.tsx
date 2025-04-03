@@ -1,9 +1,6 @@
 import "./DrOne.css";
-import axios from "axios";
 import { useState, useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
-import MyButton from "../../components/MyButton/MyButton";
 import MyHeader from "../../components/MyHeader/MyHeader";
 import { AvailableNft, BlueprintOrPuzzleNft, MaterialNft } from "./Deal.dto";
 import { mockApiService } from "../../services/mockServices";

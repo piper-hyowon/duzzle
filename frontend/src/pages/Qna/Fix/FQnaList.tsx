@@ -42,6 +42,7 @@ const Fix_QnaList = ({ data }) => {
             id={item.id}
             submitTime={item.createdAt}
             content={item.question}
+            answer_section={item.answer}
           />
         ))}
       </div>

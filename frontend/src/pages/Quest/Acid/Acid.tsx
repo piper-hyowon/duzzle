@@ -240,7 +240,7 @@ const Acid: React.FC<AcidRainProps> = ({ data }) => {
           // 필터링 제거 - repaint 함수에서 처리
           return updatedWords;
         });
-      }, dropIntervalMs),
+      }, dropIntervalMs) as unknown as number,
     };
 
     setActiveWordObjs((prev) => [...prev, wordInstance]);

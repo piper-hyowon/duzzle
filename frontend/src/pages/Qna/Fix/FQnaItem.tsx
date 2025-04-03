@@ -16,7 +16,7 @@ const FQnaItem = ({ id, submitTime, content, answer_section }) => {
       </div>
       <div>
         <div className="answer_section">
-          {answer_section ? "답변완료" : "답변대기"}
+          {answer_section ? "답변완료✅" : "답변대기"}
         </div>
         <div className="button_section">
           <Button onClick={() => nav(`/qnaedit/${id}`)} text={"수정하기"} />

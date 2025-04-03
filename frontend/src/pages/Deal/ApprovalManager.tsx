@@ -1,20 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ApprovalStatus } from "../../../ethersRPC";
 import RPC from "../../../ethersRPC";
-import { IProvider } from "@web3auth/base";
-import { Web3Auth } from "@web3auth/modal";
 import ApprovalModal from "../../components/Modal/Approval/ApprovalModal";
 import Loading from "../../components/Loading/Loading";
 import Modal from "react-modal";
 
 interface ApprovalManagerProps {
-  web3auth: Web3Auth | null;
   onAllApproved: () => void;
   onCancel: () => void;
 }
 
 const ApprovalManager: React.FC<ApprovalManagerProps> = ({
-  web3auth,
   onAllApproved,
   onCancel,
 }) => {
@@ -25,8 +21,9 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
 
   const checkApprovalStatus = useCallback(async () => {
     setLoading(true);
-    if (web3auth?.provider) {
-      const rpc = new RPC(web3auth.provider as IProvider);
+    try {
+      // web3auth 의존성 제거 - 직접 RPC 인스턴스 생성
+      const rpc = new RPC();
       const status = await rpc.checkApprovalStatus();
       setApprovalStatus(status);
 
@@ -36,19 +33,23 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
       } else {
         setIsModalOpen(true);
       }
+    } catch (error) {
+      console.error("Error checking approval status:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  }, [web3auth, onAllApproved]);
+  }, [onAllApproved]);
 
   useEffect(() => {
     checkApprovalStatus();
   }, [checkApprovalStatus]);
 
   const handleApprove = async (contractAddress: string) => {
-    if (web3auth?.provider && !isLoading) {
+    if (!isLoading) {
       setIsLoading(true);
       try {
-        const rpc = new RPC(web3auth.provider as IProvider);
+        // web3auth 의존성 제거 - 직접 RPC 인스턴스 생성
+        const rpc = new RPC();
         const txPromise = rpc.setApprovalForAll(contractAddress, true);
 
         // 즉시 UI 업데이트
@@ -79,17 +80,18 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
   };
 
   const handleRevoke = async (contractAddress: string) => {
-    if (web3auth?.provider && !isLoading) {
+    if (!isLoading) {
       setIsLoading(true);
       try {
-        const rpc = new RPC(web3auth.provider as IProvider);
+        // web3auth 의존성 제거 - 직접 RPC 인스턴스 생성
+        const rpc = new RPC();
         const success = await rpc.revokeApproval(contractAddress);
         if (success) {
           setApprovalStatus((prevStatus) => ({
             ...prevStatus,
             [contractAddress]: {
               ...prevStatus[contractAddress],
-              approved: true,
+              approved: false, // 여기 수정: revoke는 승인을 취소하는 것이므로 false로 설정해야 함
             },
           }));
           await checkApprovalStatus();

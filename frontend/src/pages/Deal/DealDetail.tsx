@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { DealApis } from "../../services/api/deal.api";
 import "./DealDetail.css";
-import {
-  Deal,
-  ExchangeBlueprintOrPuzzleNFT,
-  ExchangeMaterialNFT,
-  NftExchangeOfferStatus,
-} from "../../Data/DTOs/Deal";
 import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
 import MyHeader from "../../components/MyHeader/MyHeader";
 import MyButton from "../../components/MyButton/MyButton";
 import ConfirmCancelModal from "../../components/Modal/ConfirmCancelModal";
 import Modal from "react-modal";
+import { mockApiService } from "../../services/mockServices";
+import {
+  BlueprintOrPuzzleNftInfo,
+  MaterialNftInfo,
+  NftExchangeOfferDetailResponse,
+  NftExchangeOfferStatus,
+} from "../../services/type";
 
 const DealDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [trade, setTrade] = useState<Deal | null>(null);
+  const [trade, setTrade] = useState<NftExchangeOfferDetailResponse | null>(
+    null
+  );
   const [isMine, setIsMine] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showHistory, setShowHistory] = useState<boolean[]>([]);
@@ -30,20 +32,7 @@ const DealDetail: React.FC = () => {
 
     const fetchDetail = async () => {
       try {
-        setTrade({
-          id: parseInt(id),
-          offerorUser: {
-            walletAddress: "",
-            name: "",
-            image: "",
-          },
-          requestedNfts: [],
-          offeredNfts: [],
-          status: NftExchangeOfferStatus.LISTED,
-          createdAt: new Date(),
-        });
-
-        const response = await DealApis.getDetails(id);
+        const response = mockApiService.nftExchange.detail(+id);
         setTrade(response);
         setIsMine(
           myWalletAddress &&
@@ -70,7 +59,7 @@ const DealDetail: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      await DealApis.acceptNftExchangeOffer(id);
+      mockApiService.nftExchange.accept(+id);
       // 성공 처리 (예: 성공 메시지 표시, 페이지 리다이렉트 등)
       setLoading(false);
       navigate("/nft-exchange", {
@@ -124,7 +113,7 @@ const DealDetail: React.FC = () => {
   };
 
   const confirmAction = async () => {
-    await DealApis.cancelNftExchangeOffer(id);
+    mockApiService.nftExchange.cancel(+id);
     navigate("/nft-exchange", {
       state: { message: "취소가 성공적으로 완료되었습니다." },
     });
@@ -151,9 +140,7 @@ const DealDetail: React.FC = () => {
     }
   };
 
-  const renderNftName = (
-    nft: ExchangeMaterialNFT | ExchangeBlueprintOrPuzzleNFT
-  ) => {
+  const renderNftName = (nft: MaterialNftInfo | BlueprintOrPuzzleNftInfo) => {
     if (nft["seasonName"]) {
       return (
         <p>
@@ -165,7 +152,7 @@ const DealDetail: React.FC = () => {
   };
 
   const renderTokenHistory = (
-    nft: ExchangeMaterialNFT | ExchangeBlueprintOrPuzzleNFT
+    nft: MaterialNftInfo | BlueprintOrPuzzleNftInfo
   ) => {
     return (
       <div className="history-container">
@@ -182,7 +169,7 @@ const DealDetail: React.FC = () => {
               <div className="history-row" key={`${i}-${j}`}>
                 <div className="history-column">{historyEntry.event}</div>
                 <div className="history-column">
-                  {historyEntry.date.split("T")[0]}
+                  {historyEntry.date.toISOString()}
                 </div>
                 <div className="history-column">
                   {historyEntry.fromWalletAddress}
@@ -245,7 +232,7 @@ const DealDetail: React.FC = () => {
         {trade.offeredNfts.map((nft, index) => (
           <>
             <div key={index} className="nft-item">
-              <img src={nft.image} />
+              <img src={nft.imageUrl} />
               <div className="nft-info">
                 {renderNftName(nft)}
                 <p className="nft-quantity">수량: {nft.quantity}개</p>
@@ -271,7 +258,7 @@ const DealDetail: React.FC = () => {
       <div className="nft-section">
         {trade.requestedNfts.map((nft, index) => (
           <div key={index} className="nft-item">
-            <img src={nft.image} />
+            <img src={nft.imageUrl} />
             <div className="nft-info">
               {renderNftName(nft)}
               <p className="nft-quantity">수량: {nft.quantity}개</p>

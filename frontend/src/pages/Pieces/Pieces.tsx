@@ -3,10 +3,9 @@ import MyButton from "../../components/MyButton/MyButton";
 import MyHeader from "../../components/MyHeader/MyHeader";
 
 import "./Pieces.css";
-import axios from "axios";
-import { zoneList } from "../../util/zone";
-import { seasonList } from "../../util/season";
 import { useNavigate } from "react-router-dom";
+import { ZONES } from "../../util/zone";
+import { mockApiService } from "../../services/mockServices";
 
 function Pieces() {
   const navigate = useNavigate();
@@ -22,86 +21,27 @@ function Pieces() {
     threeDModelUrl: string;
   }
 
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-
   const [isSActive, setIsSActive] = useState(false);
   const [isZActive, setIsZActive] = useState(false);
   const [filterSeason, setFilterSeason] = useState("시즌 전체");
   const [filterZone, setFilterZone] = useState("구역 전체");
 
   const goToNFTDetail = async (pieceId: number) => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        const response = await axios.get(
-          `${RequestUrl}/v1/my/nft-puzzles/${pieceId}`,
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-        console.log(response.data);
-
-        if (response.data.result) {
-          navigate("/nft-detail", {
-            state: {
-              data: response.data,
-            },
-          });
-        } else {
-          console.error("Failed to fetch piece detail");
-        }
-      } else {
-        throw new Error("No access token");
-      }
-    } catch (error) {
-      console.error("Error fetching piece detail:", error);
-    }
+    navigate("/nft-detail", {
+      state: {
+        data: mockApiService.myNft.puzzleDetail(pieceId),
+      },
+    });
   };
 
   useEffect(() => {
     const getUserPuzzle = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const season =
-          filterSeason !== "시즌 전체"
-            ? seasonList.find((season) => season.title === filterSeason)
-            : null;
-        const zone =
-          filterZone !== "구역 전체"
-            ? zoneList.find((zone) => zone.nameKr === filterZone)
-            : null;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const params: any = {
-          count: 20,
-          page: 0,
-        };
-        if (season) {
-          params.season = season.id;
-        }
-        if (zone) {
-          params.zone = zone.id;
-        }
-        const response = await axios.get(RequestUrl + "/v1/my/nft-puzzles", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-          params: params,
-        });
-        if (response.data.result) {
-          setTotalPieces(response.data.data.total);
-          setPieces(response.data.data.list);
-          console.log(pieces);
-        } else {
-          console.error("Failed to fetch pieces");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      const response = mockApiService.myNft.puzzleList();
+      setTotalPieces(response.data.total);
+      setPieces(response.data.list);
     };
     getUserPuzzle();
-  }, [RequestUrl, filterSeason, filterZone]);
+  }, []);
 
   const handleOptionClick = (option: string, filter: string) => {
     if (filter === "season") {
@@ -178,7 +118,20 @@ function Pieces() {
             >
               시즌 전체
             </li>
-            {seasonList.map((season) => (
+            {[
+              {
+                title: "2024 Christmas",
+                titleKr: "2024 크리스마스",
+              },
+              {
+                title: "2024 Spring",
+                titleKr: "2024 봄",
+              },
+              {
+                title: " Halloween",
+                titleKr: "할로윈",
+              },
+            ].map((season) => (
               <li
                 className="optionItem"
                 key={season.title}
@@ -233,7 +186,7 @@ function Pieces() {
             >
               구역 전체
             </li>
-            {zoneList.map((zone) => (
+            {ZONES.map((zone) => (
               <li
                 className="optionItem"
                 key={zone.nameKr}

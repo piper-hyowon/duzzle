@@ -4,20 +4,17 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MyHeader from "../../components/MyHeader/MyHeader";
 import MyButton from "../../components/MyButton/MyButton";
 import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import { Minted, PieceDto } from "../../Data/DTOs/PieceDTO";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Modal from "react-modal";
 
 // 이미지
-import mainImg from "../../assets/images/mainImg.png";
+import mainImg from "/src/assets/images/mainImg_christmas.png";
 import ThreeDScene from "../../components/3dModel/ThreeDScene";
+import { mockApiService } from "../../services/mockServices";
 
 function HistoryPuzzle() {
   const navigate = useNavigate();
-  const { seasonId } = useParams();
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-
   const location = useLocation();
   const { seasonTitle } = (location.state || {}) as { seasonTitle?: string };
 
@@ -33,33 +30,15 @@ function HistoryPuzzle() {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const response = await axios.get(
-          RequestUrl + "/v1/season-history/puzzle",
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-            params: { seasonId: seasonId },
-          }
-        );
-        if (response.data.result) {
-          //console.log(response.data.data);
-          setPieces(response.data.data.pieces);
-          setTotalPieces(response.data.data.total);
-          setMintedPieces(response.data.data.minted);
-        } else {
-          console.error("Failed to fetch puzzles");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    const getPuzzle = () => {
+      const response = mockApiService.main.getPuzzles();
+      setPieces(response.pieces);
+      setTotalPieces(response.total);
+      setMintedPieces(response.minted);
     };
 
-    getData();
-  }, [RequestUrl, seasonId]);
+    getPuzzle();
+  }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleScaleChange(event: any) {
@@ -187,8 +166,8 @@ function HistoryPuzzle() {
                     onClick={() => openModal(piece)}
                     key={piece.pieceId}
                     style={{
-                      left: `${piece.coordinates.split(",")[0]}%`,
-                      top: `${piece.coordinates.split(",")[1]}%`,
+                      left: `${parseFloat(piece.coordinates.split(",")[0]) * 0.115}%`,
+                      top: `${parseFloat(piece.coordinates.split(",")[1]) * 0.155}%`,
                       transform: `scale(${1 / scale})`,
                       backgroundColor: piece.minted ? "#f47735" : "#8C8C8C",
                       cursor: piece.minted ? "pointer" : "grab",

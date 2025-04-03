@@ -2,19 +2,17 @@ import "./Profile.css";
 import { useEffect, useRef, useState } from "react";
 import MyButton from "../../components/MyButton/MyButton";
 import MyHeader from "../../components/MyHeader/MyHeader";
-import axios, { AxiosResponse, isAxiosError } from "axios";
 import ConfirmCancelModal from "../../components/Modal/ConfirmCancelModal";
 import AlertModal from "../../components/Modal/AlertModal";
-
-const RequestURL = import.meta.env.VITE_REQUEST_URL;
+import { MOCK_USER_DATA } from "../../services/mockData";
 
 function Profile() {
-  const [image, setImage] = useState("");
-  const [wallet, setWallet] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [profileType, setProfileType] = useState("");
-  const [history, setHistory] = useState("");
+  const [image, setImage] = useState(MOCK_USER_DATA.image);
+  const [wallet, setWallet] = useState(MOCK_USER_DATA.walletAddress);
+  const [name, setName] = useState(MOCK_USER_DATA.name);
+  const [email, setEmail] = useState(MOCK_USER_DATA.email);
+  const [profileType, setProfileType] = useState(MOCK_USER_DATA.profileType);
+  const [history, setHistory] = useState(MOCK_USER_DATA.history);
 
   const [isEditingName, setEditingName] = useState(false);
   const [editedName, setEditedName] = useState("");
@@ -30,36 +28,13 @@ function Profile() {
   const [modalContent, setModalContent] = useState("");
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
 
+  // Simulate fetching user data (normally done via API)
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const response = await axios.get(RequestURL + "/v1/user", {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        });
-        //console.log("GET 성공", response);
-        setProfile(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const setProfile = async (response: AxiosResponse) => {
-      setWallet(response.data["data"]["walletAddress"]);
-      setName(response.data["data"]["name"]);
-      setEmail(response.data["data"]["email"]);
-      setImage(response.data["data"]["image"]);
-      setProfileType(response.data["data"]["profileType"]);
-      setHistory(response.data["data"]["history"]);
-    };
-
-    getData();
+    // In a mock scenario, we're using the predefined MOCK_USER_DATA
+    // This simulates the original useEffect that fetched data
   }, [isEditingName, isEditingImg, isEditingType]);
 
-  // 유저 이름 변경
+  // Mock name change function
   const onNameChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditedName(e.target.value);
   };
@@ -70,9 +45,11 @@ function Profile() {
       "이름(닉네임)을 바꾸시겠습니까?",
       async () => {
         try {
-          await patchName(editedName);
-          setEditingName(false);
-          setEditedName("");
+          if (editedName.trim()) {
+            setName(editedName);
+            setEditingName(false);
+            setEditedName("");
+          }
         } catch (error) {
           console.error(error);
         }
@@ -81,67 +58,20 @@ function Profile() {
     );
   };
 
-  async function patchName(new_name: string) {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.patch(
-        RequestURL + "/v1/user/name",
-        { name: new_name },
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      //console.log("PATCH 성공", response);
-    } catch (error) {
-      console.error(error);
-      if (isAxiosError(error)) {
-        if (error.response?.data.code == "ALREADY_EXISTS") {
-          openAlertModal("동일한 이름이 존재합니다. 다른 이름을 입력해주세요.");
-        } else if (error.response?.data.code == "LIMIT_EXCEEDED") {
-          openAlertModal(
-            "이름 변경은 10분 간격으로 가능합니다. 잠시 후에 시도해주세요."
-          );
-        }
-      }
-    }
-  }
-
-  // 유저 프로필 이미지 변경
   async function onUploadImg(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
       return;
     }
     try {
-      const formData = new FormData();
-      formData.append("file", e.target.files[0]);
-      for (const key of formData.keys()) {
-        //console.log(key, ":", formData.get(key));
-      }
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.patch(
-        RequestURL + "/v1/user/image",
-        formData,
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      //console.log("PATCH 성공", response);
-      setEditingImg(false);
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string);
+        setEditingImg(false);
+      };
+      reader.readAsDataURL(file);
     } catch (error) {
       console.error(error);
-      if (isAxiosError(error)) {
-        if (error.response?.data.code == "FILE_NAME_EXTENSION") {
-          openAlertModal("지원되지 않는 파일 형식입니다.");
-        } else if (error.response?.data.code == "FILE_NAME_CHARACTERS") {
-          openAlertModal("파일명에 특수문자를 포함할 수 없습니다.");
-        }
-      }
     }
   }
 
@@ -153,25 +83,15 @@ function Profile() {
     setEditingImg(true);
   };
 
-  // 유저 프로필 공개여부 설정
+  // Mock profile type change function
   async function patchProfileType(type: string) {
     openConfirmCancelModal(
       "변경",
       "프로필 공개여부를 바꾸시겠습니까?",
       async () => {
         try {
-          const token = localStorage.getItem("accessToken");
-          const response = await axios.patch(
-            RequestURL + "/v1/user/profileType",
-            { profileType: type },
-            {
-              headers: {
-                Authorization: token,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          //console.log("PATCH 성공", response);
+          // Simulate profile type patch request
+          setProfileType(type);
           setEditingType(false);
         } catch (error) {
           console.error(error);
@@ -181,7 +101,7 @@ function Profile() {
     );
   }
 
-  // 유저 지갑 주소 복사
+  // Wallet address copy function
   const onCopyClick = () => {
     navigator.clipboard
       .writeText(wallet)
@@ -193,6 +113,7 @@ function Profile() {
       });
   };
 
+  // Toast notification function
   const showToast = (message: string) => {
     if (toastRef.current) {
       toastRef.current.textContent = message;
@@ -208,7 +129,7 @@ function Profile() {
     }
   };
 
-  // 이름, 공개여부 변경 모달
+  // Modal open functions remain the same as in the original
   const openConfirmCancelModal = (
     title: string,
     content: string,
@@ -223,7 +144,6 @@ function Profile() {
     setShowCCModal(false);
   };
 
-  // 알림 모달
   const openAlertModal = (content: string) => {
     setModalContent(content);
     setShowAlertModal(true);
@@ -239,7 +159,7 @@ function Profile() {
         <p>나의 정보</p>
       </div>
       <div className="profile_img">
-        <img src={image} />
+        <img src={image} alt="Profile" />
         <button onClick={handleClick}>
           <svg
             data-slot="icon"
@@ -295,7 +215,32 @@ function Profile() {
           </div>
         </section>
         <section className="profile_name">
-          <p className="list_name">이름(닉네임)</p>
+          <p className="list_name">
+            이름(닉네임)
+            <div className="tooltip">
+              <svg
+                className="tooltip_icon"
+                data-slot="icon"
+                fill="none"
+                strokeWidth="2.5"
+                stroke="#8c8c8c"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                ></path>
+              </svg>
+              <span className="tooltip_text">
+                24시간에 한 번 변경 가능합니다.
+                <br />
+                30자 이내로 입력 가능합니다.
+              </span>
+            </div>
+          </p>
           <div className="name">
             {isEditingName ? (
               <textarea onChange={onNameChange} placeholder={name} />
@@ -374,12 +319,10 @@ function Profile() {
         <section className="profile_achievement">
           <p className="list_name">업적</p>
           <div className="achievement">
-            <p className="record">시즌 랭킹 1위: {history["rankedFirst"]}</p>
+            <p className="record">시즌 랭킹 1위: {history.rankedFirst}</p>
+            <p className="record">시즌 랭킹 상위 3위: {history.rankedThird}</p>
             <p className="record">
-              시즌 랭킹 상위 3위: {history["rankedThird"]}
-            </p>
-            <p className="record">
-              시즌 랭킹 퀘스트 연승: {history["questStreak"]}
+              시즌 랭킹 퀘스트 연승: {history.questStreak}
             </p>
           </div>
         </section>

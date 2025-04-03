@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import "./StoryView.css";
 import MyHeader from "../../components/MyHeader/MyHeader";
 import MyButton from "../../components/MyButton/MyButton";
 import { useAudio } from "../../services/useAudio";
+import { mockApiService } from "../../services/mockServices";
 
 interface StoryContent {
   storyId: number;
@@ -21,8 +21,6 @@ const StoryView: React.FC = () => {
   const navigate = useNavigate();
   const [story, setStory] = useState<StoryContent | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const RequestURL = import.meta.env.VITE_REQUEST_URL;
-  const token = localStorage.getItem("accessToken");
   const zoneId = state?.zoneId as string;
   const title = state?.title as string;
   const zoneNameKr = state?.zoneNameKr as string;
@@ -30,45 +28,49 @@ const StoryView: React.FC = () => {
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
-    const fetchStoryContent = async (page: number) => {
-      try {
-        const response = await axios.get(`${RequestURL}/v1/story`, {
-          params: { storyId, page },
-        });
-        const storyData = response.data.data;
-        setStory(storyData);
-      } catch (error) {
-        console.error("스토리 내용 로딩 오류:", error);
-      }
-    };
-
-    fetchStoryContent(currentPage + 1);
-  }, [storyId, RequestURL, token, currentPage]);
-
-  const updateStoryProgress = async (storyId: number, readPage: number) => {
     try {
-      if (token) {
-        const response = await axios.patch(
-          `${RequestURL}/v1/story/progress`,
-          { storyId, readPage },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+      // 페이지가 유효한지 확인
+      if (currentPage >= 0) {
+        const storyData = mockApiService.story.detail(
+          Number(storyId),
+          currentPage
         );
-        return response.data;
+        
+        // API 응답이 유효한지 확인
+        console.log(storyData)
+        if (storyData && storyData.data) {
+          setStory({
+            storyId: Number(storyId),
+            currentPage: currentPage + 1,
+            totalPage: storyData.total,
+            content: storyData.data.content,
+            image: storyData.data?.image,
+            audio: storyData.data?.audio,
+          });
+        } else {
+          console.error("Invalid story data received");
+        }
       }
     } catch (error) {
-      console.error("진행 상태 업데이트 오류:", error);
+      console.error("Error fetching story data:", error);
+      // 오류 처리 - 필요한 경우 상태 업데이트
     }
-  };
+  }, [storyId, currentPage]);
+
+  // 컴포넌트 언마운트 시 오디오 정리를 위한 useEffect
+  useEffect(() => {
+    return () => {
+      // 컴포넌트 언마운트 시 오디오 정리
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setPlaying(false);
+      }
+    };
+  }, [audioRef]);
 
   const handlePreviousPage = async () => {
     if (story && currentPage > 0) {
       const newPage = currentPage - 1;
-      await updateStoryProgress(story.storyId, newPage + 1);
       setCurrentPage(newPage);
     }
   };
@@ -76,15 +78,16 @@ const StoryView: React.FC = () => {
   const handleNextPage = async () => {
     if (story && currentPage < story.totalPage - 1) {
       const newPage = currentPage + 1;
-      await updateStoryProgress(story.storyId, newPage + 1);
       setCurrentPage(newPage);
     }
   };
 
   const handleFinish = async () => {
     if (story && zoneId) {
-      await updateStoryProgress(story.storyId, story.totalPage);
       navigate(`/zone/${zoneId}`, { state: { zoneNameKr } });
+    } else {
+      // zoneId가 없는 경우 이전 페이지로 이동
+      navigate(-1);
     }
   };
 
@@ -125,24 +128,28 @@ const StoryView: React.FC = () => {
               {playing ? "음악 일시정지" : "음악 재생"}
             </button>
           )}
-          <img className="content_image" src={story.image} />
+          {story.image && (
+            <img className="content_image" src={story.image} alt="Story content" />
+          )}
           <p className="content">{story.content}</p>
         </div>
-        {currentPage > 0 && (
-          <button className="button_previous" onClick={handlePreviousPage}>
-            이전 페이지
-          </button>
-        )}
-        {currentPage < story.totalPage - 1 && (
-          <button className="button_next" onClick={handleNextPage}>
-            다음 페이지
-          </button>
-        )}
-        {currentPage >= story.totalPage - 1 && (
-          <button className="button_finish" onClick={handleFinish}>
-            끝내기
-          </button>
-        )}
+        <div className="navigation_buttons">
+          {currentPage > 0 && (
+            <button className="button_previous" onClick={handlePreviousPage}>
+              이전 페이지
+            </button>
+          )}
+          {currentPage < story.totalPage - 1 && (
+            <button className="button_next" onClick={handleNextPage}>
+              다음 페이지
+            </button>
+          )}
+          {currentPage >= story.totalPage - 1 && (
+            <button className="button_finish" onClick={handleFinish}>
+              끝내기
+            </button>
+          )}
+        </div>
         <div>
           <span className="current_view">
             {currentPage + 1}/{story.totalPage}

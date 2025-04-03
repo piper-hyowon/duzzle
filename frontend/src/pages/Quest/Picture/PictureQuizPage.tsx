@@ -1,31 +1,20 @@
 import "./PictureQuizPage.css";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { QuestApis } from "../../../services/api/quest.api";
+import { mockApiService } from "../../../services/mockServices";
+import { QuestType } from "../../../enum/quest.enum";
 
 const PictureQuizPage: React.FC = () => {
-  //   const { isAuthenticated } = useAuth(); TODO: dev 에 반영되면 주석 해제
-  const isAuthenticated = localStorage.getItem("accessToken");
   const nav = useNavigate();
-  const logId = useParams()?.logId;
   const [answer, setAnswer] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const images = localStorage.getItem("quest").split("{}");
 
   useEffect(() => {
-    if (
-      !logId ||
-      !localStorage.getItem("quest") ||
-      !localStorage.getItem("timeLimit") ||
-      logId !== localStorage.getItem("logId")
-    ) {
-      nav("/notfound");
-      return;
-    }
-    const timeLimit = parseInt(localStorage.getItem("timeLimit"));
+    const timeLimit = 40;
     setTimeLeft(timeLimit);
 
-    const timeLimitInSeconds = parseInt(localStorage.getItem("timeLimit"));
+    const timeLimitInSeconds = 40;
     setTimeLeft(timeLimitInSeconds);
 
     const timer = setInterval(() => {
@@ -40,38 +29,23 @@ const PictureQuizPage: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [logId, nav]);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   };
 
   const handleSubmit = useCallback(async () => {
-    const result = isAuthenticated
-      ? await QuestApis.getResult(
-          { logId: Number(logId), answer: [answer] },
-          {
-            Authorization: isAuthenticated,
-          }
-        )
-      : await QuestApis.getResultForGuest({
-          logId: Number(logId),
-          answer: [answer],
-        });
+    const result = await mockApiService.quest.result(QuestType.PictureQuiz, [
+      answer,
+    ]);
+
     if (result) {
       nav("/questsuccess");
     } else {
       nav("/questfail");
     }
-  }, [isAuthenticated, logId, answer, nav]);
-
-  // const formatTime = (seconds: number): string => {
-  //   const minutes = Math.floor(seconds / 60);
-  //   const remainingSeconds = seconds % 60;
-  //   return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-  //     .toString()
-  //     .padStart(2, "0")}`;
-  // };
+  }, []);
 
   return (
     <div className="quiz-picture">

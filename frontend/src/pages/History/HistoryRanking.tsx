@@ -4,12 +4,16 @@ import { useParams } from "react-router-dom";
 import MyHeader from "../../components/MyHeader/MyHeader";
 import MyButton from "../../components/MyButton/MyButton";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 // 이미지
 import duk1Img from "../Ranking/duk1.png";
 import duk2Img from "../Ranking/duk2.png";
 import duk3Img from "../Ranking/duk3.png";
+import {
+  MOCK_USER2,
+  MOCK_USER3,
+  MOCK_USER_DATA,
+} from "../../services/mockData";
 
 interface UserRanking {
   rank: number;
@@ -20,53 +24,84 @@ interface UserRanking {
 }
 
 function HistoryRanking() {
-  const { seasonId } = useParams();
-
   const [rankings, setRankings] = useState<UserRanking[]>([]);
-  const RequestURL = import.meta.env.VITE_REQUEST_URL;
-  const token = localStorage.getItem("accessToken");
-
   useEffect(() => {
     const fetchRankings = async () => {
-      try {
-        const response = await axios.get(
-          `${RequestURL}/v1/season-history/rankings`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              seasonId: seasonId,
-            },
-          }
-        );
-        if (response.data.result) {
-          const list = response.data.data.list;
+      const mockRankings: UserRanking[] = [
+        {
+          rank: 1,
+          name: "나는덕새",
+          walletAddress: MOCK_USER2.walletAddress,
+          nftHoldings: 25,
+          nftHoldingsPercentage: 16,
+        },
+        {
+          rank: 2,
+          name: "더즐킹",
+          walletAddress: MOCK_USER3.walletAddress,
+          nftHoldings: 24,
+          nftHoldingsPercentage: 16,
+        },
+        {
+          rank: 3,
+          name: "컴공생임다",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 19,
+          nftHoldingsPercentage: 12,
+        },
+        {
+          rank: 4,
+          name: "퍼즐지망생",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 6,
+          name: "더즐",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 26,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 7,
+          name: "가나다",
+          walletAddress: MOCK_USER3.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 8,
+          name: "난보유많이",
+          walletAddress: MOCK_USER2.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 9,
+          name: "덕성짱",
+          walletAddress: MOCK_USER3.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 126,
+          name: "내가짱먹어",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 3,
+          nftHoldingsPercentage: 0.02,
+        },
+      ];
+      const myRanking =
+        mockRankings.find(
+          (item) => item.walletAddress === MOCK_USER_DATA.walletAddress
+        ) || null;
 
-          list.sort(
-            (a: UserRanking, b: UserRanking) => b.nftHoldings - a.nftHoldings
-          );
-
-          let currentRank = 1;
-          list.forEach((item: UserRanking, index: number) => {
-            if (index > 0 && list[index - 1].nftHoldings === item.nftHoldings) {
-              item.rank = list[index - 1].rank;
-            } else {
-              item.rank = currentRank;
-            }
-            currentRank++;
-          });
-
-          setRankings(list);
-        } else {
-          console.error("Failed to fetch rankings");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      setRankings(mockRankings);
     };
+
     fetchRankings();
-  }, [RequestURL, seasonId, token]);
+  }, []);
 
   return (
     <div className="HistoryRanking">

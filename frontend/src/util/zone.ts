@@ -1,4 +1,4 @@
-export const zoneList = [
+export const ZONES = [
   {
     id: 0,
     nameKr: "정문・대학본부",
@@ -99,4 +99,4 @@ export const zoneList = [
     nameKr: "국제기숙사",
     nameUs: "International Dormitory",
   },
-];
+] as const;

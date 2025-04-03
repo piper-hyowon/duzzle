@@ -9,7 +9,7 @@ import {
 } from "../../../components/Toast";
 import { DuksaeJumpProps } from "./DuksaeJump.types";
 
-const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
+const DuksaeJump: React.FC<DuksaeJumpProps> = ({ data }) => {
   const navigate = useNavigate();
   const {
     objectSpeed,
@@ -27,12 +27,11 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
   const [obstacleType, setObstacleType] = useState("tree");
   const [gameover, setGameover] = useState(false);
   const [toast, setToast] = useState<ToastProps | null>(null);
-  const [score, setScore] = useState(0); // score => distance 값
+  const [score, setScore] = useState(0);
   const [isColliding, setIsColliding] = useState(false);
   const [canJump, setCanJump] = useState(true);
   const obstacleRef = useRef<HTMLDivElement>(null);
   const dinoRef = useRef<HTMLDivElement>(null);
-  const gameInitialized = useRef(false);
 
   const showToast = useCallback((message: string, type: ToastType) => {
     setToast({ message, type });
@@ -41,23 +40,76 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
     }, 3000);
   }, []);
 
-  // 충돌 감지
+  // Socket Score Handling
+  useEffect(() => {
+    if (!isConnected) {
+      console.warn("Socket not connected - score tracking disabled");
+      return;
+    }
+
+    const handleScore = (newScore: number) => {
+      setScore((prevScore) => {
+        const updatedScore = newScore > prevScore ? newScore : prevScore;
+        return updatedScore;
+      });
+    };
+
+    socket.on("score", handleScore);
+
+    return () => {
+      socket.off("score", handleScore);
+    };
+  }, [isConnected, socket, score, speed, gameover]);
+
+  // Speed and Game Mechanics
+  useEffect(() => {
+    if (!isConnected || gameover) return;
+
+    const speedInterval = setInterval(() => {
+      setSpeed((prevSpeed) =>
+        Math.min(prevSpeed * speedIncreaseRate, objectMaxSpeed / 15)
+      );
+    }, speedIncreaseInterval);
+
+    return () => clearInterval(speedInterval);
+  }, [
+    isConnected,
+    gameover,
+    speedIncreaseRate,
+    objectMaxSpeed,
+    speedIncreaseInterval,
+  ]);
+
+  useEffect(() => {
+    if (gameover) return;
+
+    const scoreInterval = setInterval(() => {
+      setScore((prevScore) => {
+        const newScore = prevScore + 1000 / (speed || 1);
+
+        return newScore;
+      });
+    }, 100);
+
+    return () => clearInterval(scoreInterval);
+  }, [speed, gameover]);
+
+  // Collision Detection
   const detectCollision = () => {
     if (!obstacleRef.current || !dinoRef.current) return false;
 
     const dinoRect = dinoRef.current.getBoundingClientRect();
     const obstacleRect = obstacleRef.current.getBoundingClientRect();
     const buffer = 10;
-    const isCollision =
+    return (
       dinoRect.right - buffer > obstacleRect.left + buffer &&
       dinoRect.left + buffer < obstacleRect.right - buffer &&
       dinoRect.bottom - buffer > obstacleRect.top + buffer &&
-      dinoRect.top + buffer < obstacleRect.bottom - buffer;
-
-    return isCollision;
+      dinoRect.top + buffer < obstacleRect.bottom - buffer
+    );
   };
 
-  // 장애물 이동
+  // Obstacle Movement
   const moveObstacle = useCallback(() => {
     if (obstacleRef.current && !gameover) {
       const obstacle = obstacleRef.current;
@@ -70,7 +122,7 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
     }
   }, [speed, gameover]);
 
-  // 게임 루프 및 충돌 처리
+  // Game Loop and Collision Handling
   useEffect(() => {
     const gameLoopInterval = setInterval(() => {
       moveObstacle();
@@ -80,11 +132,6 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
           const newHealth = Math.max(0, prevHealth - 1);
           if (newHealth === 0) {
             setGameover(true);
-            socket.emit("quest:duksae-jump:fail", {
-              score,
-              logId,
-              gamePanelOffsetWidth: 550,
-            });
           }
           return newHealth;
         });
@@ -96,48 +143,27 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
     }, 20);
 
     return () => clearInterval(gameLoopInterval);
-  }, [
-    moveObstacle,
-    detectCollision,
-    gameover,
-    isColliding,
-    socket,
-    score,
-    logId,
-  ]);
+  }, [moveObstacle, detectCollision, gameover, isColliding, showToast]);
+
+  // Socket Event Handling
   useEffect(() => {
     if (!isConnected) return;
 
     const handleConnect = () => {
-      console.log("Socket.io 연결 성공", socket.id);
       socket.emit("quest:duksae-jump:start", {
-        logId,
         gamePanelOffsetWidth: 550,
       });
     };
 
-    console.log("Socket.io 연결 성공", socket.id);
-    socket.emit("quest:duksae-jump:start", {
-      logId,
-      gamePanelOffsetWidth: 550,
-    });
-
-    const handleDisconnect = () => {
-      console.log("Socket.io 연결이 끊겼습니다.");
-    };
-
     const handleObject = (newObstacleType: string) => {
-      console.log("새로운 장애물:", newObstacleType);
       setObstacleType(newObstacleType);
     };
 
     const handleSpeed = (newSpeed: number) => {
-      console.log("새로운 속도:", newSpeed);
-      setSpeed(newSpeed);
+      setSpeed(newSpeed / 15);
     };
 
     const handleHealth = (remainingHealth: number) => {
-      console.log("남은 목숨:", remainingHealth);
       setHealth(remainingHealth);
       showToast(
         `Health: ${new Array(remainingHealth).fill("❤️").join("")}`,
@@ -146,13 +172,11 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
     };
 
     const handleGameover = (finalScore: number) => {
-      console.log("게임 오버, 최종 점수:", finalScore);
       setGameover(true);
       showToast(`Game Over! Total Score: ${finalScore} m`, ToastType.Error);
     };
 
     const handleResult = (resultData: { result: boolean; score: number }) => {
-      console.log("게임 최종 결과:", resultData);
       setGameover(true);
       showToast(
         `${resultData.score}`,
@@ -161,71 +185,41 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
     };
 
     socket.on("connect", handleConnect);
-    socket.on("disconnect", handleDisconnect);
     socket.on("object", handleObject);
     socket.on("speed", handleSpeed);
     socket.on("health", handleHealth);
     socket.on("gameover", handleGameover);
     socket.on("result", handleResult);
 
-    const speedInterval = setInterval(() => {
-      if (!gameover) {
-        setSpeed((prevSpeed) =>
-          Math.min(prevSpeed * speedIncreaseRate, objectMaxSpeed)
-        );
-      }
-    }, speedIncreaseInterval);
-
-    const scoreInterval = setInterval(() => {
-      if (!gameover) {
-        setScore((prevScore) => {
-          const newScore = prevScore + 1000 / speed;
-          console.log("Score update:", {
-            prevScore,
-            newScore,
-            speed,
-            gameover,
-          });
-          return newScore;
-        });
-      }
-    }, 100);
-
     return () => {
-      socket.off("object");
-      socket.off("speed");
-      socket.off("health");
-      socket.off("gameover");
-      socket.off("result");
-      clearInterval(speedInterval);
-      clearInterval(scoreInterval);
+      socket.off("connect", handleConnect);
+      socket.off("object", handleObject);
+      socket.off("speed", handleSpeed);
+      socket.off("health", handleHealth);
+      socket.off("gameover", handleGameover);
+      socket.off("result", handleResult);
     };
-  }, [isConnected, socket, logId, gameover]);
+  }, [isConnected, socket, showToast]);
 
+  // Game Termination
   useEffect(() => {
-    if (gameover) {
-      if (score >= passingScore) {
-        console.log("게임 종료 - 성공 조건 충족");
-        socket.emit(
-          "quest:duksae-jump:success",
-          { score, logId, gamePanelOffsetWidth: 550 },
-          () => {
-            console.log("Success 메시지");
-          }
-        );
-      } else {
-        console.log("게임 종료 - 실패 조건 충족");
-        socket.emit(
-          "quest:duksae-jump:fail",
-          { score, logId, gamePanelOffsetWidth: 550 },
-          () => {
-            console.log("Fail 메시지");
-          }
-        );
-      }
-    }
-  }, [gameover, score, passingScore, logId, socket]);
+    if (!gameover) return;
 
+    const finalScore = score;
+    if (finalScore >= passingScore) {
+      socket.emit("quest:duksae-jump:success", {
+        score: finalScore,
+        gamePanelOffsetWidth: 550,
+      });
+    } else {
+      socket.emit("quest:duksae-jump:fail", {
+        score: finalScore,
+        gamePanelOffsetWidth: 550,
+      });
+    }
+  }, [gameover, score, passingScore, socket]);
+
+  // Jump Handling
   useEffect(() => {
     const handleJump = (event: KeyboardEvent | TouchEvent) => {
       const isTouchEvent = event.type === "touchstart";
@@ -240,7 +234,6 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
 
         setTimeout(() => {
           setJumping(false);
-          // setCanJump(true);
         }, jumpDuration);
 
         setTimeout(() => {
@@ -258,6 +251,7 @@ const DuksaeJump: React.FC<DuksaeJumpProps> = ({ logId, data }) => {
     };
   }, [jumping, gameover, canJump]);
 
+  // Result Page Navigation
   const handleResultPageNavigation = () => {
     navigate(score >= passingScore ? "/questsuccess" : "/questfail");
   };

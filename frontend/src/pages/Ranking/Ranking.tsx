@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Ranking.css";
-import MyHeader from "../../components/MyHeader/MyHeader";
-import MyButton from "../../components/MyButton/MyButton";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
+import {
+  MOCK_USER2,
+  MOCK_USER3,
+  MOCK_USER_DATA,
+} from "../../services/mockData";
+import { mockApiService } from "../../services/mockServices";
+import AlertModal from "../../components/Modal/AlertModal";
 
 interface UserRanking {
   rank: number;
@@ -19,126 +23,87 @@ const Ranking: React.FC = () => {
   const [myRank, setMyRank] = useState<UserRanking | null>(null);
   const [hoveredUser, setHoveredUser] = useState<UserRanking | null>(null);
   const navigate = useNavigate();
-  const RequestURL = import.meta.env.VITE_REQUEST_URL;
-  const token = localStorage.getItem("accessToken");
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
 
   useEffect(() => {
     const fetchRankings = async () => {
-      try {
-        const response = await axios.get(
-          `${RequestURL}/v1/rankings/current-season`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      const mockRankings: UserRanking[] = [
+        {
+          rank: 1,
+          name: "나는덕새",
+          walletAddress: MOCK_USER2.walletAddress,
+          nftHoldings: 25,
+          nftHoldingsPercentage: 16,
+        },
+        {
+          rank: 2,
+          name: "더즐킹",
+          walletAddress: MOCK_USER3.walletAddress,
+          nftHoldings: 24,
+          nftHoldingsPercentage: 16,
+        },
+        {
+          rank: 3,
+          name: "컴공생임다",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 19,
+          nftHoldingsPercentage: 12,
+        },
+        {
+          rank: 4,
+          name: "퍼즐지망생",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 6,
+          name: "더즐",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 26,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 7,
+          name: "가나다",
+          walletAddress: MOCK_USER3.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 8,
+          name: "난보유많이",
+          walletAddress: MOCK_USER2.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 9,
+          name: "덕성짱",
+          walletAddress: MOCK_USER3.walletAddress,
+          nftHoldings: 18,
+          nftHoldingsPercentage: 11,
+        },
+        {
+          rank: 126,
+          name: "내가짱먹어",
+          walletAddress: MOCK_USER_DATA.walletAddress,
+          nftHoldings: 3,
+          nftHoldingsPercentage: 0.02,
+        },
+      ];
+      const myRanking =
+        mockRankings.find(
+          (item) => item.walletAddress === MOCK_USER_DATA.walletAddress
+        ) || null;
 
-        const list = response.data.data.list;
-
-        list.sort(
-          (a: UserRanking, b: UserRanking) => b.nftHoldings - a.nftHoldings
-        );
-
-        let currentRank = 1;
-        list.forEach((item: UserRanking, index: number) => {
-          if (index > 0 && list[index - 1].nftHoldings === item.nftHoldings) {
-            item.rank = list[index - 1].rank;
-          } else {
-            item.rank = currentRank;
-          }
-          currentRank++;
-        });
-        //const myWalletAddress = "MY_WALLET_ADDRESS";
-        const myWalletAddress = localStorage.getItem("walletAddress");
-        const myRanking =
-          list.find((item) => item.walletAddress === myWalletAddress) || null;
-
-        setRankings(list);
-        setMyRank(myRanking);
-      } catch (error) {
-        console.error("Error fetching rankings:", error);
-
-        // Mock 데이터
-        const mockRankings: UserRanking[] = [
-          {
-            rank: 1,
-            name: "나는덕새",
-            walletAddress: "address1",
-            nftHoldings: 25,
-            nftHoldingsPercentage: 16,
-          },
-          {
-            rank: 2,
-            name: "더즐킹",
-            walletAddress: "address2",
-            nftHoldings: 24,
-            nftHoldingsPercentage: 16,
-          },
-          {
-            rank: 3,
-            name: "컴공생임다",
-            walletAddress: "address3",
-            nftHoldings: 19,
-            nftHoldingsPercentage: 12,
-          },
-          {
-            rank: 4,
-            name: "퍼즐지망생",
-            walletAddress: "address4",
-            nftHoldings: 18,
-            nftHoldingsPercentage: 11,
-          },
-          {
-            rank: 6,
-            name: "더즐",
-            walletAddress: "address6",
-            nftHoldings: 26,
-            nftHoldingsPercentage: 11,
-          },
-          {
-            rank: 7,
-            name: "가나다",
-            walletAddress: "address7",
-            nftHoldings: 18,
-            nftHoldingsPercentage: 11,
-          },
-          {
-            rank: 8,
-            name: "난보유많이",
-            walletAddress: "address8",
-            nftHoldings: 18,
-            nftHoldingsPercentage: 11,
-          },
-          {
-            rank: 9,
-            name: "덕성짱",
-            walletAddress: "address9",
-            nftHoldings: 18,
-            nftHoldingsPercentage: 11,
-          },
-          {
-            rank: 126,
-            name: "내가짱먹어",
-            walletAddress: "MY_WALLET_ADDRESS",
-            nftHoldings: 3,
-            nftHoldingsPercentage: 0.02,
-          },
-        ];
-        // const myWalletAddress = "MY_WALLET_ADDRESS";
-        const myWalletAddress = localStorage.getItem("walletAddress");
-        const myRanking =
-          mockRankings.find((item) => item.walletAddress === myWalletAddress) ||
-          null;
-
-        setRankings(mockRankings);
-        setMyRank(myRanking);
-      }
+      setRankings(mockRankings);
+      setMyRank(myRanking);
     };
 
     fetchRankings();
-  }, [RequestURL, token]);
+  }, []);
 
   const handleMyRankClick = () => {
     if (myRank) {
@@ -155,8 +120,22 @@ const Ranking: React.FC = () => {
     }
   };
 
+  const openAlertModal = (content: string) => {
+    setModalContent(content);
+    setShowAlertModal(true);
+  };
+
+  const handleAlertModalClose = () => {
+    setShowAlertModal(false);
+  };
+
   const handleProfileClick = (walletAddress: string) => {
-    navigate(`/profile/${walletAddress}`);
+    try {
+      mockApiService.otherProfile(walletAddress);
+      navigate(`/profile/${walletAddress}`);
+    } catch (error) {
+      openAlertModal(error.message);
+    }
   };
 
   return (
@@ -244,6 +223,13 @@ const Ranking: React.FC = () => {
         </div>
       </div>
       <MyBottomNavBar />
+      {showAlertModal && (
+        <AlertModal
+          isOpen={showAlertModal}
+          content={modalContent}
+          onConfirm={handleAlertModalClose}
+        />
+      )}
     </div>
   );
 };

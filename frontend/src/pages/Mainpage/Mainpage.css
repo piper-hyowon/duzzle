@@ -121,6 +121,7 @@
   object-fit: contain;
   margin: auto;
   text-align: center;
+
   img {
     height: 20vh;
     max-width: 100%;
@@ -157,7 +158,31 @@
 }
 
 .modal_mintedO .owner {
-  color: #f47735;
+  color: #008f92;
+  animation: blink 1s infinite;
+  cursor: pointer;
+  /* 마우스 포인터로 변경 */
+  transition: transform 0.2s ease;
+  /* 부드러운 변형 효과 */
+}
+
+.modal_mintedO .owner:hover {
+  transform: scale(1.1);
+  /* 호버 시 약간 확대 */
+  text-shadow: 0 0 10px rgba(0, 143, 146, 0.7);
+  /* 호버 시 글로우 효과 */
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 #owner {
@@ -180,6 +205,8 @@
   bottom: 69.5%;
   left: 25%;
   transition: opacity 0.5s;
+  white-space: nowrap; 
+
   opacity: 0;
 }
 

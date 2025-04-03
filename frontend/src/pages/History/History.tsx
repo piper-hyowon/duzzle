@@ -1,35 +1,19 @@
 import { useEffect, useState } from "react";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
 import "./History.css";
-import axios from "axios";
 import { SeasonHistoryResponse } from "../../Data/DTOs/HistoryDTO";
 import { useNavigate } from "react-router-dom";
+import { mockApiService } from "../../services/mockServices";
 
 function History() {
   const navigate = useNavigate();
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-
   const [historySeasons, setHistorySeasons] = useState<SeasonHistoryResponse[]>(
     []
   );
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(RequestUrl + "/v1/season-history", {});
-        if (response.data.result) {
-          //console.log(response.data.data);
-          setHistorySeasons(response.data.data.list);
-        } else {
-          console.error("Failed to fetch items");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getData();
-  }, [RequestUrl]);
+    setHistorySeasons(mockApiService.history.list());
+  }, []);
 
   return (
     <div className="History">

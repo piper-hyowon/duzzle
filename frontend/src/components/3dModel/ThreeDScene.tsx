@@ -6,6 +6,8 @@ import {
   PerspectiveCamera,
   Text,
   Plane,
+  Sky,
+  Stars,
 } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -89,9 +91,11 @@ function FlashyText({
 function NFTInfoText({
   info,
   position,
+  isNightMode,
 }: {
   info: PieceDto;
   position: [number, number, number];
+  isNightMode: boolean;
 }) {
   const { zoneNameKr, zoneNameUs } = info;
   const { season, owner, nftThumbnailUrl, tokenId, description, architect } =
@@ -109,9 +113,11 @@ function NFTInfoText({
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
+  const color = isNightMode ? "#ffffff" : "#239834";
+
   const textProps = {
     fontSize: 18,
-    color: "#239834",
+    color,
     anchorX: "center" as const,
     anchorY: "middle" as const,
     material: new THREE.MeshStandardMaterial({
@@ -126,7 +132,7 @@ function NFTInfoText({
   const titleProps = {
     ...textProps,
     fontSize: 20,
-    color: "#239834",
+    color,
     fontWeight: "bold",
   };
 
@@ -211,12 +217,84 @@ function NFTInfoText({
   );
 }
 
-function Lights() {
+function ChristmasLights({
+  modelSize,
+  modelCenter,
+}: {
+  modelSize: THREE.Vector3;
+  modelCenter: [number, number, number];
+}) {
+  const starsRadius = Math.max(modelSize.x, modelSize.y, modelSize.z) * 0.8;
+
+  const starPosition: [number, number, number] = [
+    modelCenter[0],
+    modelCenter[1] + 100,
+    modelCenter[2],
+  ];
+
   return (
     <>
-      {/* 단일 전역 조명만 사용 */}
+      <group position={starPosition}>
+        <Stars
+          radius={starsRadius}
+          depth={80}
+          count={2000}
+          factor={70}
+          saturation={0}
+          fade
+          speed={0.9}
+        />
+        <Sky
+          distance={450000}
+          sunPosition={[0, -10, 0]}
+          inclination={0}
+          azimuth={180}
+          mieCoefficient={0.005}
+          mieDirectionalG={0.7}
+          rayleigh={0.5}
+          turbidity={1}
+        />
+      </group>
+
+      <ambientLight intensity={1.6} color="#d1e2f0" />
+
+      <rectAreaLight
+        position={[2.96308, 4.93927, 0.56404]}
+        rotation={[
+          (-87.678 * Math.PI) / 180,
+          (-121.251 * Math.PI) / 180,
+          (-88.015 * Math.PI) / 180,
+        ]}
+        intensity={2}
+        color="#FFF5E1"
+        width={8}
+        height={8}
+      />
+
+      <pointLight
+        position={[0, 2, 2]}
+        intensity={0.5}
+        color="#FFF5E1"
+        distance={10}
+      />
+    </>
+  );
+}
+
+function Lights({
+  isNightMode,
+  modelSize,
+  modelCenter,
+}: {
+  isNightMode: boolean;
+  modelSize: THREE.Vector3;
+  modelCenter: [number, number, number];
+}) {
+  return isNightMode ? (
+    <ChristmasLights modelSize={modelSize} modelCenter={modelCenter} />
+  ) : (
+    <>
       <directionalLight position={[5, 5, 5]} intensity={1.5} color="#ffffff" />
-      {/* 약한 주변광 추가 */}
       <ambientLight intensity={2} />
     </>
   );
@@ -226,10 +304,12 @@ function Model({
   url,
   nftInfo,
   isModal,
+  isNightMode,
 }: {
   url: string;
   nftInfo?: PieceDto;
   isModal?: boolean;
+  isNightMode: boolean;
 }) {
   const { scene } = useGLTF(url);
   const [centerPosition, setCenterPosition] = useState<
@@ -239,6 +319,7 @@ function Model({
     0, 50, 0,
   ]);
   const [cameraDistance, setCameraDistance] = useState<number>(500);
+  const [modelSize, setModelSize] = useState<THREE.Vector3>();
 
   useEffect(() => {
     scene.traverse((child) => {
@@ -257,6 +338,49 @@ function Model({
           });
 
           child.material = newMaterial;
+
+          if (isNightMode) {
+            if (
+              child.name.includes("창문불켜짐") ||
+              child.name.includes("가로등")
+            ) {
+              const emissiveMaterial = new THREE.MeshStandardMaterial({
+                color: "#ffffff",
+                emissive: "#ffffe0",
+                emissiveIntensity: 1,
+                metalness: 0,
+                roughness: 0.2,
+              });
+              child.material = emissiveMaterial;
+            } else if (child.name.includes("전구_주황")) {
+              const emissiveMaterial = new THREE.MeshStandardMaterial({
+                color: "#fc7f50",
+                emissive: "#fc7f50",
+                emissiveIntensity: 1.3,
+                metalness: 0,
+                roughness: 0.2,
+              });
+              child.material = emissiveMaterial;
+            } else if (child.name.includes("전구_노랑")) {
+              const emissiveMaterial = new THREE.MeshStandardMaterial({
+                color: "#ed9121",
+                emissive: "#ed9121",
+                emissiveIntensity: 1.3,
+                metalness: 0,
+                roughness: 0.2,
+              });
+              child.material = emissiveMaterial;
+            } else if (child.name.includes("전구_빨강")) {
+              const emissiveMaterial = new THREE.MeshStandardMaterial({
+                color: "#d64045",
+                emissive: "#d64045",
+                emissiveIntensity: 1.3,
+                metalness: 0.3,
+                roughness: 0.2,
+              });
+              child.material = emissiveMaterial;
+            }
+          }
         }
       }
     });
@@ -264,10 +388,11 @@ function Model({
     const box = new THREE.Box3().setFromObject(scene);
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
+    setModelSize(size);
 
     // 모델의 부피를 고려한 크기 계산
     const volume = size.x * size.y * size.z;
-    const normalizedSize = Math.cbrt(volume); // 부피의 세제곱근으로 대표 크기 계산
+    const normalizedSize = Math.cbrt(volume);
 
     // 모델의 종횡비(aspect ratio) 고려
     const aspectRatio = Math.max(
@@ -288,10 +413,24 @@ function Model({
     setCameraDistance(optimalDistance);
   }, [scene, isModal]);
 
+  if (!modelSize) return null;
+
   return (
     <>
       <primitive object={scene} />
-      {nftInfo && <NFTInfoText info={nftInfo} position={centerPosition} />}
+      {nftInfo && (
+        <NFTInfoText
+          info={nftInfo}
+          position={centerPosition}
+          isNightMode={isNightMode}
+        />
+      )}
+      <Lights
+        isNightMode={isNightMode}
+        modelSize={modelSize}
+        modelCenter={modelCenter}
+      />
+
       <PerspectiveCamera
         makeDefault
         position={[cameraDistance, cameraDistance, cameraDistance]}
@@ -326,30 +465,69 @@ function ThreeDScene({
   nftInfo?: PieceDto;
   isModal?: boolean;
 }) {
+  const isChristmasSeason = url.includes("christmas");
+  const [isNightMode, setIsNightMode] = useState(isChristmasSeason); // 크리스마스 시즌이면 기본값이 밤 모드
+
   return (
-    <div style={{ width, height, backgroundColor: "#f4f1e3" }}>
-      <Canvas
-        gl={{
-          preserveDrawingBuffer: true,
-          toneMapping: THREE.NoToneMapping,
-          outputColorSpace: THREE.LinearDisplayP3ColorSpace,
+    <div style={{ position: "relative" }}>
+      <button
+        onClick={() => setIsNightMode(!isNightMode)}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          zIndex: 10,
+          padding: "8px 16px",
+          backgroundColor: isNightMode ? "#f4f1e3" : "#090924",
+          color: isNightMode ? "#090924" : "#f4f1e3",
+          border: "none",
+          borderRadius: "20px",
+          cursor: "pointer",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+          transition: "all 0.3s ease",
         }}
       >
-        <PerspectiveCamera
-          makeDefault
-          position={[400, 400, 400]}
-          fov={isModal ? 30 : 40} // 모달일 때 더 낮은 FOV
-          near={1}
-          far={2000}
-        />
-        {/* <color attach="background" args={["#f4f1e3"]} /> */}
+        {isNightMode ? "🌞 낮으로 전환" : "🌙 밤으로 전환"}
+      </button>
 
-        <Suspense fallback={null}>
-          <Model url={url} nftInfo={nftInfo} isModal={isModal} />
-        </Suspense>
+      <div
+        style={
+          isNightMode
+            ? { width, height, backgroundColor: "#090924" }
+            : { width, height, backgroundColor: "#f4f1e3" }
+        }
+      >
+        <Canvas
+          gl={{
+            preserveDrawingBuffer: true,
+            toneMapping: isNightMode
+              ? THREE.ACESFilmicToneMapping
+              : THREE.NoToneMapping,
+            toneMappingExposure: 1.2,
 
-        <Lights />
-      </Canvas>
+            outputColorSpace: THREE.LinearDisplayP3ColorSpace,
+          }}
+        >
+          {isNightMode && <color attach="background" args={["#090924"]} />}
+          <PerspectiveCamera
+            makeDefault
+            position={[400, 400, 400]}
+            fov={isModal ? 30 : 40} // 모달일 때 더 낮은 FOV
+            near={1}
+            far={2000}
+          />
+          {/* <color attach="background" args={["#f4f1e3"]} /> */}
+
+          <Suspense fallback={null}>
+            <Model
+              url={url}
+              nftInfo={nftInfo}
+              isModal={isModal}
+              isNightMode={isNightMode}
+            />
+          </Suspense>
+        </Canvas>
+      </div>
     </div>
   );
 }

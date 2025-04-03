@@ -5,58 +5,36 @@ import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
 import Modal from "react-modal";
 import { PieceDto, Minted, Unminted } from "../../Data/DTOs/PieceDTO";
-import axios, { isAxiosError } from "axios";
-import { seasonList } from "../../util/season";
-import { useAuth } from "../../services/AuthContext";
 import RPC from "../../../ethersRPC";
-import { IProvider } from "@web3auth/base";
 import { useNavigate } from "react-router-dom";
 import ThreeDScene from "../../components/3dModel/ThreeDScene";
 import AlertModal from "../../components/Modal/AlertModal";
+``;
 import Loading from "../../components/Loading/Loading";
+import { mockApiService } from "../../services/mockServices";
 
 function Mainpage() {
   const navigate = useNavigate();
-  const { web3auth } = useAuth();
   const [scale, setScale] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [pieces, setPieces] = useState<PieceDto[]>([]);
   const [selectedPiece, setSelectedPiece] = useState<PieceDto | null>(null);
   const [totalPieces, setTotalPieces] = useState(0);
   const [mintedPieces, setMintedPieces] = useState(0);
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-  const seasonId = seasonList[seasonList.length - 1].id;
-  const seasonName = seasonList[seasonList.length - 1].title;
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getPuzzle = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const response = await axios.get(
-          RequestUrl + `/v1/puzzle/${seasonId}`,
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-        if (response.data.result) {
-          const pieceData = response.data.data.pieces;
-          setPieces(pieceData);
-          setTotalPieces(response.data.data.total);
-          setMintedPieces(response.data.data.minted);
-        } else {
-          console.error("Failed to fetch pieces");
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    const getPuzzle = () => {
+      const response = mockApiService.main.getPuzzles();
+      setPieces(response.pieces);
+      setTotalPieces(response.total);
+      setMintedPieces(response.minted);
     };
+
     getPuzzle();
-  }, [RequestUrl, seasonId]);
+  }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleScaleChange(event: any) {
@@ -98,11 +76,11 @@ function Mainpage() {
   };
 
   const unlockPuzzlePiece = async (pieceId: number) => {
+    const rpc = new RPC();
+
     setLoading(true);
-    const rpc = new RPC(web3auth?.provider as IProvider);
     try {
-      const pieceMetadataUrl = await rpc.unlockPuzzlePiece(pieceId);
-      //console.log(pieceMetadataUrl);
+      await rpc.unlockPuzzlePiece(pieceId);
       setLoading(false);
       setModalOpen(false);
       openAlertModal("조각NFT 발행을 성공하였습니다.");
@@ -114,30 +92,12 @@ function Mainpage() {
     }
   };
 
-  const visitProfile = async (walletAddress: string) => {
+  const visitProfile = (walletAddress: string) => {
     try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        RequestUrl + `/v1/user/${walletAddress}`,
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.data.result) {
-        navigate(`profile/${walletAddress}`);
-      }
+      mockApiService.otherProfile(walletAddress);
+      navigate(`profile/${walletAddress}`);
     } catch (error) {
-      if (isAxiosError(error)) {
-        if (error.response.data.code == "LOGIN_REQUIRED") {
-          openAlertModal("해당 사용자 프로필을 보려면 로그인이 필요합니다.");
-        } else if (error.response.data.code == "ACCESS_DENIED") {
-          openAlertModal("해당 사용자가 프로필 공개를 거부했습니다.");
-        } else if (error.response.data.code == "CONTENT_NOT_FOUND")
-          openAlertModal("해당 사용자가 존재하지 않습니다.");
-      }
+      openAlertModal(error.message);
     }
   };
 
@@ -281,7 +241,7 @@ function Mainpage() {
                       <div className="modal_mintedO">
                         <div className="mintedO_piece">
                           <p className="info_title">NFT 컬렉션</p>
-                          <p className="info">{seasonName}</p>
+                          <p className="info">크리스마스</p>
                           <p className="info_title">조각 아이디</p>
                           <p className="info">{selectedPiece.pieceId}</p>
                           <p className="info_title">토큰 소유자</p>
@@ -352,7 +312,7 @@ function Mainpage() {
                       <div className="modal_mintedX">
                         <div className="mintedX_piece">
                           <p className="info_title">NFT 컬렉션</p>
-                          <p className="info">{seasonName}</p>
+                          <p className="info">크리스마스</p>
                           <p className="info_title">조각 위치</p>
                           <p className="info">{selectedPiece.zoneNameKr}</p>
                           <p className="info_title">재료</p>

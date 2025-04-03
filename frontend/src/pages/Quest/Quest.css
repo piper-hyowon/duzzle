@@ -6,6 +6,7 @@
   margin: 0 auto;
   position: relative;
 }
+
 .Quest .Tree {
   max-width: 400px;
   height: 360px;
@@ -14,6 +15,7 @@
   z-index: 1;
   margin: 0 auto;
 }
+
 .Quest .random {
   background: linear-gradient(100deg, #d23232, #d23232);
   -webkit-background-clip: text;
@@ -26,6 +28,7 @@
   padding-top: 30px;
   position: relative;
 }
+
 .snowflakes {
   position: absolute;
   top: 150px;
@@ -81,6 +84,7 @@
     transform: translateY(0);
     opacity: 1;
   }
+
   100% {
     transform: translateY(100vh);
     opacity: 0;
@@ -106,6 +110,7 @@
 .quest_button:focus {
   outline: none;
 }
+
 .quest_button:hover {
   background-color: rgb(210, 77, 77);
 }
@@ -144,7 +149,7 @@
   animation: freeturn 4s linear infinite;
 }
 
-#wrap .dice > div {
+#wrap .dice>div {
   position: absolute;
   top: 0;
   left: 0;
@@ -159,32 +164,32 @@
   color: #000000;
 }
 
-#wrap .dice > div:nth-child(1) {
+#wrap .dice>div:nth-child(1) {
   transform: translateZ(50px);
   background-color: rgb(254, 87, 87);
 }
 
-#wrap .dice > div:nth-child(2) {
+#wrap .dice>div:nth-child(2) {
   transform: translateX(-50px) rotateY(-90deg);
   background-color: rgb(254, 147, 224);
 }
 
-#wrap .dice > div:nth-child(3) {
+#wrap .dice>div:nth-child(3) {
   transform: translateZ(-50px) rotateY(-180deg);
   background-color: orange;
 }
 
-#wrap .dice > div:nth-child(4) {
+#wrap .dice>div:nth-child(4) {
   transform: translateX(50px) rotateY(90deg);
   background-color: yellow;
 }
 
-#wrap .dice > div:nth-child(5) {
+#wrap .dice>div:nth-child(5) {
   transform: translateY(-50px) rotateX(90deg);
   background-color: rgb(88, 211, 246);
 }
 
-#wrap .dice > div:nth-child(6) {
+#wrap .dice>div:nth-child(6) {
   transform: translateY(50px) rotateX(270deg);
   background-color: rgb(98, 98, 248);
 }
@@ -196,5 +201,42 @@
 
   100% {
     transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+
+.game-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.quest_button {
+  width: 150px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 2rem;
+  color: hsl(0, 0%, 100%);
+  background-color: #d23232;
+  box-shadow: 0 4px 15px 0 rgba(210, 50, 50, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* 반응형으로 작은 화면에서도 잘 보이게 */
+@media (max-width: 500px) {
+  .game-selection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .quest_button {
+    width: 200px;
   }
 }

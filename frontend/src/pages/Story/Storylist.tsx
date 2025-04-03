@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import "./Storylist.css";
 import MyHeader from "../../components/MyHeader/MyHeader";
+import { STORIES } from "../../services/mockData";
 
 interface Story {
   storyId: number;
@@ -16,28 +16,23 @@ const Storylist: React.FC = () => {
   const { zoneNameKr } = useLocation().state;
   const navigate = useNavigate();
   const [stories, setStories] = useState<Story[]>([]);
-  const RequestURL = import.meta.env.VITE_REQUEST_URL;
-  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const fetchStories = async () => {
-      try {
-        const response = token
-          ? await axios.get(`${RequestURL}/v1/story/progress/${zoneId}`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            })
-          : await axios.get(`${RequestURL}/v1/story/all/${zoneId}`);
-        setStories(response.data.data.list);
-      } catch (error) {
-        console.error("Error fetching stories:", error);
-      }
+      const stories = STORIES.filter((e) => e.zoneId === +zoneId);
+      setStories(
+        stories.map((e) => {
+          return {
+            ...e,
+            totalPage: e.story.length,
+            readPage: e.story.length - 1,
+          };
+        })
+      );
     };
 
     fetchStories();
-  }, [zoneId, RequestURL, token]);
+  }, [zoneId]);
 
   const handleStoryClick = (storyId: number, title: string) => {
     navigate(`/story/${storyId}`, { state: { zoneId, title, zoneNameKr } });

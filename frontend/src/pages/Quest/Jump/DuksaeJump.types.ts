@@ -8,6 +8,17 @@ export type DuksaeJumpQuestData = {
 };
 
 export interface DuksaeJumpProps {
-  logId: number;
   data: DuksaeJumpQuestData;
+}
+
+export enum ToastType {
+  Success = "success",
+  Error = "error",
+  Warning = "warning",
+  Info = "info",
+}
+
+export interface ToastProps {
+  message: string;
+  type: ToastType;
 }

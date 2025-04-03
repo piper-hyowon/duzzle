@@ -24,15 +24,11 @@ const Word = ({ word, x, y }) => {
   );
 };
 
-const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
+const Acid: React.FC<AcidRainProps> = ({ data }) => {
   const nav = useNavigate();
   const { dropIntervalMs, dropDistance, gameoverLimit, passingScore } = data;
 
-  // 글자 복사 방지
-  document.onselectstart = function () {
-    return false;
-  };
-
+  // 상태 관리
   const [waitWords, setWaitWords] = useState<string[]>([]);
   const [activeWordObjs, setActiveWordObjs] = useState<WordInstance[]>([]);
   const [score, setScore] = useState(0);
@@ -40,13 +36,29 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
   const [gameover, setGameover] = useState(false);
   const [isSucceeded, setIsSucceeded] = useState(false);
   const [showHelp, setShowHelp] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const inputRef = useRef<any>();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const gamePanelRef = useRef<any>();
-  const { socket } = useWebSocket();
   const [toast, setToast] = useState<ToastProps | null>(null);
 
+  // 참조 관리
+  const inputRef = useRef<HTMLInputElement>(null);
+  const gamePanelRef = useRef<HTMLDivElement>(null);
+  const { socket } = useWebSocket();
+
+  // 이미 처리된 단어를 추적하기 위한 ref
+  const processedWordsRef = useRef(new Set<string>());
+
+  // 글자 복사 방지
+  useEffect(() => {
+    const originalSelectStart = document.onselectstart;
+    document.onselectstart = function () {
+      return false;
+    };
+
+    return () => {
+      document.onselectstart = originalSelectStart;
+    };
+  }, []);
+
+  // 토스트 메시지 표시
   const showToast = useCallback((message: string, type: ToastType) => {
     setToast({ message, type });
 
@@ -55,28 +67,54 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
     }, 3000);
   }, []);
 
+  // 단어 맞춤 처리
   const handleHit = useCallback(
-    // 맞춘단어는 active word 에서 제거
     (hitWord: string) => {
-      const index = activeWordObjs.findIndex(
-        (element) => element.word === hitWord
-      );
-      if (index !== -1) {
-        clearInterval(activeWordObjs[index].interval);
-        setActiveWordObjs((prev) => prev.filter((_, i) => i !== index));
-      }
+      setActiveWordObjs((prev) => {
+        const index = prev.findIndex((obj) => obj.word === hitWord);
+        if (index !== -1) {
+          clearInterval(prev[index].interval);
+          return prev.filter((_, i) => i !== index);
+        }
+        return prev;
+      });
       showToast(`+ ${CORRECT_ANSWER_POINTS}점`, ToastType.Success);
     },
-    [activeWordObjs, showToast]
+    [showToast]
   );
 
+  // 오답 처리
   const handleWrong = useCallback(() => {
     showToast(`- ${WRONG_ANSWER_PENALTY}점`, ToastType.Error);
   }, [showToast]);
 
+  // 놓친 단어 처리
+  const handleMissedWord = useCallback(
+    (data: { word: string; count: number }) => {
+      const { word, count } = data;
+      setFailed(count);
+      showToast(`- ${MISSING_ANSWER_PENALTY}점`, ToastType.Warning);
+
+      // 이미 처리된 단어로 표시
+      processedWordsRef.current.add(word);
+
+      // 화면에서 단어 제거
+      setActiveWordObjs((prev) => {
+        const index = prev.findIndex((obj) => obj.word === word);
+        if (index !== -1) {
+          clearInterval(prev[index].interval);
+          return prev.filter((_, i) => i !== index);
+        }
+        return prev;
+      });
+    },
+    [showToast]
+  );
+
+  // 소켓 이벤트 리스닝
   useEffect(() => {
     const handleNewWord = (newWord: string) => {
-      console.timeLog("game", `new word: ${newWord}`);
+      console.log(`새 단어: ${newWord}`);
       setWaitWords((prev) => [...prev, newWord]);
     };
 
@@ -85,29 +123,31 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
     };
 
     const handleGameover = (score: number) => {
-      console.timeLog("game", "gameover!!! ");
+      console.log("게임오버!!! ");
       setGameover(true);
       setScore(score);
-      setActiveWordObjs([]);
+
+      // 모든 단어의 인터벌 정리
+      setActiveWordObjs((prev) => {
+        prev.forEach((wordObj) => clearInterval(wordObj.interval));
+        return [];
+      });
+
       setIsSucceeded(false);
-    };
-
-    const handleMissedWord = (data: { word: string; count: number }) => {
-      const { word, count } = data;
-      setFailed(count);
-      showToast(`- ${MISSING_ANSWER_PENALTY}점`, ToastType.Warning);
-
-      console.log(
-        `0.5 점 마이너스!! ${word} 놓쳤다고 판단, 지금까지 놓친 단어 수 = ${count}`
-      );
     };
 
     const handleResult = (data: { result: boolean; score: number }) => {
       const { result, score } = data;
+      console.log(`최종 결과: result:${result}, score: ${score}`);
       setScore(score);
-      console.timeLog("game", `최종 결과: result:${result}, score: ${score}`);
       setGameover(true);
-      setActiveWordObjs([]);
+
+      // 모든 단어의 인터벌 정리
+      setActiveWordObjs((prev) => {
+        prev.forEach((wordObj) => clearInterval(wordObj.interval));
+        return [];
+      });
+
       setIsSucceeded(result);
     };
 
@@ -119,7 +159,6 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
     socket.on(Event.Inbound.Miss, handleMissedWord);
     socket.on(Event.Inbound.Result, handleResult);
 
-    // 컴포넌트 언마운트 시 소켓 이벤트 리스너 정리
     return () => {
       socket.off(Event.Inbound.Word, handleNewWord);
       socket.off(Event.Inbound.Score, handleScore);
@@ -129,22 +168,27 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
       socket.off(Event.Inbound.Miss, handleMissedWord);
       socket.off(Event.Inbound.Result, handleResult);
     };
-  }, [handleHit, handleWrong, showToast, socket]);
+  }, [socket, handleHit, handleWrong, handleMissedWord]);
 
+  // 게임 실행 관련
   useEffect(() => {
     if (!gameover && !showHelp && socket) {
       inputRef.current?.focus();
       document.addEventListener("click", handleClick);
+
+      // 정기적으로 화면 갱신
       const repaintInterval = setInterval(() => {
         repaint();
       }, dropIntervalMs);
 
       return () => {
         clearInterval(repaintInterval);
+        document.removeEventListener("click", handleClick);
       };
     }
-  }, [gameover, showHelp, waitWords, socket, dropIntervalMs]);
+  }, [gameover, showHelp, socket, dropIntervalMs]);
 
+  // 소켓 연결 상태 모니터링
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Socket.io 연결 성공", socket.id);
@@ -160,26 +204,30 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
     };
   }, [socket]);
 
+  // waitWords 변화 감지하여 dropWord 호출
   useEffect(() => {
-    if (waitWords.length !== 0) {
+    if (waitWords.length !== 0 && !gameover && !showHelp) {
       dropWord();
     }
-  }, [waitWords]);
+  }, [waitWords, gameover, showHelp]);
 
-  const dropWord = () => {
-    const word = waitWords.shift()!;
+  // 단어 드롭 함수
+  const dropWord = useCallback(() => {
+    const wordsCopy = [...waitWords];
+    const word = wordsCopy.shift();
+
+    if (!word) return;
+
+    setWaitWords(wordsCopy);
 
     const boardElement = document.getElementById("board");
     const boardWidth = boardElement?.offsetWidth || 0;
 
     const maxWidth = 400;
-
-    console.log("boardWidth:", boardWidth);
-
     const xOffset = (boardWidth - maxWidth) / 2;
     const xPosition = xOffset + Math.random() * Math.min(boardWidth, maxWidth);
 
-    const wordInstance = {
+    const wordInstance: WordInstance = {
       word,
       x: xPosition,
       y: 0,
@@ -188,91 +236,123 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
           const updatedWords = prev.map((obj) =>
             obj.word === word ? { ...obj, y: obj.y + dropDistance } : obj
           );
-          return updatedWords.filter(
-            (obj) => obj.y < gamePanelRef.current.offsetHeight - 10
-          );
+
+          // 필터링 제거 - repaint 함수에서 처리
+          return updatedWords;
         });
       }, dropIntervalMs),
     };
 
     setActiveWordObjs((prev) => [...prev, wordInstance]);
-  };
+  }, [waitWords, dropDistance, dropIntervalMs]);
 
-  const repaint = () => {
-    setActiveWordObjs(
-      (prev) =>
-        prev
-          .map((wordObj) => {
-            if (wordObj.y >= gamePanelRef.current.offsetHeight - 10) {
-              clearInterval(wordObj.interval);
-              return null;
-            }
-            return wordObj;
-          })
-          .filter(Boolean) as WordInstance[]
-    );
-  };
+  // 화면 리페인트 및 바닥에 닿은 단어 처리
+  const repaint = useCallback(() => {
+    if (!gamePanelRef.current) return;
 
-  const hitWord = (word: string) => {
-    if (socket) {
-      socket.emit(Event.Outbound.Answer, { answer: word });
-      console.log(`서버 유저 입력 단어 전송: ${word}`);
-    }
-  };
+    const panelHeight = gamePanelRef.current.offsetHeight;
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.nativeEvent.isComposing) {
-      return;
-    }
-    inputRef.current.focus();
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      event.stopPropagation();
-      hitWord(inputRef.current.value.trim());
+    setActiveWordObjs((prev) => {
+      const updatedWords: WordInstance[] = [];
 
-      inputRef.current.value = "";
-    }
-  };
+      for (const wordObj of prev) {
+        // 이미 처리된 단어는 제외
+        if (processedWordsRef.current.has(wordObj.word)) {
+          clearInterval(wordObj.interval);
+          continue;
+        }
 
-  const startGame = () => {
-    setActiveWordObjs([]);
+        // 바닥에 닿았는지 확인
+        if (wordObj.y >= panelHeight - 30) {
+          // 서버에 단어를 놓쳤다고 알림
+          if (socket && !gameover) {
+            socket.emit(Event.Outbound.Miss, { word: wordObj.word });
+            processedWordsRef.current.add(wordObj.word);
+          }
+          clearInterval(wordObj.interval);
+        } else {
+          // 아직 바닥에 닿지 않은 단어는 유지
+          updatedWords.push(wordObj);
+        }
+      }
+
+      return updatedWords;
+    });
+  }, [socket, gameover]);
+
+  // 사용자 입력 단어 처리
+  const hitWord = useCallback(
+    (word: string) => {
+      if (socket && word.trim() && !gameover) {
+        socket.emit(Event.Outbound.Answer, { answer: word });
+        console.log(`서버에 유저 입력 단어 전송: ${word}`);
+      }
+    },
+    [socket, gameover]
+  );
+
+  // 키보드 입력 처리
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.nativeEvent.isComposing) {
+        return;
+      }
+
+      if (inputRef.current) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          hitWord(inputRef.current.value.trim());
+          inputRef.current.value = "";
+        }
+      }
+    },
+    [hitWord]
+  );
+
+  // 게임 시작
+  const startGame = useCallback(() => {
+    // 기존 게임 상태 초기화
+    setActiveWordObjs((prev) => {
+      prev.forEach((wordObj) => clearInterval(wordObj.interval));
+      return [];
+    });
+    setWaitWords([]);
     setScore(0);
     setFailed(0);
     setGameover(false);
     setShowHelp(false);
-    inputRef.current.focus();
+    processedWordsRef.current.clear();
 
+    // 입력 필드 포커스
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    // 게임 시작 이벤트 발생
     if (socket) {
       socket.connect();
-      console.time("game");
       socket.emit(Event.Outbound.Start, {
-        logId,
-        gamePanelOffsetHeight: gamePanelRef.current.offsetHeight,
-      });
-
-      socket.on("exception", (data) => {
-        console.error("Error from server:", data);
+        gamePanelOffsetHeight: gamePanelRef.current?.offsetHeight || 600,
       });
     }
-  };
+  }, [socket]);
 
-  const showHelpScreen = () => {
-    setShowHelp(true);
-  };
-
-  const handleClick = () => {
+  // 클릭 시 입력 필드 포커스
+  const handleClick = useCallback(() => {
     if (!gameover && !showHelp) {
       inputRef.current?.focus();
     }
-  };
+  }, [gameover, showHelp]);
 
-  const handleResultPageNavigation = () => {
+  // 결과 페이지 이동
+  const handleResultPageNavigation = useCallback(() => {
     if (isSucceeded) {
       nav("/questsuccess");
     } else {
       nav("/questfail");
     }
-  };
+  }, [isSucceeded, nav]);
 
   return (
     <div className="QuestAcid">
@@ -295,7 +375,12 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
                 {failed}
               </label>
             </div>
-            <input type="text" ref={inputRef} onKeyDown={handleKeyDown} />
+            <input
+              type="text"
+              ref={inputRef}
+              onKeyDown={handleKeyDown}
+              disabled={gameover || showHelp}
+            />
           </div>
         </div>
         <div id="board">
@@ -336,9 +421,6 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
               >
                 결과 확인
               </button>
-              {/* <button className="explain" onClick={showHelpScreen}>
-              게임 설명
-            </button> */}
             </div>
           )}
         </div>
@@ -350,4 +432,5 @@ const Acid: React.FC<AcidRainProps> = ({ logId, data }) => {
     </div>
   );
 };
+
 export default Acid;

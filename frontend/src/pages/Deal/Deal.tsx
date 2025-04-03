@@ -2,13 +2,15 @@ import { useState, useEffect, useCallback } from "react";
 import "./Deal.css";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
 import { useNavigate } from "react-router-dom";
-import { DealApis, GetDealQueryParams } from "../../services/api/deal.api";
-import { Deal, NftExchangeOfferStatus } from "../../Data/DTOs/Deal";
 import DealList from "./DealList";
 import SearchSection from "./SearchSectionComponent";
-import { useAuth } from "../../services/AuthContext";
-import LoginModal from "../../components/Modal/LoginModal";
 import ApprovalManager from "./ApprovalManager";
+import { mockApiService } from "../../services/mockServices";
+import {
+  NftExchangeListRequest,
+  NftExchangeOfferResponse,
+  NftExchangeOfferStatus,
+} from "../../services/type";
 interface SearchParams {
   user: string;
   providedNft: string;
@@ -16,14 +18,13 @@ interface SearchParams {
 }
 
 const DealPage = () => {
-  const { web3auth, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [showApprovalManager, setShowApprovalManager] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-
-  const [registeredTrades, setRegisteredTrades] = useState<Deal[]>([]);
+  const [registeredTrades, setRegisteredTrades] = useState<
+    NftExchangeOfferResponse[]
+  >([]);
   const [registeredTradesTotal, setRegisteredTradesTotal] = useState(0);
-  const [myTrades, setMyTrades] = useState<Deal[]>([]);
+  const [myTrades, setMyTrades] = useState<NftExchangeOfferResponse[]>([]);
   const [myTradesTotal, setMyTradesTotal] = useState(0);
   const [status, setStatus] = useState<NftExchangeOfferStatus>(undefined);
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -36,17 +37,7 @@ const DealPage = () => {
   const tradesPerPage = 2;
 
   const handleNewTrade = () => {
-    //console.log("isAuthenticated: ", isAuthenticated);
-    if (isAuthenticated) {
-      setShowApprovalManager(true);
-    } else {
-      //console.log("isAuthenticated: ", isAuthenticated);
-      setShowLoginModal(true);
-    }
-  };
-
-  const handleLoginModalClose = () => {
-    setShowLoginModal(false);
+    setShowApprovalManager(true);
   };
 
   const handleAllApproved = () => {
@@ -60,7 +51,7 @@ const DealPage = () => {
   const fetchTrades = useCallback(
     async (isMyTrades: boolean) => {
       try {
-        const params: GetDealQueryParams = {
+        const params: NftExchangeListRequest = {
           count: tradesPerPage,
           page: (isMyTrades ? myCurrentPage : currentPage) - 1,
           status,
@@ -69,10 +60,12 @@ const DealPage = () => {
           offerorUser: searchParams.user,
         };
 
-        const response =
-          isMyTrades && isAuthenticated
-            ? await DealApis.getMyOffers(params)
-            : await DealApis.getNftExchangeOffers(params);
+        const response = isMyTrades
+          ? mockApiService.nftExchange.my({
+              count: 0,
+              page: 0,
+            }).data
+          : mockApiService.nftExchange.my({ count: 0, page: 0 }).data;
 
         if (isMyTrades) {
           setMyTrades(response.list);
@@ -162,21 +155,10 @@ const DealPage = () => {
       <MyBottomNavBar />
       {showApprovalManager && (
         <ApprovalManager
-          web3auth={web3auth}
           onAllApproved={handleAllApproved}
           onCancel={handleApprovalCancel}
         />
       )}
-      <LoginModal
-        isOpen={showLoginModal}
-        content="거래를 등록하려면 로그인이 필요합니다."
-        onClose={handleLoginModalClose}
-        onLogin={() => {
-          navigate("/login");
-          setShowLoginModal(false);
-          setShowApprovalManager(true);
-        }}
-      />
     </div>
   );
 };

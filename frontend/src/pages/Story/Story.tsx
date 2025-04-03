@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./Story.css";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
+import { mockApiService } from "../../services/mockServices";
 
 interface Zone {
   zoneId: number;
@@ -15,28 +15,10 @@ interface Zone {
 const Story: React.FC = () => {
   const navigate = useNavigate();
   const [zones, setZones] = useState<Zone[]>([]);
-  const RequestURL = import.meta.env.VITE_REQUEST_URL;
-  const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    const fetchZones = async () => {
-      try {
-        const response = token
-          ? await axios.get(`${RequestURL}/v1/story/progress`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
-            })
-          : await axios.get(`${RequestURL}/v1/story/all`);
-        setZones(response.data.data.list);
-      } catch (error) {
-        console.error("Error fetching zones:", error);
-      }
-    };
-
-    fetchZones();
-  }, [RequestURL, token]);
+    setZones(mockApiService.story.list().data.list);
+  }, []);
 
   const handleZoneClick = (zoneId: number, zoneNameKr: string) => {
     navigate(`/zone/${zoneId}`, { state: { zoneNameKr } });

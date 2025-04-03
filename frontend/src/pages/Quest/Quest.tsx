@@ -1,64 +1,41 @@
 import { useNavigate } from "react-router-dom";
 import "./Quest.css";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
-import {
-  QuestApis,
-  QuestApisForTest,
-  QuestType,
-} from "../../services/api/quest.api";
+import { QuestType } from "../../enum/quest.enum";
+import { mockApiService } from "../../services/mockServices";
 
 function Quest() {
   const nav = useNavigate();
 
-  const startQuiz = async () => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const header = {
-        Authorization: token,
-      };
-      const response = token
-        ? await QuestApis.startQuest(header)
-        : //await QuestApisForTest.startSpeedQuiz();
-          await QuestApis.startForGuest();
-      // console.log("Quest POST 성공", response);
+  const startQuiz = async (type: QuestType) => {
+    const response = await mockApiService.quest.start(type);
 
-      if (response.type === QuestType.SpeedQuiz) {
-        localStorage.setItem("logId", response.logId.toString());
-        localStorage.setItem("quest", response.quest);
-        localStorage.setItem("timeLimit", response.timeLimit.toString());
-        nav("/questspeed");
-      } else if (response.type === QuestType.AcidRain) {
-        const quest = JSON.parse(response.quest);
-        const queryParms = Object.entries(quest)
-          .map(([key, value]) => `${key}=${value}`)
-          .join("&");
-        nav(`/questacid/${response.logId}?`.concat(queryParms));
-      } else if (response.type === QuestType.DuksaeJump) {
-        const quest = JSON.parse(response.quest);
-        const queryParams = Object.entries(quest)
-          .map(([key, value]) => `${key}=${value}`)
-          .join("&");
-        nav(`/duksaejump/${response.logId}?`.concat(queryParams));
-      } else if (response.type === QuestType.PictureQuiz) {
-        localStorage.setItem("logId", response.logId.toString());
-        localStorage.setItem("quest", response.quest);
-        localStorage.setItem("timeLimit", response.timeLimit.toString());
-        nav(`/picturequiz/${response.logId}`);
-      } else if (response.type === QuestType.MusicQuiz) {
-        const quest = JSON.parse(response.quest);
-        localStorage.setItem("logId", response.logId.toString());
-        localStorage.setItem("lyrics", quest.lyrics);
-        localStorage.setItem("audioUrl", quest.audioUrl);
-        localStorage.setItem("timeLimit", response.timeLimit.toString());
-        nav(`/musicquiz/${response.logId}`);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        console.error("모든 퀘스트 완료 => 409 오류");
-        alert("모든 퀘스트를 완료하였습니다. 최고에요!");
-      } else {
-        console.error("Error submitting result:", error);
-      }
+    if (type === QuestType.SpeedQuiz) {
+      localStorage.setItem("quest", response.quest);
+      localStorage.setItem("timeLimit", response.timeLimit.toString());
+      nav("/questspeed");
+    } else if (type === QuestType.AcidRain) {
+      const quest = JSON.parse(response.quest);
+      const queryParms = Object.entries(quest)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
+      nav(`/questacid?`.concat(queryParms));
+    } else if (type === QuestType.DuksaeJump) {
+      const quest = JSON.parse(response.quest);
+      const queryParams = Object.entries(quest)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
+      nav(`/duksaejump?`.concat(queryParams));
+    } else if (type === QuestType.PictureQuiz) {
+      localStorage.setItem("quest", response.quest);
+      localStorage.setItem("timeLimit", response.timeLimit.toString());
+      nav(`/picturequiz`);
+    } else if (type === QuestType.MusicQuiz) {
+      const quest = JSON.parse(response.quest);
+      localStorage.setItem("lyrics", quest.lyrics);
+      localStorage.setItem("audioUrl", quest.audioUrl);
+      localStorage.setItem("timeLimit", response.timeLimit.toString());
+      nav(`/musicquiz`);
     }
   };
 
@@ -74,19 +51,40 @@ function Quest() {
         <div className="snowflake">❄️</div>
         <div className="snowflake">❄️</div>
       </div>
-      {/* <div id="wrap">
-        <div className="dice">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-        </div>
-      </div> */}
-      <button className="quest_button" onClick={startQuiz}>
-        START
-      </button>
+
+      <div className="game-selection">
+        <button
+          className="quest_button"
+          onClick={() => startQuiz(QuestType.SpeedQuiz)}
+        >
+          속도 퀴즈
+        </button>
+        <button
+          className="quest_button"
+          onClick={() => startQuiz(QuestType.AcidRain)}
+        >
+          산성비
+        </button>
+        <button
+          className="quest_button"
+          onClick={() => startQuiz(QuestType.DuksaeJump)}
+        >
+          덕새 점프
+        </button>
+        <button
+          className="quest_button"
+          onClick={() => startQuiz(QuestType.PictureQuiz)}
+        >
+          그림 퀴즈
+        </button>
+        <button
+          className="quest_button"
+          onClick={() => startQuiz(QuestType.MusicQuiz)}
+        >
+          음악 퀴즈
+        </button>
+      </div>
+
       <MyBottomNavBar />
     </div>
   );

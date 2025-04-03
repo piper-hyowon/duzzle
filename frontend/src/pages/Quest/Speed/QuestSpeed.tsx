@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./QuestSpeed.css";
-import { QuestApis } from "../../../services/api/quest.api";
+import { mockApiService } from "../../../services/mockServices";
+import { QuestType } from "../../../enum/quest.enum";
 
 function QuestSpeed() {
   const nav = useNavigate();
@@ -9,7 +10,6 @@ function QuestSpeed() {
   const [answers, setAnswers] = useState([]);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [questData, setQuestData] = useState(null);
-  const [logId, setLogId] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
@@ -35,20 +35,13 @@ function QuestSpeed() {
     setAnswers(newAnswers);
   };
 
-  const handleSubmit = async () => {
-    const token = localStorage.getItem("accessToken");
+  const handleSubmit = () => {
     const filteredAnswers = answers.filter((answer) => answer.trim() !== "");
-    const result = token
-      ? await QuestApis.getResult(
-          { logId: Number(logId), answer: filteredAnswers },
-          {
-            Authorization: token,
-          }
-        )
-      : await QuestApis.getResultForGuest({
-          logId: Number(logId),
-          answer: filteredAnswers,
-        });
+    const result = mockApiService.quest.result(
+      QuestType.SpeedQuiz,
+      filteredAnswers
+    );
+
     if (result) {
       nav("/questsuccess");
     } else {
@@ -59,24 +52,13 @@ function QuestSpeed() {
   };
 
   const getRandomSpeedQuest = async () => {
-    try {
-      const quest = localStorage.getItem("quest");
-      const logId = localStorage.getItem("logId");
-      const time = localStorage.getItem("timeLimit");
-      const questParts = quest.split("?").filter((part) => part.trim() !== "");
-      setQuestData(questParts.join("?"));
-      setLogId(logId);
-      setTimeLimit(Number(time));
-      setAnswers(Array(questParts.length).fill(""));
-      setIsCompleted(false);
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        console.error("모든 퀘스트를 이미 완료했습니다.");
-      } else {
-        console.error("Error fetching random speed quest:", error);
-        nav("/questfail");
-      }
-    }
+    const quest = localStorage.getItem("quest");
+    const time = localStorage.getItem("timeLimit");
+    const questParts = quest.split("?").filter((part) => part.trim() !== "");
+    setQuestData(questParts.join("?"));
+    setTimeLimit(Number(time));
+    setAnswers(Array(questParts.length).fill(""));
+    setIsCompleted(false);
   };
 
   return (

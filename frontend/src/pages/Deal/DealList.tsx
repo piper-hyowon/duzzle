@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import {
-  Deal,
-  ExchangeBlueprintOrPuzzleNFT,
-  ExchangeMaterialNFT,
-  NftExchangeOfferStatus,
-} from "../../Data/DTOs/Deal";
+
 import "./DealList.css";
 import { useNavigate } from "react-router-dom";
+import {
+  ExchangeBlueprintOrPuzzleNFT,
+  ExchangeMaterialNFT,
+  NftExchangeOfferResponse,
+  NftExchangeOfferStatus,
+} from "../../services/type";
 
 interface DealListProps {
   title: string;
-  deals: Deal[];
+  deals: NftExchangeOfferResponse[];
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
@@ -115,7 +116,7 @@ const DealList: React.FC<DealListProps> = ({
                   <div className="offered">
                     {deal.offeredNfts.map((nft, index) => (
                       <div key={index} className="nft-item">
-                        <img src={nft.image} />
+                        <img src={nft.imageUrl} />
                         {renderNftName(nft)}
                       </div>
                     ))}
@@ -124,7 +125,7 @@ const DealList: React.FC<DealListProps> = ({
                   <div className="requested">
                     {deal.requestedNfts.map((nft, index) => (
                       <div key={index} className="nft-item">
-                        <img src={nft.image} />
+                        <img src={nft.imageUrl} />
                         {renderNftName(nft)}
                       </div>
                     ))}

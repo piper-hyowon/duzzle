@@ -4,8 +4,8 @@ import MyButton from "../../components/MyButton/MyButton";
 import MyHeader from "../../components/MyHeader/MyHeader";
 
 import "./Items.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { mockApiService } from "../../services/mockServices";
 
 function Items() {
   const navigate = useNavigate();
@@ -18,29 +18,11 @@ function Items() {
     image: string;
   }
 
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-
   useEffect(() => {
-    const getUserItem = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-        const response = await axios.get(RequestUrl + "/v1/my/nft-items", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (response.data.result) {
-          setTotalItems(response.data.data.totalItems);
-          setItems(response.data.data.items);
-        } else {
-          console.error("Failed to fetch items");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserItem();
-  }, [RequestUrl]);
+    const response = mockApiService.myNft.items();
+    setTotalItems(response.totalItems);
+    setItems(response.items);
+  }, []);
 
   return (
     <div className="Items">

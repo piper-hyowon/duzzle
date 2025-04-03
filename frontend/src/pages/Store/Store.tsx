@@ -2,61 +2,58 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import "./Store.css";
 
-import { useAuth } from "../../services/AuthContext";
 import RPC from "../../../ethersRPC";
-import { IProvider } from "@web3auth/base";
 import { itemList } from "../../util/item";
 import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
 import { useNavigate } from "react-router-dom";
-import LoginModal from "../../components/Modal/LoginModal";
 
 function Store() {
   const navigate = useNavigate();
-  const { web3auth, getDal, isAuthenticated } = useAuth();
   const [userDal, setUserDal] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [enoughDal, setEnoughDal] = useState(false);
 
-  const [metadataUrl, setMetadataUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [curNFTItem, setCurNFTItem] = useState<NFTItem | null>(null);
+  const [curNFTItem, setCurNFTItem] = useState(null);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  interface NFTItem {
-    metadata_name: string;
-    item_name: string;
-    item_img: string;
-  }
+  const rpc = new RPC();
 
   const fetchUserDal = async () => {
-    const balance = await getDal();
-    setUserDal(balance);
-    //setUserDal(0);
+    setTimeout(() => {
+      setUserDal(Math.floor(Math.random() * 60) + 5);
+    }, 500);
   };
 
   useEffect(() => {
     fetchUserDal();
-  }, [getDal]);
-
-  useEffect(() => {
-    if (metadataUrl) {
-      getNFTItem();
-    }
-  }, [metadataUrl]);
+  }, []);
 
   const getRandomItem = async () => {
-    const rpc = new RPC(web3auth?.provider as IProvider);
     setLoading(true);
     try {
-      const itemMetadataUrl = await rpc.getRandomItem((state) => {
+      const metadata = await rpc.getRandomItem((state) => {
         setLoadingMessage(state);
       });
-      setMetadataUrl(itemMetadataUrl);
-      await fetchUserDal();
+
+      const foundNFTItem = itemList.find(
+        (it) => it.metadata_name === metadata.name
+      );
+
+      if (foundNFTItem) {
+        setCurNFTItem(foundNFTItem);
+      } else {
+        setCurNFTItem({
+          metadata_name: metadata.name,
+          item_name: metadata.name.split("#")[0],
+          item_img: metadata.image,
+        });
+      }
+
+      setUserDal((prevDal) => Math.max(0, prevDal - 2));
     } catch (error) {
       console.error(error);
       closeModal();
@@ -67,43 +64,15 @@ function Store() {
     }
   };
 
-  const getNFTItem = async () => {
-    try {
-      const response = await fetch(metadataUrl);
-      //console.log(response);
-      const data = await response.json();
-      const foundNFTItem = itemList.find(
-        (it) => it.metadata_name === data.name
-      );
-      if (foundNFTItem) {
-        setCurNFTItem(foundNFTItem);
-      } else {
-        setCurNFTItem({
-          metadata_name: data.name,
-          item_name: data.name.split("#")[0],
-          item_img: data.image,
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      setCurNFTItem(null);
-    }
-  };
-
   function buyItem() {
     if (error) {
       setError(false);
     }
-    if (isAuthenticated) {
-      if (userDal >= 2) {
-        setEnoughDal(true);
-        getRandomItem();
-        //getNFTItem();
-      }
-      setModalOpen(true);
-    } else {
-      setShowLoginModal(true);
+    if (userDal >= 2) {
+      setEnoughDal(true);
+      getRandomItem();
     }
+    setModalOpen(true);
   }
 
   function closeModal() {
@@ -126,10 +95,6 @@ function Store() {
       backgroundColor: "#F69EBB",
       boxShadow: "3px 3px 3px 3px rgba(0,0,0,0.25)",
     },
-  };
-
-  const handleLoginModalClose = () => {
-    setShowLoginModal(false);
   };
 
   return (
@@ -210,15 +175,7 @@ function Store() {
           }}
         />
       )}
-      <LoginModal
-        isOpen={showLoginModal}
-        content="아이템을 구매하려면 로그인이 필요합니다."
-        onClose={handleLoginModalClose}
-        onLogin={() => {
-          navigate("/login");
-          setShowLoginModal(false);
-        }}
-      />
+
       <MyBottomNavBar />
     </div>
   );

@@ -1,14 +1,13 @@
 import "./MusicQuizPage.css";
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { QuestApis } from "../../../services/api/quest.api";
+import { useNavigate } from "react-router-dom";
 import { useAudio } from "../../../services/useAudio";
 import { LyricsInput } from "../../../components/LyricsInput";
+import { mockApiService } from "../../../services/mockServices";
+import { QuestType } from "../../../enum/quest.enum";
 
 const MusicQuizPage: React.FC = () => {
-  const isAuthenticated = localStorage.getItem("accessToken");
   const nav = useNavigate();
-  const { logId } = useParams<{ logId: string }>();
   const lyrics = localStorage.getItem("lyrics") || "";
   const audioUrl = localStorage.getItem("audioUrl");
   const timeLimit = parseInt(localStorage.getItem("timeLimit") || "30", 10);
@@ -61,38 +60,13 @@ const MusicQuizPage: React.FC = () => {
 
   const handleSubmit = useCallback(async () => {
     stopAudio();
-    if (!logId) {
-      console.error("LogId is undefined");
-      return;
-    }
 
-    try {
-      const result = isAuthenticated
-        ? await QuestApis.getResult(
-            { logId: Number(logId), answer: answers },
-            {
-              Authorization: isAuthenticated,
-            }
-          )
-        : await QuestApis.getResultForGuest({
-            logId: Number(logId),
-            answer: answers,
-          });
-
-      nav(result ? "/questsuccess" : "/questfail");
-    } catch (error) {
-      console.error("Error submitting answers:", error);
-      // 에러 처리 로직 (예: 사용자에게 알림)
-    }
-  }, [isAuthenticated, logId, answers, nav, stopAudio]);
-
-  // const formatTime = (seconds: number): string => {
-  //   const minutes = Math.floor(seconds / 60);
-  //   const remainingSeconds = seconds % 60;
-  //   return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-  //     .toString()
-  //     .padStart(2, "0")}`;
-  // };
+    const result = await mockApiService.quest.result(
+      QuestType.MusicQuiz,
+      answers
+    );
+    nav(result ? "/questsuccess" : "/questfail");
+  }, [answers, nav, stopAudio]);
 
   if (!isStarted) {
     return (

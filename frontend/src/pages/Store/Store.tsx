@@ -101,15 +101,15 @@ function Store() {
     <div className="Store">
       <p className="store_title">상점</p>
       <div className="user_dal">
-        <img src="/src/assets/images/moon.png" />
+        <img src="/assets/images/moon.png" />
         <p>{userDal} Dal</p>
       </div>
       <div className="store_main">
         <button className="store_gift" onClick={buyItem}>
-          <img src="/src/assets/images/gift.png" />
+          <img src="/assets/images/gift.png" />
         </button>
         <div className="gift_dal">
-          <img src="/src/assets/images/moon.png" />
+          <img src="/assets/images/moon.png" />
           <p>2 Dal</p>
         </div>
       </div>

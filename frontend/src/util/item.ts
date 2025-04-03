@@ -1,8 +1,8 @@
-import blueprintImg from "../assets/images/blueprint.png";
-import brickImg from "../assets/images/brick.png";
-import glassImg from "../assets/images/glass.png";
-import sandImg from "../assets/images/sand.png";
-import hammerImg from "../assets/images/hammer.png";
+import blueprintImg from "/assets/images/blueprint.png";
+import brickImg from "/assets/images/brick.png";
+import glassImg from "/assets/images/glass.png";
+import sandImg from "/assets/images/sand.png";
+import hammerImg from "/assets/images/hammer.png";
 
 export const itemList = [
   {

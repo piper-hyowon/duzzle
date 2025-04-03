@@ -52,7 +52,7 @@ function Items() {
         </div>
       </div>
       <div className="items_total">
-        <img src="/src/assets/images/item.png" />
+        <img src="/assets/images/item.png" />
         <p>{totalItems} Items</p>
       </div>
       <div className="items_main">

@@ -17,14 +17,14 @@ function Mypage() {
         로그아웃
       </p>
       <div className="user_image">
-        <img src="/src/assets/images/mock/user/goblin_baby.png" />
+        <img src="/assets/images/mock/user/goblin_baby.png" />
       </div>
       <div className="user_info">
         <p className="user_name">{MOCK_USER_DATA.name}</p>
         <p className="user_email">{MOCK_USER_DATA.email}</p>
       </div>
       <div className="user_dal">
-        <img src="/src/assets/images/moon.png" /> <p>100,000 Dal</p>
+        <img src="/assets/images/moon.png" /> <p>100,000 Dal</p>
       </div>
 
       <div className="user_menu">
@@ -33,14 +33,14 @@ function Mypage() {
         </section>
         <section className="user_nft">
           <div className="nft_items" onClick={() => navigate("/mypage/items")}>
-            <img src="/src/assets/images/item.png" />
+            <img src="/assets/images/item.png" />
             <p>99 Items</p>
           </div>
           <div
             className="nft_pieces"
             onClick={() => navigate("/mypage/pieces")}
           >
-            <img src="/src/assets/images/piece.png" />
+            <img src="/assets/images/piece.png" />
             <p>11 Pieces</p>
           </div>
         </section>

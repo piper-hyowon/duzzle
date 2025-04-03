@@ -70,7 +70,7 @@ function Pieces() {
         <p>나의 조각</p>
       </div>
       <div className="pieces_total">
-        <img src="/src/assets/images/piece.png" />
+        <img src="/assets/images/piece.png" />
         <p>{totalPieces} Pieces</p>
       </div>
       <div className="pieces_filter">

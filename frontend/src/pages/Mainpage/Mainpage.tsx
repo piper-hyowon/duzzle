@@ -1,5 +1,5 @@
 import "./Mainpage.css";
-import mainImg from "/src/assets/images/mainImg_christmas.png";
+import mainImg from "/assets/images/mainImg_christmas.png";
 import React, { useCallback, useEffect, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";

@@ -107,7 +107,7 @@ export const mockApiService = {
           name: MOCK_USER_DATA.name,
           walletAddress: MOCK_USER_DATA.walletAddress,
         },
-        nftThumbnailUrl: `/src/assets/images/puzzle_thumbs/christmas/christmas-${id}`,
+        nftThumbnailUrl: `/assets/images/puzzle_thumbs/christmas/christmas-${id}`,
         description,
         architect: "김수근",
       };
@@ -118,48 +118,48 @@ export const mockApiService = {
         items: [
           {
             name: "붉은 벽돌",
-            image: "/src/assets/images/brick.png",
+            image: "/assets/images/brick.png",
             count: 33,
           },
 
           {
             name: "산타 양말",
-            image: "/src/assets/images/christmas-stocking.png",
+            image: "/assets/images/christmas-stocking.png",
             count: 31,
           },
           {
             name: "망치",
-            image: "/src/assets/images/hammer.png",
+            image: "/assets/images/hammer.png",
             count: 5,
           },
           {
             name: "모래",
-            image: "/src/assets/images/sand.png",
+            image: "/assets/images/sand.png",
             count: 1,
           },
           {
             name: "유리",
-            image: "/src/assets/images/glass.png",
+            image: "/assets/images/glass.png",
             count: 22,
           },
           {
             name: `설계도면(${ZONES[1].nameKr})`,
-            image: "/src/assets/images/blueprint.png",
+            image: "/assets/images/blueprint.png",
             count: 3,
           },
           {
             name: `설계도면(${ZONES[6].nameKr})`,
-            image: "/src/assets/images/blueprint.png",
+            image: "/assets/images/blueprint.png",
             count: 1,
           },
           {
             name: `설계도면(${ZONES[10].nameKr})`,
-            image: "/src/assets/images/blueprint.png",
+            image: "/assets/images/blueprint.png",
             count: 1,
           },
           {
             name: `설계도면(${ZONES[4].nameKr})`,
-            image: "/src/assets/images/blueprint.png",
+            image: "/assets/images/blueprint.png",
             count: 2,
           },
         ],
@@ -173,21 +173,21 @@ export const mockApiService = {
         {
           id: 0,
           title: "2024 봄",
-          thumbnailUrl: "/src/assets/images/mock/puzzle/crop.png",
+          thumbnailUrl: "/assets/images/mock/puzzle/crop.png",
           totalPieces: 100,
           mintedPieces: 80,
         },
         {
           id: 1,
           title: "2023 겨울",
-          thumbnailUrl: "/src/assets/images/mock/puzzle/map_christmas_crop.png",
+          thumbnailUrl: "/assets/images/mock/puzzle/map_christmas_crop.png",
           totalPieces: 100,
           mintedPieces: 80,
         },
         {
           id: 2,
           title: "2023 할로윈",
-          thumbnailUrl: "/src/assets/images/mock/puzzle/11339231.jpg",
+          thumbnailUrl: "/assets/images/mock/puzzle/11339231.jpg",
           totalPieces: 100,
           mintedPieces: 80,
         },
@@ -210,27 +210,27 @@ export const mockApiService = {
             {
               name: "붉은 벽돌",
               count: 99,
-              image: "/src/assets/images/brick.png",
+              image: "/assets/images/brick.png",
             },
             {
               name: "망치",
               count: 88,
-              image: "/src/assets/images/hammer.png",
+              image: "/assets/images/hammer.png",
             },
             {
               name: "산타 양말",
               count: 11,
-              image: "/src/assets/images/christmas-stocking.png",
+              image: "/assets/images/christmas-stocking.png",
             },
             {
               name: "유리",
               count: 99,
-              image: "/src/assets/images/glass.png",
+              image: "/assets/images/glass.png",
             },
             {
               name: "모래",
               count: 100,
-              image: "/src/assets/images/sand.png",
+              image: "/assets/images/sand.png",
             },
           ],
           puzzles: [
@@ -238,20 +238,20 @@ export const mockApiService = {
               season: "spring",
               zone: ZONES[0].nameKr,
               count: 3,
-              image: "/src/assets/images/puzzle_thumb/spring/spring-0.png",
+              image: "/assets/images/puzzle_thumb/spring/spring-0.png",
             },
             {
               season: "spring",
               zone: ZONES[10].nameKr,
               count: 2,
-              image: "/src/assets/images/puzzle_thumb/spring/spring-10.png",
+              image: "/assets/images/puzzle_thumb/spring/spring-10.png",
             },
             {
               season: "christmas",
               zone: ZONES[3].nameKr,
               count: 1,
               image:
-                "/src/assets/images/puzzle_thumb/christmas/christmas-3.png",
+                "/assets/images/puzzle_thumb/christmas/christmas-3.png",
             },
           ],
           history: {
@@ -305,16 +305,16 @@ export const mockApiService = {
           type,
           timeLimit: 40,
           quest: [
-            "/src/assets/images/mock/quest/DukWooDang1.png",
-            "/src/assets/images/mock/quest/DukWooDang2.png",
-            "/src/assets/images/mock/quest/DukWooDang3.PNG",
-            "/src/assets/images/mock/quest/DukWooDang4.PNG",
+            "/assets/images/mock/quest/DukWooDang1.png",
+            "/assets/images/mock/quest/DukWooDang2.png",
+            "/assets/images/mock/quest/DukWooDang3.PNG",
+            "/assets/images/mock/quest/DukWooDang4.PNG",
           ].join("{}"),
         },
         [QuestType.MusicQuiz]: {
           type,
           timeLimit: 30,
-          quest: `{"audioUrl": "/src/assets/audio/덕성교가(1절_2절).mp3","lyrics": "?? 같은 눈동자 ?? 같은 그 마음 우리는 대 ??의 젊은이들 새 세대를 창조하는 ??이라네" }
+          quest: `{"audioUrl": "/assets/audio/덕성교가(1절_2절).mp3","lyrics": "?? 같은 눈동자 ?? 같은 그 마음 우리는 대 ??의 젊은이들 새 세대를 창조하는 ??이라네" }
 `,
         },
       };

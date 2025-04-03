@@ -6,7 +6,7 @@ export const MOCK_USER_DATA = {
   walletAddress: "0xeB4774d30E9798aE17142069527ec0855d33C4Cf",
   name: "파이퍼스나이퍼",
   email: "pipersniper@duzzle.com",
-  image: "/src/assets/images/mock/user/goblin_baby.png",
+  image: "/assets/images/mock/user/goblin_baby.png",
   profileType: "PUBLIC",
   history: {
     rankedFirst: 5,
@@ -18,14 +18,14 @@ export const MOCK_USER_DATA = {
 // 프로필 타입 NONE(비공개)
 export const MOCK_USER2 = {
   walletAddress: "0x1DC91f13De44B7D6f7c7F95B3AadDc873F436c99",
-  image: "/src/assets/images/mock/user/profile_default.png",
+  image: "/assets/images/mock/user/profile_default.png",
   name: "duksoon",
 };
 
 // 프로필 타입 PRIVATE(로그인한 유저에게만 허용)
 export const MOCK_USER3 = {
   walletAddress: "0xABcdeF111122223333444455557ec0855d33C4Cf",
-  image: "/src/assets/images/mock/user/duk.png",
+  image: "/assets/images/mock/user/duk.png",
   name: "hahahohohihi",
 };
 
@@ -43,22 +43,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[0].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "유리",
-          image: "/src/assets/images/glass.png",
+          image: "/assets/images/glass.png",
           count: 3,
         },
       ],
@@ -75,22 +75,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[1].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -107,22 +107,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 4,
         },
         {
           name: `설계도면(${ZONES[2].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 2,
         },
       ],
@@ -139,22 +139,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[3].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "유리",
-          image: "/src/assets/images/glass.png",
+          image: "/assets/images/glass.png",
           count: 10,
         },
       ],
@@ -171,22 +171,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[4].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "유리",
-          image: "/src/assets/images/glass.png",
+          image: "/assets/images/glass.png",
           count: 6,
         },
       ],
@@ -203,22 +203,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[5].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 5,
         },
       ],
@@ -238,8 +238,8 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
         walletAddress: MOCK_USER2.walletAddress,
       },
       tokenId: 21,
-      nftThumbnailUrl: "/src/assets/images/puzzle_thumb/christmas-6",
-      threeDModelUrl: "/src/assets/models/christmas-6.gltf",
+      nftThumbnailUrl: "/assets/images/puzzle_thumb/christmas-6",
+      threeDModelUrl: "/assets/models/christmas-6.gltf",
       description:
         "덕성여자대학교 도서관은 1984년에 지어진 철근콘크리트조의 지상 4층 건물입니다. 붉은 벽돌로 지었으며 도서관 건축물로는 보기 드물게 중정을 두어 건물 전체의 형태나 크기, 규모가 잘 응용된 학교 건축물입니다.",
       architect: "김수근",
@@ -259,8 +259,8 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
         walletAddress: MOCK_USER3.walletAddress,
       },
       tokenId: 13,
-      nftThumbnailUrl: "/src/assets/images/puzzle_thumb/christmas-7",
-      threeDModelUrl: "/src/assets/models/christmas-7.gltf",
+      nftThumbnailUrl: "/assets/images/puzzle_thumb/christmas-7",
+      threeDModelUrl: "/assets/models/christmas-7.gltf",
       description: "대학의 설립자이신 차미리사 선생님 기념 동상이 세워져 있다",
       architect: "김수근",
     },
@@ -279,8 +279,8 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
         walletAddress: "0xeB4774d30E9798aE17142069527ec0855d33C4Cf",
       },
       tokenId: 33,
-      nftThumbnailUrl: "/src/assets/images/puzzle_thumb/christmas-8",
-      threeDModelUrl: "/src/assets/models/christmas-8.gltf",
+      nftThumbnailUrl: "/assets/images/puzzle_thumb/christmas-8",
+      threeDModelUrl: "/assets/models/christmas-8.gltf",
       description: "까치, 토끼, 너구리들이 놀러오는 영근터",
       architect: "김수근",
     },
@@ -296,22 +296,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[9].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 5,
         },
       ],
@@ -328,22 +328,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 6,
         },
         {
           name: `설계도면(${ZONES[10].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -360,22 +360,22 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[11].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -392,27 +392,27 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 3,
         },
         {
           name: `설계도면(${ZONES[12].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -429,23 +429,23 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
 
         {
           name: `설계도면(${ZONES[13].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -462,18 +462,18 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "유리",
-          image: "/src/assets/images/glass.png",
+          image: "/assets/images/glass.png",
           count: 3,
         },
 
         {
           name: `설계도면(${ZONES[14].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
       ],
@@ -490,23 +490,23 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "유리",
-          image: "/src/assets/images/glass.png",
+          image: "/assets/images/glass.png",
           count: 7,
         },
 
         {
           name: `설계도면(${ZONES[15].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -523,23 +523,23 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 5,
         },
 
         {
           name: `설계도면(${ZONES[16].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 5,
         },
       ],
@@ -556,23 +556,23 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 6,
         },
 
         {
           name: `설계도면(${ZONES[17].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 4,
         },
       ],
@@ -589,23 +589,23 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 3,
         },
 
         {
           name: `설계도면(${ZONES[18].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 4,
         },
       ],
@@ -622,28 +622,28 @@ export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
       requiredItems: [
         {
           name: "붉은 벽돌",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
           count: 5,
         },
 
         {
           name: `설계도면(${ZONES[19].nameKr})`,
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           count: 1,
         },
         {
           name: "산타 양말",
-          image: "/src/assets/images/christmas-stocking.png",
+          image: "/assets/images/christmas-stocking.png",
           count: 1,
         },
         {
           name: "모래",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
           count: 4,
         },
         {
           name: "망치",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
           count: 1,
         },
       ],
@@ -661,7 +661,7 @@ export const MY_PUZZLES = [
     seasonUs: "Christmas",
     seasonKr: "크리스마스",
     tokenId: "87",
-    threeDModelUrl: "/src/assets/models/christmas-6",
+    threeDModelUrl: "/assets/models/christmas-6",
   },
   {
     id: 0,
@@ -672,7 +672,7 @@ export const MY_PUZZLES = [
     seasonUs: "Christmas",
     seasonKr: "크리스마스",
     tokenId: "87",
-    threeDModelUrl: "/src/assets/models/christmas-7",
+    threeDModelUrl: "/assets/models/christmas-7",
   },
   {
     id: 0,
@@ -683,7 +683,7 @@ export const MY_PUZZLES = [
     seasonUs: "Christmas",
     seasonKr: "크리스마스",
     tokenId: "87",
-    threeDModelUrl: "/src/assets/models/christmas-8",
+    threeDModelUrl: "/assets/models/christmas-8",
   },
 ];
 
@@ -703,15 +703,15 @@ export const STORIES: {
     title: "창학이념과 인재상",
     story: [
       {
-        image: "/src/assets/images/mock/story/덕새.jpg",
+        image: "/assets/images/mock/story/덕새.jpg",
         content: `덕성의 창학이념은 차미리사 선생의 말씀으로 "살되, 네 생명을 살아라. 생각하되, 네 생각으로 하여라. 알되, 네가 깨달아 알아라."라는 말로 표현된다.`,
       },
       {
-        image: "/src/assets/images/mock/story/복단이.jpg",
+        image: "/assets/images/mock/story/복단이.jpg",
         content: `덕성의 인재상은 창의적인 지식인, 협력하는 전문인, 실천하는 시민을 지향하며, 이를 뒷받침하는 핵심 역량으로 창의역량, 협업역량, 도전역량, 미래역량, 공감역량, 시민역량을 강조하고 있다.`,
       },
       {
-        image: "/src/assets/images/mock/story/덕새.jpg",
+        image: "/assets/images/mock/story/덕새.jpg",
         content:
           "창의역량은 개방적 사고, 확산적 사고, 수렴적 사고를 바탕으로 새로운 생각과 가치를 창출하고 문제를 해결하는 능력을 의미하며, 협업역량은 사회적 책임감을 바탕으로 협력적 소통을 통해 공통의 목표를 달성하는 능력을 말한다.",
       },
@@ -726,18 +726,18 @@ export const STORIES: {
     title: "상징",
     story: [
       {
-        image: "/src/assets/images/mock/story/덕새.jpg",
+        image: "/assets/images/mock/story/덕새.jpg",
         content:
           "교표의 전체 이미지인 다섯 개의 잎사귀는 교화인 무궁화를 상징한다.",
       },
       {
-        image: "/src/assets/images/mock/story/복단이.jpg",
+        image: "/assets/images/mock/story/복단이.jpg",
 
         content:
           "무궁화는 국화(國花)이며 거룩하고 고결하고 끈기 있는 민족혼을 상징한 꽃으로, 1920년 창설한 근화동산에서 교장 차미리사 선생은 물론 모두가 무궁화를 사랑하여 학교의 상징이 되었다. 이는 숭고한 3.1 정신을 받들어 이 땅에 여성교육으로 민족정기를 발휘하여 일제에게 빼앗긴 국권을 되찾고자 했던 의지를 표현한 것이다.",
       },
       {
-        image: "/src/assets/images/mock/story/덕새.jpg",
+        image: "/assets/images/mock/story/덕새.jpg",
 
         content:
           "무궁화 속에 덕성을 아로새겨 넣은 것은 정녕 우리의 은근과 끈기를 담은 민족혼과 덕성과 사랑이 혼연일체(渾然一體)가 되어서, 늘 밝혀주고, 채찍질해 주고, 가르쳐 주고 깨닫게 해주고자 함이다.",
@@ -751,12 +751,12 @@ export const STORIES: {
     title: "캐릭터",
     story: [
       {
-        image: "/src/assets/images/mock/story/덕새.jpg",
+        image: "/assets/images/mock/story/덕새.jpg",
 
         content: `'덕새'는 덕성여자대학교를 나타내는 모든 커뮤니케이션의 대표적 상징물로, 교새인 까치와 예로부터 행운을 상징하는 흰 까치를 상징화하였다. 또한 교색인 자주색과 거룩하고 끈기 있는 민족혼을 상징하는 교화, 무궁화를 가슴에 품은 형태로 우리 대학의 정체성을 표현하였다.`,
       },
       {
-        image: "/src/assets/images/mock/story/복단이F.jpg",
+        image: "/assets/images/mock/story/복단이F.jpg",
         content: `'덕새'의 단짝 친구 '복단이'도 있다.`,
       },
     ],
@@ -813,7 +813,7 @@ export const STORIES: {
     title: "교가",
     story: [
       {
-        audio: "/src/assets/audio/덕성교가(1절_2절).mp3",
+        audio: "/assets/audio/덕성교가(1절_2절).mp3",
         content: `닦으리라 정의의 길을 조찰한-빛깔로
 배우리라 예지의 샘물 세기에 앞서서
 넓고 크게 맑고 또 희게 덕성에 배우네 
@@ -905,73 +905,73 @@ const MOCK_SEASON_ZONES = [
     id: 0,
     seasonName: "봄",
     zoneName: `${ZONES[0].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-0.png",
+    imageUrl: "/assets/images/puzzle_thumb/spring/spring-0.png",
   },
   {
     id: 1,
     seasonName: "봄",
     zoneName: `${ZONES[1].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-1.png",
+    imageUrl: "/assets/images/puzzle_thumb/spring/spring-1.png",
   },
   {
     id: 2,
     seasonName: "봄",
     zoneName: `${ZONES[2].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-2.png",
+    imageUrl: "/assets/images/puzzle_thumb/spring/spring-2.png",
   },
   {
     id: 3,
     seasonName: "봄",
     zoneName: `${ZONES[3].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-3.png",
+    imageUrl: "/assets/images/puzzle_thumb/spring/spring-3.png",
   },
   {
     id: 4,
     seasonName: "봄",
     zoneName: `${ZONES[4].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-4.png",
+    imageUrl: "/assets/images/puzzle_thumb/spring/spring-4.png",
   },
   {
     id: 5,
     seasonName: "봄",
     zoneName: `${ZONES[5].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-5.png",
+    imageUrl: "/assets/images/puzzle_thumb/spring/spring-5.png",
   },
   {
     id: 0,
     seasonName: "크리스마스",
     zoneName: `${ZONES[0].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-0.png",
+    imageUrl: "/assets/images/puzzle_thumb/christmas/christmas-0.png",
   },
   {
     id: 1,
     seasonName: "크리스마스",
     zoneName: `${ZONES[1].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-1.png",
+    imageUrl: "/assets/images/puzzle_thumb/christmas/christmas-1.png",
   },
   {
     id: 2,
     seasonName: "크리스마스",
     zoneName: `${ZONES[2].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-2.png",
+    imageUrl: "/assets/images/puzzle_thumb/christmas/christmas-2.png",
   },
   {
     id: 3,
     seasonName: "크리스마스",
     zoneName: `${ZONES[3].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-3.png",
+    imageUrl: "/assets/images/puzzle_thumb/christmas/christmas-3.png",
   },
   {
     id: 4,
     seasonName: "크리스마스",
     zoneName: `${ZONES[4].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-4.png",
+    imageUrl: "/assets/images/puzzle_thumb/christmas/christmas-4.png",
   },
   {
     id: 5,
     seasonName: "크리스마스",
     zoneName: `${ZONES[5].nameKr}`,
-    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-5.png",
+    imageUrl: "/assets/images/puzzle_thumb/christmas/christmas-5.png",
   },
 ];
 
@@ -980,7 +980,7 @@ export const MOCK_MATERIAL_NFTS = [
   {
     contractId: 1,
     name: "붉은 벽돌",
-    imageUrl: "/src/assets/images/brick.png",
+    imageUrl: "/assets/images/brick.png",
     type: NFTType.Material,
     tokens: [
       {
@@ -1014,7 +1014,7 @@ export const MOCK_MATERIAL_NFTS = [
   {
     contractId: 2,
     name: "산타 양말",
-    imageUrl: "/src/assets/images/christmas-stocking.png",
+    imageUrl: "/assets/images/christmas-stocking.png",
     type: NFTType.Material,
     tokens: [
       {
@@ -1035,7 +1035,7 @@ export const MOCK_MATERIAL_NFTS = [
   {
     contractId: 3,
     name: "망치",
-    imageUrl: "/src/assets/images/hammer.png",
+    imageUrl: "/assets/images/hammer.png",
     type: NFTType.Material,
     tokens: [
       {
@@ -1056,7 +1056,7 @@ export const MOCK_MATERIAL_NFTS = [
   {
     contractId: 4,
     name: "모래",
-    imageUrl: "/src/assets/images/sand.png",
+    imageUrl: "/assets/images/sand.png",
     type: NFTType.Material,
     tokens: [
       {
@@ -1077,7 +1077,7 @@ export const MOCK_MATERIAL_NFTS = [
   {
     contractId: 5,
     name: "유리",
-    imageUrl: "/src/assets/images/glass.png",
+    imageUrl: "/assets/images/glass.png",
     type: NFTType.Material,
     tokens: [
       {

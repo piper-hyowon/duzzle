@@ -44,7 +44,7 @@ function Setting() {
                 setVibration_off(false);
               }}
             >
-              <img src="/src/assets/images/vibration.png" />
+              <img src="/assets/images/vibration.png" />
             </button>
             <button
               className={`button_vib_${vibration_off}`}
@@ -53,7 +53,7 @@ function Setting() {
                 setVibration_on(false);
               }}
             >
-              <img src="/src/assets/images/vibration_X.png" />
+              <img src="/assets/images/vibration_X.png" />
             </button>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import Spinner from "../../assets/images/spinner.gif";
+import Spinner from "/assets/images/spinner.gif";
 
 import "./Loading.css";
 

@@ -81,7 +81,7 @@ export default class EthereumRpc {
       const randomItems: NFTMetadata[] = [
         {
           name: "설계도면#79",
-          image: "/src/assets/images/blueprint.png",
+          image: "/assets/images/blueprint.png",
           attributes: [
             {
               value: "대강의동",
@@ -91,23 +91,23 @@ export default class EthereumRpc {
         },
         {
           name: "붉은벽돌 #3",
-          image: "/src/assets/images/brick.png",
+          image: "/assets/images/brick.png",
         },
         {
           name: "모래 #4",
-          image: "/src/assets/images/sand.png",
+          image: "/assets/images/sand.png",
         },
         {
           name: "망치 #5",
-          image: "/src/assets/images/hammer.png",
+          image: "/assets/images/hammer.png",
         },
         {
           name: "유리 #6",
-          image: "/src/assets/images/glass.png",
+          image: "/assets/images/glass.png",
         },
         {
           name: "산타양말 #7",
-          image: "/src/assets/images/sock.png",
+          image: "/assets/images/sock.png",
         },
       ];
 

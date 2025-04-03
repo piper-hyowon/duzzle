@@ -9,7 +9,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Modal from "react-modal";
 
 // 이미지
-import mainImg from "/src/assets/images/mainImg_christmas.png";
+import mainImg from "/assets/images/mainImg_christmas.png";
 import ThreeDScene from "../../components/3dModel/ThreeDScene";
 import { mockApiService } from "../../services/mockServices";
 

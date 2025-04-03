@@ -1,4 +1,4 @@
-import ErrorImg from "../../assets/images/gear.gif";
+import ErrorImg from "/assets/images/gear.gif";
 
 import "./Error.css";
 

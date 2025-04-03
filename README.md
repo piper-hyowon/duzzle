@@ -1,6 +1,6 @@
 # Duzzle (모노레포)
 
-**🔗 데모 사이트: [준비중]()**
+**🔗 데모 사이트: [Try Duzzle](try-duzzle.com)**
 
 
 ## ⚠️ 이 브랜치는 서비스 이해를 돕기 위한 데모 버전입니다.
@@ -9,7 +9,7 @@
 > 
 > **원본 프로젝트:** 
 > - 백엔드: [Duksung-Kkureogi/duzzle-be](https://github.com/Duksung-Kkureogi/duzzle-be)
-> - 프론트엔드: [Duksung-Kkureogi/duzzle-contract](https://github.com/Duksung-Kkureogi/duzzle_fe.git)
+> - 프론트엔드: [Duksung-Kkureogi/duzzle-fe](https://github.com/Duksung-Kkureogi/duzzle_fe.git)
 > - 스마트 컨트랙트: [Duksung-Kkureogi/duzzle-contract](https://github.com/Duksung-Kkureogi/duzzle-contract.git)
 > 
 > 

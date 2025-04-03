@@ -11,6 +11,7 @@ import {
   NftExchangeOfferResponse,
   NftExchangeOfferStatus,
 } from "../../services/type";
+import { MOCK_USER_DATA } from "../../services/mockData";
 interface SearchParams {
   user: string;
   providedNft: string;
@@ -53,36 +54,28 @@ const DealPage = () => {
       try {
         const params: NftExchangeListRequest = {
           count: tradesPerPage,
-          page: (isMyTrades ? myCurrentPage : currentPage) - 1,
+          page: isMyTrades ? myCurrentPage : currentPage,
           status,
           requestedNfts: searchParams.requestedNft,
           offeredNfts: searchParams.providedNft,
           offerorUser: searchParams.user,
         };
-
+        
         const response = isMyTrades
-          ? mockApiService.nftExchange.my({
-              count: 0,
-              page: 0,
-            }).data
-          : mockApiService.nftExchange.my({ count: 0, page: 0 }).data;
-
+          ? mockApiService.nftExchange.getNftExchangeList(params, MOCK_USER_DATA.walletAddress)
+          : mockApiService.nftExchange.getNftExchangeList(params);
+        
+        console.log('API Response:', response);
+  
         if (isMyTrades) {
-          setMyTrades(response.list);
-          setMyTradesTotal(
-            Math.max(Math.ceil(response.total / tradesPerPage), 1)
-          );
+          setMyTrades(response.data);
+          setMyTradesTotal(Math.max(Math.ceil(response.total / tradesPerPage), 1));
         } else {
-          setRegisteredTrades(response.list);
-          setRegisteredTradesTotal(
-            Math.max(Math.ceil(response.total / tradesPerPage), 1)
-          );
+          setRegisteredTrades(response.data);
+          setRegisteredTradesTotal(Math.max(Math.ceil(response.total / tradesPerPage), 1));
         }
       } catch (error) {
-        console.error(
-          `Error fetching ${isMyTrades ? "my " : ""}trades:`,
-          error
-        );
+        console.error(`Error fetching ${isMyTrades ? "my " : ""}trades:`, error);
       }
     },
     [currentPage, myCurrentPage, status, searchParams]

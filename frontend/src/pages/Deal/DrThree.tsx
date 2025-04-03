@@ -1,16 +1,15 @@
 import "./DrThree.css";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  AvailableNft,
-  MaterialNft,
-  BlueprintOrPuzzleNft,
-} from "../../Data/DTOs/DealNftDTO";
+import { AvailableNft, BlueprintOrPuzzleNft, MaterialNft } from "./Deal.dto";
+import { mockApiService } from "../../services/mockServices";
+import { MOCK_USER_DATA } from "../../services/mockData";
+import { useState } from "react";
+import AlertModal from "../../components/Modal/AlertModal";
 
 function DrThree() {
   const navigate = useNavigate();
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
   const { state } = useLocation();
   const { selectedOfferNfts, selectedRequestNfts } = state as {
     selectedOfferNfts: AvailableNft[];
@@ -37,31 +36,28 @@ function DrThree() {
     };
   };
 
+  // 알림모달
+  const openAlertModal = (content: string) => {
+    setModalContent(content);
+    setShowAlertModal(true);
+  };
+  const handleAlertModalClose = () => {
+    setShowAlertModal(false);
+    navigate('/nft-exchange')
+  };
+
   const nftExchange = async () => {
+    const params = {
+      offeredNfts: selectedOfferNfts.map(NftInfo),
+      requestedNfts: selectedRequestNfts.map(NftInfo),
+    };
     try {
-      const token = localStorage.getItem("accessToken");
-      const params = {
-        offeredNfts: selectedOfferNfts.map(NftInfo),
-        requestedNfts: selectedRequestNfts.map(NftInfo),
-      };
-      const response = await axios.post(
-        `${RequestUrl}/v1/nft-exchange/register`,
-        params,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+      mockApiService.nftExchange.postNftExchange(
+        MOCK_USER_DATA.walletAddress,
+        params
       );
-      if (response.data.result) {
-        //console.log(response.data);
-        navigate("/nft-exchange");
-      } else {
-        console.log("Exchange failed");
-      }
     } catch (error) {
-      console.error("Error during exchange:", error);
+      openAlertModal(error.message);
     }
   };
 
@@ -112,6 +108,13 @@ function DrThree() {
           완료
         </button>
       </div>
+      {showAlertModal && (
+        <AlertModal
+          isOpen={showAlertModal}
+          content={modalContent}
+          onConfirm={handleAlertModalClose}
+        />
+      )}
     </div>
   );
 }

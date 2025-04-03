@@ -1,19 +1,16 @@
 import "./DrOne.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import {
-  AvailableNft,
-  BlueprintOrPuzzleNft,
-  MaterialNft,
-} from "../../Data/DTOs/DealNftDTO";
+
 import { useNavigate } from "react-router-dom";
 import MyButton from "../../components/MyButton/MyButton";
 import MyHeader from "../../components/MyHeader/MyHeader";
+import { AvailableNft, BlueprintOrPuzzleNft, MaterialNft } from "./Deal.dto";
+import { mockApiService } from "../../services/mockServices";
+import { MOCK_USER_DATA } from "../../services/mockData";
 
 function DrOne() {
   const navigate = useNavigate();
-  const RequestUrl = import.meta.env.VITE_REQUEST_URL;
-
   const [nftsOffer, setNftsOffer] = useState<AvailableNft[]>([]);
   const [selectedOfferNfts, setSelectedOfferNfts] = useState<AvailableNft[]>(
     []
@@ -22,20 +19,12 @@ function DrOne() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-        const responseOffer = await axios.get(
-          `${RequestUrl}/v1/nft-exchange/available-nfts-to-offer`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (responseOffer.data.result) {
-          //console.log("Response nftOffer", responseOffer.data.data);
-          const updatedNftsOffer = responseOffer.data.data.list.map(
+        const responseOffer =
+          mockApiService.nftExchange.getAvailableNftsToOffer(
+            MOCK_USER_DATA.walletAddress
+          );
+        if (responseOffer.data.length) {
+          const updatedNftsOffer = responseOffer.data.map(
             (nft: AvailableNft) => ({
               ...nft,
               quantity: nft.nftInfo.availableQuantity,
@@ -50,7 +39,7 @@ function DrOne() {
       }
     };
     getData();
-  }, [RequestUrl]);
+  }, []);
 
   const fillerStyles = {
     width: `33.3%`,

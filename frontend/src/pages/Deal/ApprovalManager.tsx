@@ -1,14 +1,82 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { ApprovalStatus } from "../../../ethersRPC";
-import RPC from "../../../ethersRPC";
 import ApprovalModal from "../../components/Modal/Approval/ApprovalModal";
 import Loading from "../../components/Loading/Loading";
 import Modal from "react-modal";
+import { ContractAddress } from "../../constant/contract";
 
 interface ApprovalManagerProps {
   onAllApproved: () => void;
   onCancel: () => void;
 }
+
+// Mock ApprovalStatus 인터페이스
+export interface ApprovalStatus {
+  [key: string]: {
+    name: string;
+    approved: boolean;
+  };
+}
+
+// Mock RPC 클래스 대신 모의 함수들을 구현
+const mockApprovalFunctions = {
+  // 초기 승인 상태를 체크하는 함수
+  checkApprovalStatus: (): Promise<ApprovalStatus> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // 모의 승인 상태 데이터
+        const status: ApprovalStatus = {
+          [ContractAddress.BlueprintItem]: {
+            name: "설계도면",
+            approved: false,
+          },
+          [ContractAddress.PuzzlePiece]: {
+            name: "퍼즐조각",
+            approved: false,
+          },
+          [ContractAddress.MaterialItems[0]]: {
+            name: "붉은벽돌",
+            approved: true,
+          },
+          [ContractAddress.MaterialItems[1]]: {
+            name: "모래",
+            approved: false,
+          },
+          [ContractAddress.MaterialItems[2]]: {
+            name: "망치",
+            approved: true,
+          },
+          [ContractAddress.MaterialItems[3]]: {
+            name: "유리",
+            approved: false,
+          },
+          [ContractAddress.MaterialItems[4]]: {
+            name: "산타양말",
+            approved: false,
+          },
+        };
+        resolve(status);
+      }, 800);
+    });
+  },
+
+  // 승인 처리 함수
+  setApprovalForAll: (
+    contractAddress: string,
+    approved: boolean
+  ): Promise<boolean> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log(`승인 ${approved ? "설정" : "해제"}: ${contractAddress}`);
+        resolve(true);
+      }, 1000);
+    });
+  },
+
+  // 승인 해제 함수 (내부적으로 setApprovalForAll을 호출)
+  revokeApproval: (contractAddress: string): Promise<boolean> => {
+    return mockApprovalFunctions.setApprovalForAll(contractAddress, false);
+  },
+};
 
 const ApprovalManager: React.FC<ApprovalManagerProps> = ({
   onAllApproved,
@@ -22,9 +90,7 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
   const checkApprovalStatus = useCallback(async () => {
     setLoading(true);
     try {
-      // web3auth 의존성 제거 - 직접 RPC 인스턴스 생성
-      const rpc = new RPC();
-      const status = await rpc.checkApprovalStatus();
+      const status = await mockApprovalFunctions.checkApprovalStatus();
       setApprovalStatus(status);
 
       const allApproved = Object.values(status).every((item) => item.approved);
@@ -48,9 +114,10 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
     if (!isLoading) {
       setIsLoading(true);
       try {
-        // web3auth 의존성 제거 - 직접 RPC 인스턴스 생성
-        const rpc = new RPC();
-        const txPromise = rpc.setApprovalForAll(contractAddress, true);
+        const txPromise = mockApprovalFunctions.setApprovalForAll(
+          contractAddress,
+          true
+        );
 
         // 즉시 UI 업데이트
         setApprovalStatus((prevStatus) => ({
@@ -70,6 +137,26 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
             },
           }));
           console.error("Approval failed");
+        } else {
+          // 모든 항목이 승인되었는지 확인
+          const updatedStatus = {
+            ...approvalStatus,
+            [contractAddress]: {
+              ...approvalStatus[contractAddress],
+              approved: true,
+            },
+          };
+
+          const allApproved = Object.values(updatedStatus).every(
+            (item) => item.approved
+          );
+          if (allApproved) {
+            // 모든 항목이 승인되면 모달 닫고 콜백 호출
+            setTimeout(() => {
+              setIsModalOpen(false);
+              onAllApproved();
+            }, 500);
+          }
         }
       } catch (error) {
         console.error("Approval error:", error);
@@ -83,18 +170,17 @@ const ApprovalManager: React.FC<ApprovalManagerProps> = ({
     if (!isLoading) {
       setIsLoading(true);
       try {
-        // web3auth 의존성 제거 - 직접 RPC 인스턴스 생성
-        const rpc = new RPC();
-        const success = await rpc.revokeApproval(contractAddress);
+        const success = await mockApprovalFunctions.revokeApproval(
+          contractAddress
+        );
         if (success) {
           setApprovalStatus((prevStatus) => ({
             ...prevStatus,
             [contractAddress]: {
               ...prevStatus[contractAddress],
-              approved: false, // 여기 수정: revoke는 승인을 취소하는 것이므로 false로 설정해야 함
+              approved: false,
             },
           }));
-          await checkApprovalStatus();
         } else {
           console.error("Revocation failed");
         }

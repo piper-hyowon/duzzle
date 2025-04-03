@@ -14,6 +14,7 @@ import {
   NftExchangeOfferDetailResponse,
   NftExchangeOfferStatus,
 } from "../../services/type";
+import { MOCK_USER_DATA } from "../../services/mockData";
 
 const DealDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,7 +33,9 @@ const DealDetail: React.FC = () => {
 
     const fetchDetail = async () => {
       try {
-        const response = mockApiService.nftExchange.detail(+id);
+        const response = mockApiService.nftExchange.getNftExchangeById(
+          +id
+        ).data;
         setTrade(response);
         setIsMine(
           myWalletAddress &&
@@ -59,7 +62,10 @@ const DealDetail: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      mockApiService.nftExchange.accept(+id);
+      mockApiService.nftExchange.acceptNftExchange(
+        MOCK_USER_DATA.walletAddress,
+        +id
+      );
       // 성공 처리 (예: 성공 메시지 표시, 페이지 리다이렉트 등)
       setLoading(false);
       navigate("/nft-exchange", {
@@ -113,7 +119,10 @@ const DealDetail: React.FC = () => {
   };
 
   const confirmAction = async () => {
-    mockApiService.nftExchange.cancel(+id);
+    mockApiService.nftExchange.deleteNftExchange(
+      MOCK_USER_DATA.walletAddress,
+      +id
+    );
     navigate("/nft-exchange", {
       state: { message: "취소가 성공적으로 완료되었습니다." },
     });

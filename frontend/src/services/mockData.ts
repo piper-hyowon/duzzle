@@ -1,5 +1,6 @@
 import { PuzzlePieceDto } from "../pages/Mainpage/dto";
 import { ZONES } from "../util/zone";
+import { EventTopicName, NftExchangeOfferStatus, NFTType } from "./type";
 
 export const MOCK_USER_DATA = {
   walletAddress: "0xeB4774d30E9798aE17142069527ec0855d33C4Cf",
@@ -17,14 +18,18 @@ export const MOCK_USER_DATA = {
 // 프로필 타입 NONE(비공개)
 export const MOCK_USER2 = {
   walletAddress: "0x1DC91f13De44B7D6f7c7F95B3AadDc873F436c99",
+  image: "/src/assets/images/mock/user/profile_default.png",
   name: "duksoon",
 };
 
 // 프로필 타입 PRIVATE(로그인한 유저에게만 허용)
 export const MOCK_USER3 = {
   walletAddress: "0xABcdeF111122223333444455557ec0855d33C4Cf",
+  image: "/src/assets/images/mock/user/duk.png",
   name: "hahahohohihi",
 };
+
+const MOCK_USERS = [MOCK_USER_DATA, MOCK_USER2, MOCK_USER3];
 
 export const CHRISTMAS_PUZZLES: PuzzlePieceDto[] = [
   {
@@ -698,15 +703,15 @@ export const STORIES: {
     title: "창학이념과 인재상",
     story: [
       {
-        image: '/src/assets/images/mock/story/덕새.jpg',
+        image: "/src/assets/images/mock/story/덕새.jpg",
         content: `덕성의 창학이념은 차미리사 선생의 말씀으로 "살되, 네 생명을 살아라. 생각하되, 네 생각으로 하여라. 알되, 네가 깨달아 알아라."라는 말로 표현된다.`,
       },
       {
-        image: '/src/assets/images/mock/story/복단이.jpg',
+        image: "/src/assets/images/mock/story/복단이.jpg",
         content: `덕성의 인재상은 창의적인 지식인, 협력하는 전문인, 실천하는 시민을 지향하며, 이를 뒷받침하는 핵심 역량으로 창의역량, 협업역량, 도전역량, 미래역량, 공감역량, 시민역량을 강조하고 있다.`,
       },
       {
-        image: '/src/assets/images/mock/story/덕새.jpg',
+        image: "/src/assets/images/mock/story/덕새.jpg",
         content:
           "창의역량은 개방적 사고, 확산적 사고, 수렴적 사고를 바탕으로 새로운 생각과 가치를 창출하고 문제를 해결하는 능력을 의미하며, 협업역량은 사회적 책임감을 바탕으로 협력적 소통을 통해 공통의 목표를 달성하는 능력을 말한다.",
       },
@@ -721,18 +726,18 @@ export const STORIES: {
     title: "상징",
     story: [
       {
-        image: '/src/assets/images/mock/story/덕새.jpg',
+        image: "/src/assets/images/mock/story/덕새.jpg",
         content:
           "교표의 전체 이미지인 다섯 개의 잎사귀는 교화인 무궁화를 상징한다.",
       },
       {
-        image: '/src/assets/images/mock/story/복단이.jpg',
+        image: "/src/assets/images/mock/story/복단이.jpg",
 
         content:
           "무궁화는 국화(國花)이며 거룩하고 고결하고 끈기 있는 민족혼을 상징한 꽃으로, 1920년 창설한 근화동산에서 교장 차미리사 선생은 물론 모두가 무궁화를 사랑하여 학교의 상징이 되었다. 이는 숭고한 3.1 정신을 받들어 이 땅에 여성교육으로 민족정기를 발휘하여 일제에게 빼앗긴 국권을 되찾고자 했던 의지를 표현한 것이다.",
       },
       {
-        image: '/src/assets/images/mock/story/덕새.jpg',
+        image: "/src/assets/images/mock/story/덕새.jpg",
 
         content:
           "무궁화 속에 덕성을 아로새겨 넣은 것은 정녕 우리의 은근과 끈기를 담은 민족혼과 덕성과 사랑이 혼연일체(渾然一體)가 되어서, 늘 밝혀주고, 채찍질해 주고, 가르쳐 주고 깨닫게 해주고자 함이다.",
@@ -746,12 +751,12 @@ export const STORIES: {
     title: "캐릭터",
     story: [
       {
-        image: '/src/assets/images/mock/story/덕새.jpg',
+        image: "/src/assets/images/mock/story/덕새.jpg",
 
         content: `'덕새'는 덕성여자대학교를 나타내는 모든 커뮤니케이션의 대표적 상징물로, 교새인 까치와 예로부터 행운을 상징하는 흰 까치를 상징화하였다. 또한 교색인 자주색과 거룩하고 끈기 있는 민족혼을 상징하는 교화, 무궁화를 가슴에 품은 형태로 우리 대학의 정체성을 표현하였다.`,
       },
       {
-        image: '/src/assets/images/mock/story/복단이F.jpg',
+        image: "/src/assets/images/mock/story/복단이F.jpg",
         content: `'덕새'의 단짝 친구 '복단이'도 있다.`,
       },
     ],
@@ -894,3 +899,405 @@ export const STORIES: {
     ],
   },
 ];
+
+const MOCK_SEASON_ZONES = [
+  {
+    id: 0,
+    seasonName: "봄",
+    zoneName: `${ZONES[0].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-0.png",
+  },
+  {
+    id: 1,
+    seasonName: "봄",
+    zoneName: `${ZONES[1].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-1.png",
+  },
+  {
+    id: 2,
+    seasonName: "봄",
+    zoneName: `${ZONES[2].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-2.png",
+  },
+  {
+    id: 3,
+    seasonName: "봄",
+    zoneName: `${ZONES[3].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-3.png",
+  },
+  {
+    id: 4,
+    seasonName: "봄",
+    zoneName: `${ZONES[4].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-4.png",
+  },
+  {
+    id: 5,
+    seasonName: "봄",
+    zoneName: `${ZONES[5].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/spring/spring-5.png",
+  },
+  {
+    id: 0,
+    seasonName: "크리스마스",
+    zoneName: `${ZONES[0].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-0.png",
+  },
+  {
+    id: 1,
+    seasonName: "크리스마스",
+    zoneName: `${ZONES[1].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-1.png",
+  },
+  {
+    id: 2,
+    seasonName: "크리스마스",
+    zoneName: `${ZONES[2].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-2.png",
+  },
+  {
+    id: 3,
+    seasonName: "크리스마스",
+    zoneName: `${ZONES[3].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-3.png",
+  },
+  {
+    id: 4,
+    seasonName: "크리스마스",
+    zoneName: `${ZONES[4].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-4.png",
+  },
+  {
+    id: 5,
+    seasonName: "크리스마스",
+    zoneName: `${ZONES[5].nameKr}`,
+    imageUrl: "/src/assets/images/puzzle_thumb/christmas/christmas-5.png",
+  },
+];
+
+// 재료 NFT 목업 데이터
+export const MOCK_MATERIAL_NFTS = [
+  {
+    contractId: 1,
+    name: "붉은 벽돌",
+    imageUrl: "/src/assets/images/brick.png",
+    type: NFTType.Material,
+    tokens: [
+      {
+        tokenId: 101,
+        owner: MOCK_USER_DATA.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-01-15"),
+            to: MOCK_USER_DATA.name,
+            toWalletAddress: MOCK_USER_DATA.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe1742ae373b9383b06e3481ad55de8615bb0b1d0/42",
+          },
+        ],
+      },
+      {
+        tokenId: 102,
+        owner: MOCK_USER_DATA.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-01-20"),
+            to: MOCK_USER_DATA.name,
+            toWalletAddress: MOCK_USER_DATA.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe1742ae373b9383b06e3481ad55de8615bb0b1d0/42",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    contractId: 2,
+    name: "산타 양말",
+    imageUrl: "/src/assets/images/christmas-stocking.png",
+    type: NFTType.Material,
+    tokens: [
+      {
+        tokenId: 201,
+        owner: MOCK_USER2.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-02-10"),
+            to: MOCK_USER2.name,
+            toWalletAddress: MOCK_USER2.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xbc1351c028ab3dcf259f29971dec78eb896fe7e1/24",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    contractId: 3,
+    name: "망치",
+    imageUrl: "/src/assets/images/hammer.png",
+    type: NFTType.Material,
+    tokens: [
+      {
+        tokenId: 301,
+        owner: MOCK_USER3.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-02-05"),
+            to: MOCK_USER3.name,
+            toWalletAddress: MOCK_USER3.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe12910381a2b62d06fdf01ee4cd33317e83bb6fb/66",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    contractId: 4,
+    name: "모래",
+    imageUrl: "/src/assets/images/sand.png",
+    type: NFTType.Material,
+    tokens: [
+      {
+        tokenId: 401,
+        owner: MOCK_USER_DATA.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-03-01"),
+            to: MOCK_USER_DATA.name,
+            toWalletAddress: MOCK_USER_DATA.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0x73d24f126af6112c20579de5a2571f5f3c1851af/54",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    contractId: 5,
+    name: "유리",
+    imageUrl: "/src/assets/images/glass.png",
+    type: NFTType.Material,
+    tokens: [
+      {
+        tokenId: 501,
+        owner: MOCK_USER2.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-03-15"),
+            to: MOCK_USER2.name,
+            toWalletAddress: MOCK_USER2.walletAddress,
+            blockExplorerUrl: "https://etherscan.io/tx/0x128",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+// 청사진 및 퍼즐 NFT 목업 데이터
+export const MOCK_BLUEPRINT_PUZZLE_NFTS = [
+  {
+    seasonZoneId: 1,
+    type: NFTType.Blueprint,
+    tokens: [
+      {
+        tokenId: 1001,
+        owner: MOCK_USER_DATA.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-01-05"),
+            to: MOCK_USER_DATA.name,
+            toWalletAddress: MOCK_USER_DATA.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xa07b3f7f489013558f56b77a17a664421fefc5df/43",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    seasonZoneId: 2,
+    type: NFTType.Blueprint,
+    tokens: [
+      {
+        tokenId: 1002,
+        owner: MOCK_USER2.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-01-10"),
+            to: MOCK_USER2.name,
+            toWalletAddress: MOCK_USER2.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xa07b3f7f489013558f56b77a17a664421fefc5df/43",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    seasonZoneId: 1,
+    type: NFTType.PuzzlePiece,
+    tokens: [
+      {
+        tokenId: 2001,
+        owner: MOCK_USER3.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-02-15"),
+            to: MOCK_USER3.name,
+            toWalletAddress: MOCK_USER3.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe9ee0fb75f7214e2301b47a3da6a088783531421/66",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    seasonZoneId: 3,
+    type: NFTType.PuzzlePiece,
+    tokens: [
+      {
+        tokenId: 2002,
+        owner: MOCK_USER_DATA.walletAddress,
+        history: [
+          {
+            event: EventTopicName.Mint,
+            date: new Date("2025-02-25"),
+            to: MOCK_USER_DATA.name,
+            toWalletAddress: MOCK_USER_DATA.walletAddress,
+            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe9ee0fb75f7214e2301b47a3da6a088783531421/66",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+// NFT 교환 제안 목업 데이터
+export const MOCK_NFT_EXCHANGES = [
+  {
+    id: 1,
+    offerorWalletAddress: MOCK_USER_DATA.walletAddress,
+    offeredNfts: [
+      {
+        type: NFTType.Material,
+        contractId: 1,
+        quantity: 1,
+      },
+    ],
+    requestedNfts: [
+      {
+        type: NFTType.Material,
+        contractId: 2,
+        quantity: 1,
+      },
+    ],
+    status: NftExchangeOfferStatus.LISTED,
+    createdAt: new Date("2025-04-01T08:00:00Z"),
+    completedAt: null,
+  },
+  {
+    id: 2,
+    offerorWalletAddress: MOCK_USER_DATA.walletAddress,
+    offeredNfts: [
+      {
+        type: NFTType.Blueprint,
+        seasonZoneId: 1,
+        quantity: 1,
+      },
+    ],
+    requestedNfts: [
+      {
+        type: NFTType.Blueprint,
+        seasonZoneId: 2,
+        quantity: 1,
+      },
+    ],
+    status: NftExchangeOfferStatus.COMPLETED,
+    createdAt: new Date("2025-03-28T10:30:00Z"),
+    completedAt: new Date("2025-03-30T14:15:00Z"),
+  },
+  {
+    id: 3,
+    offerorWalletAddress: MOCK_USER_DATA.walletAddress,
+    offeredNfts: [
+      {
+        type: NFTType.Material,
+        contractId: 4,
+        quantity: 1,
+      },
+    ],
+    requestedNfts: [
+      {
+        type: NFTType.Material,
+        contractId: 5,
+        quantity: 1,
+      },
+    ],
+    status: NftExchangeOfferStatus.SYSTEM_CANCELLED,
+    createdAt: new Date("2025-03-20T09:45:00Z"),
+    completedAt: null,
+  },
+  {
+    id: 4,
+    offerorWalletAddress: MOCK_USER2.walletAddress,
+    offeredNfts: [
+      {
+        type: NFTType.Material,
+        contractId: 2,
+        quantity: 1,
+      },
+    ],
+    requestedNfts: [
+      {
+        type: NFTType.Material,
+        contractId: 3,
+        quantity: 1,
+      },
+    ],
+    status: NftExchangeOfferStatus.LISTED,
+    createdAt: new Date("2025-04-02T11:20:00Z"),
+    completedAt: null,
+  },
+];
+
+// 헬퍼 함수
+export const getUserByWalletAddress = (walletAddress) => {
+  return MOCK_USERS.find((user) => user.walletAddress === walletAddress);
+};
+
+export const getMaterialNftByContractId = (contractId) => {
+  return MOCK_MATERIAL_NFTS.find((nft) => nft.contractId === contractId);
+};
+
+export const getBlueprintOrPuzzleNftBySeasonZoneId = (seasonZoneId, type) => {
+  return MOCK_BLUEPRINT_PUZZLE_NFTS.find(
+    (nft) => nft.seasonZoneId === seasonZoneId && nft.type === type
+  );
+};
+
+export const getSeasonZoneById = (id) => {
+  return MOCK_SEASON_ZONES.find((sz) => sz.id === id);
+};
+
+export const countAvailableNfts = (nfts, walletAddress, type, id) => {
+  if (type === NFTType.Material) {
+    const materialNft = getMaterialNftByContractId(id);
+    if (!materialNft) return 0;
+    return materialNft.tokens.filter((token) => token.owner === walletAddress)
+      .length;
+  } else {
+    const blueprintOrPuzzleNft = getBlueprintOrPuzzleNftBySeasonZoneId(
+      id,
+      type
+    );
+    if (!blueprintOrPuzzleNft) return 0;
+    return blueprintOrPuzzleNft.tokens.filter(
+      (token) => token.owner === walletAddress
+    ).length;
+  }
+};

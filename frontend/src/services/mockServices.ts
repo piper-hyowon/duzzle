@@ -1,10 +1,18 @@
-import { ResponseList } from "./../../../backend/src/decorator/response-list.decorators";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SeasonHistoryResponse } from "../Data/DTOs/HistoryDTO";
 import { QuestType, StartQuestResponse } from "../enum/quest.enum";
 import { PuzzlePieceDto } from "../pages/Mainpage/dto";
 import { ZONES } from "../util/zone";
 import {
   CHRISTMAS_PUZZLES,
+  countAvailableNfts,
+  getBlueprintOrPuzzleNftBySeasonZoneId,
+  getMaterialNftByContractId,
+  getSeasonZoneById,
+  getUserByWalletAddress,
+  MOCK_BLUEPRINT_PUZZLE_NFTS,
+  MOCK_MATERIAL_NFTS,
+  MOCK_NFT_EXCHANGES,
   MOCK_USER2,
   MOCK_USER3,
   MOCK_USER_DATA,
@@ -12,19 +20,13 @@ import {
   STORIES,
 } from "./mockData";
 import {
-  AvailableNftDto,
-  NftExchangeListRequest,
-  NftExchangeOfferDetailResponse,
-  NftExchangeOfferResponse,
   NftExchangeOfferStatus,
   NFTType,
   OtherUserProfileResponse,
-  PostNftExchangeRequest,
   ProfileType,
   ResponsesList,
   StoryProgressResponse,
   UserPuzzleDetailResponse,
-  UserPuzzleRequest,
   UserPuzzleResponse,
 } from "./type";
 
@@ -341,104 +343,532 @@ export const mockApiService = {
     },
   },
 
+  // nftExchange: {
+  //   list: (
+  //     params: NftExchangeListRequest
+  //   ): ResponsesList<NftExchangeOfferResponse> => {
+  //     return {
+  //       result: false,
+  //       data: {
+  //         total: 0,
+  //         list: [],
+  //       },
+  //     };
+  //   },
+  //   detail: (id: number): NftExchangeOfferDetailResponse => {
+  //     return {
+  //       offeredNfts: [],
+  //       requestedNfts: [],
+  //       id: 0,
+  //       offerorUser: {
+  //         walletAddress: "0x1234567890abcdef",
+  //         name: "사용자" + id,
+  //         image: "https://example.com/user" + id + ".jpg",
+  //       },
+  //       status: NftExchangeOfferStatus.LISTED,
+  //       createdAt: new Date(),
+  //     };
+  //   },
+  //   accept: async (id: number): Promise<boolean> => {
+  //     return true;
+  //   },
+  //   availableNftsToOffer: (): ResponsesList<AvailableNftDto> => {
+  //     return {
+  //       result: true,
+  //       data: {
+  //         total: 10,
+  //         list: [
+  //           {
+  //             type: NFTType.Material,
+  //             nftInfo: {
+  //               contractId: 3,
+  //               name: "",
+  //               imageUrl: "",
+  //               availableQuantity: 3,
+  //             },
+  //           },
+  //           {
+  //             type: NFTType.Blueprint,
+  //             nftInfo: {
+  //               seasonZoneId: 3,
+  //               seasonName: "",
+  //               zoneName: "",
+  //               imageUrl: "",
+  //               availableQuantity: 3,
+  //             },
+  //           },
+  //           {
+  //             type: NFTType.PuzzlePiece,
+  //             nftInfo: {
+  //               seasonZoneId: 3,
+  //               seasonName: "",
+  //               zoneName: "",
+  //               imageUrl: "",
+  //               availableQuantity: 3,
+  //             },
+  //           },
+  //         ],
+  //       },
+  //     };
+  //   },
+  //   availableNftsToRequest: (
+  //     name: string,
+  //     count: number,
+  //     page: number
+  //   ): ResponsesList<AvailableNftDto> => {
+  //     const list = []; // filter, slice 하기
+  //     return {
+  //       result: true,
+  //       data: {
+  //         total: 0,
+  //         list,
+  //       },
+  //     };
+  //   },
+  //   cancel: (id: number): boolean => {
+  //     return true;
+  //   },
+  //   my: (
+  //     params: NftExchangeListRequest
+  //   ): ResponsesList<NftExchangeOfferResponse> => {
+  //     return {
+  //       result: false,
+  //       data: {
+  //         total: 0,
+  //         list: [],
+  //       },
+  //     };
+  //   },
+  //   register: (dto: PostNftExchangeRequest): boolean => {
+  //     return true;
+  //   },
+  // },
+
   nftExchange: {
-    list: (
-      params: NftExchangeListRequest
-    ): ResponsesList<NftExchangeOfferResponse> => {
+    // 유저가 제공 가능한 NFT 목록 조회
+    getAvailableNftsToOffer: (walletAddress) => {
+      const availableNfts = [];
+
+      // 재료 NFT 추가
+      MOCK_MATERIAL_NFTS.forEach((materialNft) => {
+        const availableTokens = materialNft.tokens.filter(
+          (token) => token.owner === walletAddress
+        );
+        if (availableTokens.length > 0) {
+          availableNfts.push({
+            type: NFTType.Material,
+            nftInfo: {
+              contractId: materialNft.contractId,
+              name: materialNft.name,
+              imageUrl: materialNft.imageUrl,
+              availableQuantity: availableTokens.length,
+            },
+          });
+        }
+      });
+
+      // 청사진 및 퍼즐 NFT 추가
+      MOCK_BLUEPRINT_PUZZLE_NFTS.forEach((blueprintOrPuzzleNft) => {
+        const availableTokens = blueprintOrPuzzleNft.tokens.filter(
+          (token) => token.owner === walletAddress
+        );
+        if (availableTokens.length > 0) {
+          const seasonZone = getSeasonZoneById(
+            blueprintOrPuzzleNft.seasonZoneId
+          );
+          availableNfts.push({
+            type: blueprintOrPuzzleNft.type,
+            nftInfo: {
+              seasonZoneId: blueprintOrPuzzleNft.seasonZoneId,
+              seasonName: seasonZone.seasonName,
+              zoneName: seasonZone.zoneName,
+              imageUrl: seasonZone.imageUrl,
+              availableQuantity: availableTokens.length,
+            },
+          });
+        }
+      });
+
       return {
-        result: false,
-        data: {
-          total: 0,
-          list: [],
-        },
+        data: availableNfts,
       };
     },
-    detail: (id: number): NftExchangeOfferDetailResponse => {
+
+    // 요청 가능한 NFT 목록 조회
+    getAvailableNftsToRequest: (params) => {
+      const { page = 1, limit = 10, name = "" } = params;
+
+      const availableNfts = [];
+
+      // 재료 NFT 추가
+      MOCK_MATERIAL_NFTS.forEach((materialNft) => {
+        if (
+          name &&
+          !materialNft.name.toLowerCase().includes(name.toLowerCase())
+        ) {
+          return;
+        }
+
+        availableNfts.push({
+          type: NFTType.Material,
+          nftInfo: {
+            contractId: materialNft.contractId,
+            name: materialNft.name,
+            imageUrl: materialNft.imageUrl,
+            availableQuantity: materialNft.tokens.length,
+          },
+        });
+      });
+
+      // 청사진 및 퍼즐 NFT 추가
+      MOCK_BLUEPRINT_PUZZLE_NFTS.forEach((blueprintOrPuzzleNft) => {
+        const seasonZone = getSeasonZoneById(blueprintOrPuzzleNft.seasonZoneId);
+
+        if (
+          name &&
+          !seasonZone.seasonName.toLowerCase().includes(name.toLowerCase()) &&
+          !seasonZone.zoneName.toLowerCase().includes(name.toLowerCase())
+        ) {
+          return;
+        }
+
+        availableNfts.push({
+          type: blueprintOrPuzzleNft.type,
+          nftInfo: {
+            seasonZoneId: blueprintOrPuzzleNft.seasonZoneId,
+            seasonName: seasonZone.seasonName,
+            zoneName: seasonZone.zoneName,
+            imageUrl: seasonZone.imageUrl,
+            availableQuantity: blueprintOrPuzzleNft.tokens.length,
+          },
+        });
+      });
+
+      const total = availableNfts.length;
+      const startIndex = (page - 1) * limit;
+      const paginatedNfts = availableNfts.slice(startIndex, startIndex + limit);
+
       return {
-        offeredNfts: [],
-        requestedNfts: [],
-        id: 0,
-        offerorUser: {
-          walletAddress: "0x1234567890abcdef",
-          name: "사용자" + id,
-          image: "https://example.com/user" + id + ".jpg",
-        },
-        status: NftExchangeOfferStatus.LISTED,
-        createdAt: new Date(),
+        data: paginatedNfts,
+        total: total,
+        page: parseInt(page),
+        limit: parseInt(limit),
       };
     },
-    accept: async (id: number): Promise<boolean> => {
-      return true;
+
+    // 교환 제안 생성
+    postNftExchange: (walletAddress, dto) => {
+      throw new Error(`제공할 NFT의 수량이 부족합니다`);
     },
-    availableNftsToOffer: (): ResponsesList<AvailableNftDto> => {
+
+    // 교환 제안 취소
+    deleteNftExchange: (walletAddress, exchangeId) => {
+      const exchangeIndex = MOCK_NFT_EXCHANGES.findIndex(
+        (exchange) =>
+          exchange.id === parseInt(exchangeId) &&
+          exchange.offerorWalletAddress === walletAddress
+      );
+
+      if (exchangeIndex === -1) {
+        throw new Error("교환 제안을 찾을 수 없거나 접근 권한이 없습니다.");
+      }
+
+      if (
+        MOCK_NFT_EXCHANGES[exchangeIndex].status !==
+        NftExchangeOfferStatus.LISTED
+      ) {
+        throw new Error("이미 완료되거나 취소된 교환 제안입니다.");
+      }
+
+      MOCK_NFT_EXCHANGES[exchangeIndex].status =
+        NftExchangeOfferStatus.CANCELED;
+
       return {
-        result: true,
-        data: {
-          total: 10,
-          list: [
-            {
+        data: true,
+      };
+    },
+
+    // 교환 제안 목록
+    getNftExchangeList: (params, walletAddress = null) => {
+      const {
+        page = 1,
+        limit = 10,
+        status,
+        offeredNfts,
+        requestedNfts,
+        offerorUser,
+      } = params;
+
+      let filteredExchanges = [...MOCK_NFT_EXCHANGES];
+
+      // 내가 등록한 교환 제안만 필터링
+      if (walletAddress) {
+        filteredExchanges = filteredExchanges.filter(
+          (exchange) => exchange.offerorWalletAddress === walletAddress
+        );
+      }
+
+      // 상태로 필터링
+      if (status) {
+        filteredExchanges = filteredExchanges.filter(
+          (exchange) => exchange.status === status
+        );
+      }
+
+      // 제안 NFT 이름으로 필터링
+      if (offeredNfts) {
+        filteredExchanges = filteredExchanges.filter((exchange) => {
+          // 제안 NFT 타입별로 검사
+          return exchange.offeredNfts.some((nft) => {
+            if (nft.type === NFTType.Material) {
+              const materialNft = getMaterialNftByContractId(nft.contractId);
+              return (
+                materialNft &&
+                materialNft.name
+                  .toLowerCase()
+                  .includes(offeredNfts.toLowerCase())
+              );
+            } else {
+              const seasonZone = getSeasonZoneById(nft.seasonZoneId);
+              return (
+                seasonZone &&
+                (seasonZone.seasonName
+                  .toLowerCase()
+                  .includes(offeredNfts.toLowerCase()) ||
+                  seasonZone.zoneName
+                    .toLowerCase()
+                    .includes(offeredNfts.toLowerCase()))
+              );
+            }
+          });
+        });
+      }
+
+      // 요청 NFT 이름으로 필터링
+      if (requestedNfts) {
+        filteredExchanges = filteredExchanges.filter((exchange) => {
+          // 요청 NFT 타입별로 검사
+          return exchange.requestedNfts.some((nft) => {
+            if (nft.type === NFTType.Material) {
+              const materialNft = getMaterialNftByContractId(nft.contractId);
+              return (
+                materialNft &&
+                materialNft.name
+                  .toLowerCase()
+                  .includes(requestedNfts.toLowerCase())
+              );
+            } else {
+              const seasonZone = getSeasonZoneById(nft.seasonZoneId);
+              return (
+                seasonZone &&
+                (seasonZone.seasonName
+                  .toLowerCase()
+                  .includes(requestedNfts.toLowerCase()) ||
+                  seasonZone.zoneName
+                    .toLowerCase()
+                    .includes(requestedNfts.toLowerCase()))
+              );
+            }
+          });
+        });
+      }
+
+      // 제안자 이름으로 필터링
+      if (offerorUser) {
+        filteredExchanges = filteredExchanges.filter((exchange) => {
+          const user = getUserByWalletAddress(exchange.offerorWalletAddress);
+          return (
+            user &&
+            user.name &&
+            user.name.toLowerCase().includes(offerorUser.toLowerCase())
+          );
+        });
+      }
+
+      // 교환 제안을 응답 형식으로 변환하는 함수
+      const formatExchangeResponse = (exchange) => {
+        const offeror = getUserByWalletAddress(exchange.offerorWalletAddress);
+
+        const formatNftList = (nftList) => {
+          return nftList.map((nft) => {
+            if (nft.type === NFTType.Material) {
+              const materialNft = getMaterialNftByContractId(nft.contractId);
+              return {
+                type: NFTType.Material,
+                name: materialNft.name,
+                imageUrl: materialNft.imageUrl,
+                quantity: nft.quantity,
+              };
+            } else {
+              const seasonZone = getSeasonZoneById(nft.seasonZoneId);
+              return {
+                type: nft.type,
+                seasonName: seasonZone.seasonName,
+                zoneName: seasonZone.zoneName,
+                imageUrl: seasonZone.imageUrl,
+                quantity: nft.quantity,
+              };
+            }
+          });
+        };
+
+        return {
+          id: exchange.id,
+          offerorUser: {
+            walletAddress: offeror.walletAddress,
+            name: offeror.name,
+            image: offeror.image,
+          },
+          offeredNfts: formatNftList(exchange.offeredNfts),
+          requestedNfts: formatNftList(exchange.requestedNfts),
+          status: exchange.status,
+          createdAt: exchange.createdAt,
+        };
+      };
+
+      // 결과를 응답 형식으로 변환
+      const total = filteredExchanges.length;
+      const startIndex = (page - 1) * limit;
+      const paginatedExchanges = filteredExchanges
+        .slice(startIndex, startIndex + limit)
+        .map(formatExchangeResponse);
+
+      return {
+        data: paginatedExchanges,
+        total: total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+      };
+    },
+
+    // NFT 교환 제안 수락
+    acceptNftExchange: (walletAddress, exchangeId) => {
+      const exchange = MOCK_NFT_EXCHANGES.find(
+        (exchange) => exchange.id === parseInt(exchangeId)
+      );
+
+      if (!exchange) {
+        throw new Error("교환 제안을 찾을 수 없습니다.");
+      }
+
+      if (exchange.offerorWalletAddress === walletAddress) {
+        throw new Error("자신의 교환 제안을 수락할 수 없습니다.");
+      }
+
+      if (exchange.status !== NftExchangeOfferStatus.LISTED) {
+        throw new Error("이미 완료되거나 취소된 교환 제안입니다.");
+      }
+
+      // 요청 NFT의 소유자 체크
+      for (const requestedNft of exchange.requestedNfts) {
+        const availableCount = countAvailableNfts(
+          requestedNft.type === NFTType.Material
+            ? MOCK_MATERIAL_NFTS
+            : MOCK_BLUEPRINT_PUZZLE_NFTS,
+          walletAddress,
+          requestedNft.type,
+          requestedNft.type === NFTType.Material
+            ? (<any>requestedNft).contractId
+            : (<any>requestedNft).seasonZoneId
+        );
+
+        if (availableCount < requestedNft.quantity) {
+          throw new Error(
+            `요청된 NFT의 수량이 부족합니다: ${requestedNft.type}`
+          );
+        }
+      }
+
+      // 교환 처리
+      exchange.status = NftExchangeOfferStatus.COMPLETED;
+      exchange.completedAt = new Date();
+
+      // NFT 소유권 변경 시뮬레이션 (실제로는 블록체인에서 처리됨)
+      // 여기서는 실제 토큰 소유권을 변경하지는 않고, 성공했다고 가정
+
+      return {
+        data: true,
+      };
+    },
+
+    // 교환 제안 상세 보기
+    getNftExchangeById: (id) => {
+      const exchange = MOCK_NFT_EXCHANGES.find(
+        (exchange) => exchange.id === parseInt(id)
+      );
+
+      if (!exchange) {
+        throw new Error("교환 제안을 찾을 수 없습니다.");
+      }
+
+      const offeror = getUserByWalletAddress(exchange.offerorWalletAddress);
+
+      // NFT 정보를 상세 응답 형식으로 변환하는 함수
+      const formatDetailedNftInfo = (nftList) => {
+        return nftList.map((nft) => {
+          if (nft.type === NFTType.Material) {
+            const materialNft = getMaterialNftByContractId(nft.contractId);
+
+            // 사용 가능한 토큰 목록
+            const availableTokens = materialNft.tokens
+              .filter((token) => token.owner === exchange.offerorWalletAddress)
+              .slice(0, nft.quantity);
+
+            return {
               type: NFTType.Material,
-              nftInfo: {
-                contractId: 3,
-                name: "",
-                imageUrl: "",
-                availableQuantity: 3,
-              },
-            },
-            {
-              type: NFTType.Blueprint,
-              nftInfo: {
-                seasonZoneId: 3,
-                seasonName: "",
-                zoneName: "",
-                imageUrl: "",
-                availableQuantity: 3,
-              },
-            },
-            {
-              type: NFTType.PuzzlePiece,
-              nftInfo: {
-                seasonZoneId: 3,
-                seasonName: "",
-                zoneName: "",
-                imageUrl: "",
-                availableQuantity: 3,
-              },
-            },
-          ],
-        },
+              name: materialNft.name,
+              imageUrl: materialNft.imageUrl,
+              quantity: nft.quantity,
+              availableNfts: availableTokens.map((token) => ({
+                tokenId: token.tokenId,
+                history: token.history,
+              })),
+            };
+          } else {
+            const blueprintOrPuzzleNft = getBlueprintOrPuzzleNftBySeasonZoneId(
+              nft.seasonZoneId,
+              nft.type
+            );
+            const seasonZone = getSeasonZoneById(nft.seasonZoneId);
+
+            // 사용 가능한 토큰 목록
+            const availableTokens = blueprintOrPuzzleNft.tokens
+              .filter((token) => token.owner === exchange.offerorWalletAddress)
+              .slice(0, nft.quantity);
+
+            return {
+              type: nft.type,
+              seasonName: seasonZone.seasonName,
+              zoneName: seasonZone.zoneName,
+              imageUrl: seasonZone.imageUrl,
+              quantity: nft.quantity,
+              availableNfts: availableTokens.map((token) => ({
+                tokenId: token.tokenId,
+                history: token.history,
+              })),
+            };
+          }
+        });
       };
-    },
-    availableNftsToRequest: (
-      name: string,
-      count: number,
-      page: number
-    ): ResponsesList<AvailableNftDto> => {
-      const list = []; // filter, slice 하기
+
+      // 기본 정보 구성
+      const result = {
+        id: exchange.id,
+        offerorUser: {
+          walletAddress: offeror.walletAddress,
+          name: offeror.name,
+          image: offeror.image,
+        },
+        offeredNfts: formatDetailedNftInfo(exchange.offeredNfts),
+        requestedNfts: formatDetailedNftInfo(exchange.requestedNfts),
+        status: exchange.status,
+        createdAt: exchange.createdAt,
+        completedAt: exchange.completedAt,
+      };
+
       return {
-        result: true,
-        data: {
-          total: 0,
-          list,
-        },
+        data: result,
       };
-    },
-    cancel: (id: number): boolean => {
-      return true;
-    },
-    my: (
-      params: NftExchangeListRequest
-    ): ResponsesList<NftExchangeOfferResponse> => {
-      return {
-        result: false,
-        data: {
-          total: 0,
-          list: [],
-        },
-      };
-    },
-    register: (dto: PostNftExchangeRequest): boolean => {
-      return true;
     },
   },
 };

@@ -1,12 +1,9 @@
 import "./DrTwo.css";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import {
-  AvailableNft,
-  BlueprintOrPuzzleNft,
-  MaterialNft,
-} from "../../Data/DTOs/DealNftDTO";
+
 import { useLocation, useNavigate } from "react-router-dom";
+import { AvailableNft, MaterialNft, BlueprintOrPuzzleNft } from "./Deal.dto";
+import { mockApiService } from "../../services/mockServices";
 
 function DrTwo() {
   const navigate = useNavigate();
@@ -28,44 +25,35 @@ function DrTwo() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const params: any = {
-          count: 50,
-          page: 0,
+        const params = {
+          limit: 50,
+          page: 1,
+          name: search || undefined,
         };
-        if (search) {
-          params.name = search;
-        }
-        const responseRequest = await axios.get(
-          `${RequestUrl}/v1/nft-exchange/available-nfts-to-request`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            params: params,
-          }
-        );
 
-        if (responseRequest.data.result) {
-          //console.log("Response nftRequest", responseRequest.data.data);
-          const updatedNftsRequest = responseRequest.data.data.list.map(
+        const responseRequest =
+          mockApiService.nftExchange.getAvailableNftsToRequest(params);
+        console.log("Available NFTs response:", responseRequest);
+
+        if (responseRequest.data && responseRequest.data.length > 0) {
+          const updatedNftsRequest = responseRequest.data.map(
             (nft: AvailableNft) => ({
               ...nft,
-              quantity: nft.nftInfo.availableQuantity,
+              quantity: 1, // 기본값으로 1 설정
             })
           );
           setNftsRequest(updatedNftsRequest);
         } else {
-          console.error("Failed to fetch items");
+          console.log("No items found or empty response");
+          setNftsRequest([]);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     getData();
-  }, [RequestUrl, search]);
+  }, [search]);
 
   const onSearch = () => {
     setSearch(searchTerm);

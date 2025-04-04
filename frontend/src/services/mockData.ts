@@ -1188,6 +1188,11 @@ export const MOCK_NFT_EXCHANGES = [
         contractId: 1,
         quantity: 1,
       },
+      {
+        type: NFTType.Material,
+        contractId: 3,
+        quantity: 2,
+      },
     ],
     requestedNfts: [
       {
@@ -1212,6 +1217,11 @@ export const MOCK_NFT_EXCHANGES = [
     ],
     requestedNfts: [
       {
+        type: NFTType.Material,
+        contractId: 2,
+        quantity: 1,
+      },
+      {
         type: NFTType.Blueprint,
         seasonZoneId: 2,
         quantity: 1,
@@ -1228,7 +1238,7 @@ export const MOCK_NFT_EXCHANGES = [
       {
         type: NFTType.Material,
         contractId: 4,
-        quantity: 1,
+        quantity: 10,
       },
     ],
     requestedNfts: [

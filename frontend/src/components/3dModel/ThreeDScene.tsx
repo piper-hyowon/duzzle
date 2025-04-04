@@ -17,6 +17,7 @@ import { Minted, PieceDto } from "../../Data/DTOs/PieceDTO";
 import { ContractAddress } from "../../constant/contract";
 
 import loadingGif from "/assets/snail_loading.gif"; // 실제 경로로 수정하세요
+import ThreeJSControlsGuide from "./ThreeJSControlsGuide";
 
 function LoadingManager({ onLoaded }: { onLoaded: () => void }) {
   const { progress, errors, item, loaded, total } = useProgress();
@@ -477,12 +478,14 @@ function ThreeDScene({
   url,
   nftInfo,
   isModal = false,
+  isFullscreen,
 }: {
   width: string;
   height: string;
   url: string;
   nftInfo?: PieceDto;
   isModal?: boolean;
+  isFullscreen?: boolean;
 }) {
   const isChristmasSeason = url.includes("christmas");
   const [isNightMode, setIsNightMode] = useState(isChristmasSeason); // 크리스마스 시즌이면 기본값이 밤 모드
@@ -593,6 +596,7 @@ function ThreeDScene({
             />
           </Suspense>
         </Canvas>
+        {isFullscreen && <ThreeJSControlsGuide isFullscreen={true} />}
       </div>
     </div>
   );

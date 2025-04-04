@@ -1,17 +1,30 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import ThreeDScene from "../../components/3dModel/ThreeDScene";
-import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
 import { Minted, PieceDto } from "../../Data/DTOs/PieceDTO";
 import "./NftDetailPage.css";
+import { useEffect } from "react";
 
 const NFTDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data } = location.state as { data: PieceDto };
-  if (!data) {
-    return <div>NFT 정보를 찾을 수 없습니다.</div>;
+  const locationState = location.state as { data: PieceDto } | null;
+
+  useEffect(() => {
+    if (!locationState || !locationState.data) {
+      navigate("/notfound", { replace: true });
+    }
+  }, [locationState, navigate]);
+
+  if (!locationState || !locationState.data) {
+    return (
+      <div className="loading-container">
+        <p>데이터를 불러오는 중...</p>
+      </div>
+    );
   }
 
+  // 이제 안전하게 data 접근 가능
+  const { data } = locationState;
   return (
     <div className="nft-detail-page">
       <div className="nft-header">
@@ -41,9 +54,9 @@ const NFTDetail = () => {
           height="calc(100vh - 160px)"
           url={(data.data as Minted).threeDModelUrl}
           nftInfo={data}
+          isFullscreen={true}
         />
       </div>
-      <MyBottomNavBar />
     </div>
   );
 };

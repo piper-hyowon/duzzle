@@ -655,7 +655,7 @@ export const MY_PUZZLES = [
   {
     id: 0,
     name: "Duksung Xmas Puzzle #87",
-    image: "/src/assetss/images/puzzle_thumb/chirstmas/christmas-6.png",
+    image: "/assetss/images/puzzle_thumb/chirstmas/christmas-6.png",
     zoneUs: ZONES[6].nameUs,
     zoneKr: ZONES[6].nameKr,
     seasonUs: "Christmas",
@@ -666,7 +666,7 @@ export const MY_PUZZLES = [
   {
     id: 0,
     name: "Duksung Xmas Puzzle #101",
-    image: "/src/assetss/images/puzzle_thumb/chirstmas/christmas-7.png",
+    image: "/assetss/images/puzzle_thumb/chirstmas/christmas-7.png",
     zoneUs: ZONES[7].nameUs,
     zoneKr: ZONES[7].nameKr,
     seasonUs: "Christmas",
@@ -677,7 +677,7 @@ export const MY_PUZZLES = [
   {
     id: 0,
     name: "Duksung Xmas Puzzle #105",
-    image: "/src/assetss/images/puzzle_thumb/chirstmas/christmas-8.png",
+    image: "/assetss/images/puzzle_thumb/chirstmas/christmas-8.png",
     zoneUs: ZONES[8].nameUs,
     zoneKr: ZONES[8].nameKr,
     seasonUs: "Christmas",

@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 import "./MyBottomNavBar.css";
 import { useState } from "react";
 
-import HomeIcon from '/assets/images/home.png'
+const HomeIcon = "/assets/images/home.png";
+const HistoryIcon = "/assets/images/history.png";
+const RankingIcon = "/assets/images/ranking.png";
+const NftExchangeIcon = "/assets/images/deal.png";
+const StoryIcon = "/assets/images/story.png";
+
+const PlusButton = "/assets/images/plus.png";
+const Shop = "/assets/images/shop.png";
+const My = "/assets/images/my.png";
 
 const MyBottomNavBar = () => {
   const navigate = useNavigate();
@@ -25,31 +33,22 @@ const MyBottomNavBar = () => {
         <nav className="plusNavBar">
           <div>
             <p>시즌 히스토리</p>
-            <img
-              onClick={() => navigate("/history")}
-              src="/assets/images/history.png"
-            />
+            <img onClick={() => navigate("/history")} src={HistoryIcon} />
           </div>
           <div>
             <p>랭킹</p>
-            <img
-              onClick={() => navigate("/ranking")}
-              src="/assets/images/ranking.png"
-            />
+            <img onClick={() => navigate("/ranking")} src={RankingIcon} />
           </div>
           <div>
             <p>거래</p>
             <img
               onClick={() => navigate("/nft-exchange")}
-              src="/assets/images/deal.png"
+              src={NftExchangeIcon}
             />
           </div>
           <div>
             <p>스토리</p>
-            <img
-              onClick={() => navigate("/story")}
-              src="/assets/images/story.png"
-            />
+            <img onClick={() => navigate("/story")} src={StoryIcon} />
           </div>
         </nav>
       ) : null}
@@ -81,7 +80,7 @@ const MyBottomNavBar = () => {
             className={clickedplus == true ? "clickedplus" : "notclickedplus"}
             onClick={plusButton}
           >
-            <img src="/assets/images/plus.png" />
+            <img src={PlusButton} />
           </button>
         </div>
         <div>
@@ -91,13 +90,13 @@ const MyBottomNavBar = () => {
               navigate("/store");
             }}
           >
-            <img src="/assets/images/shop.png" />
+            <img src={Shop} />
             <p>상점</p>
           </button>
         </div>
         <div>
           <button type="button" onClick={() => navigate("/mypage")}>
-            <img src="/assets/images/my.png" />
+            <img src={My} />
             <p>마이페이지</p>
           </button>
         </div>

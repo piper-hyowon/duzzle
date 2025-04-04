@@ -655,7 +655,7 @@ export const MY_PUZZLES = [
   {
     id: 0,
     name: "Duksung Xmas Puzzle #87",
-    image: "/assets/images/puzzle_thumb/chirstmas/christmas-6.png",
+    image: "/assets/images/puzzle_thumb/christmas/christmas-6.png",
     zoneUs: ZONES[6].nameUs,
     zoneKr: ZONES[6].nameKr,
     seasonUs: "Christmas",
@@ -664,9 +664,9 @@ export const MY_PUZZLES = [
     threeDModelUrl: "/assets/models/christmas-6",
   },
   {
-    id: 0,
+    id: 1,
     name: "Duksung Xmas Puzzle #101",
-    image: "/assets/images/puzzle_thumb/chirstmas/christmas-7.png",
+    image: "/assets/images/puzzle_thumb/christmas/christmas-7.png",
     zoneUs: ZONES[7].nameUs,
     zoneKr: ZONES[7].nameKr,
     seasonUs: "Christmas",
@@ -675,9 +675,9 @@ export const MY_PUZZLES = [
     threeDModelUrl: "/assets/models/christmas-7",
   },
   {
-    id: 0,
+    id: 2,
     name: "Duksung Xmas Puzzle #105",
-    image: "/assets/images/puzzle_thumb/chirstmas/christmas-8.png",
+    image: "/assets/images/puzzle_thumb/christmas/christmas-8.png",
     zoneUs: ZONES[8].nameUs,
     zoneKr: ZONES[8].nameKr,
     seasonUs: "Christmas",

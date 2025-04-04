@@ -331,6 +331,7 @@ function Model({
   isModal?: boolean;
   isNightMode: boolean;
 }) {
+  url = ensureFileExtension(url);
   const { scene } = useGLTF(url);
   const [centerPosition, setCenterPosition] = useState<
     [number, number, number]
@@ -471,6 +472,12 @@ function Model({
     </>
   );
 }
+
+const ensureFileExtension = (url) => {
+  if (!url) return url;
+  if (url.endsWith(".gltf") || url.endsWith(".glb")) return url;
+  return `${url}.gltf`; // 또는 .glb 중 적절한 확장자 추가
+};
 
 function ThreeDScene({
   width,

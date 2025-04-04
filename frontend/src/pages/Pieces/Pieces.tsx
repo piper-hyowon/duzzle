@@ -27,9 +27,16 @@ function Pieces() {
   const [filterZone, setFilterZone] = useState("구역 전체");
 
   const goToNFTDetail = async (pieceId: number) => {
+    const response = mockApiService.myNft.puzzleDetail(pieceId);
+    const data = {
+      ...response,
+      data: {
+        ...response,
+      },
+    };
     navigate("/nft-detail", {
       state: {
-        data: mockApiService.myNft.puzzleDetail(pieceId),
+        data,
       },
     });
   };

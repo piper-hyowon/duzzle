@@ -84,8 +84,6 @@ function Quest() {
           음악 퀴즈
         </button>
       </div>
-
-      <MyBottomNavBar />
     </div>
   );
 }

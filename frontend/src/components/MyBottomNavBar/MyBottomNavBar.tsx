@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./MyBottomNavBar.css";
 import { useState } from "react";
 
+import HomeIcon from '/assets/images/home.png'
+
 const MyBottomNavBar = () => {
   const navigate = useNavigate();
   const [clickedplus, setClickedplus] = useState(false);
@@ -59,7 +61,7 @@ const MyBottomNavBar = () => {
               navigate("/");
             }}
           >
-            <img src="/assets/images/home.png" /> <p>홈</p>
+            <img src={HomeIcon} /> <p>홈</p>
           </button>
         </div>
         <div>

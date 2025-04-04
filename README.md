@@ -1,6 +1,6 @@
 # Duzzle (모노레포)
 
-**🔗 데모 사이트: [Try Duzzle](http://try-duzzle.com/)**
+**🔗 데모 사이트: [Try Duzzle](http://try-duzzle.com/){:target="_blank"}**
 
 
 ## ⚠️ 이 브랜치는 서비스 이해를 돕기 위한 데모 버전입니다.

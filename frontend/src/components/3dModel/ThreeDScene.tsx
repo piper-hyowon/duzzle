@@ -8,12 +8,31 @@ import {
   Plane,
   Sky,
   Stars,
+  useProgress,
 } from "@react-three/drei";
 import * as THREE from "three";
 
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { Minted, PieceDto } from "../../Data/DTOs/PieceDTO";
 import { ContractAddress } from "../../constant/contract";
+
+import loadingGif from "/assets/snail_loading.gif"; // 실제 경로로 수정하세요
+
+function LoadingManager({ onLoaded }: { onLoaded: () => void }) {
+  const { progress, errors, item, loaded, total } = useProgress();
+
+  useEffect(() => {
+    if (progress === 100) {
+      const timer = setTimeout(() => {
+        onLoaded();
+      }, 200);
+
+      return () => clearTimeout(timer);
+    }
+  }, [progress, onLoaded]);
+
+  return null;
+}
 
 extend({ TextGeometry });
 
@@ -467,6 +486,15 @@ function ThreeDScene({
 }) {
   const isChristmasSeason = url.includes("christmas");
   const [isNightMode, setIsNightMode] = useState(isChristmasSeason); // 크리스마스 시즌이면 기본값이 밤 모드
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [url]);
+
+  const handleLoaded = () => {
+    setIsLoading(false);
+  };
 
   return (
     <div style={{ position: "relative" }}>
@@ -497,6 +525,43 @@ function ThreeDScene({
             : { width, height, backgroundColor: "#f4f1e3" }
         }
       >
+        {isLoading && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: isNightMode
+                ? "rgba(9, 9, 36, 0.8)"
+                : "rgba(244, 241, 227, 0.8)",
+              zIndex: 20,
+              pointerEvents: "none", // 클릭이 아래 요소로 전달되도록
+            }}
+          >
+            <img
+              src={loadingGif}
+              alt="로딩 중..."
+              style={{
+                width: "100px",
+                height: "100px",
+              }}
+            />
+            <p
+              style={{
+                color: isNightMode ? "#ffffff" : "#000000",
+                fontFamily: "Arial, sans-serif",
+                fontSize: "16px",
+              }}
+            >
+              3D 모델 로딩 중...
+            </p>
+          </div>
+        )}
         <Canvas
           gl={{
             preserveDrawingBuffer: true,
@@ -517,6 +582,7 @@ function ThreeDScene({
             far={2000}
           />
           {/* <color attach="background" args={["#f4f1e3"]} /> */}
+          <LoadingManager onLoaded={handleLoaded} />
 
           <Suspense fallback={null}>
             <Model

@@ -2,9 +2,11 @@
   text-align: center;
   width: 90vw;
   max-width: 500px;
-  height: 50vh;
+  height: auto;
+  min-height: 50vh;
   margin: 0 auto;
   position: relative;
+  padding-bottom: 30px;
 }
 
 .Quest .Tree {
@@ -92,19 +94,20 @@
 }
 
 .quest_button {
-  width: 210px;
-  height: 75px;
-  font-size: 35px;
+  width: 150px;
+  height: 60px;
+  font-size: 20px;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
   border: none;
-  margin-top: 30px;
+  margin: 8px;
   background-size: 300% 100%;
-  border-radius: 2.5rem;
+  border-radius: 2rem;
   color: hsl(0, 0%, 100%);
   background-color: #d23232;
-  box-shadow: 0 4px 15px 0 #d23232;
+  box-shadow: 0 4px 15px 0 rgba(210, 50, 50, 0.5);
+  transition: all 0.3s ease;
 }
 
 .quest_button:focus {
@@ -204,32 +207,18 @@
   }
 }
 
-
 .game-selection {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
   margin-top: 20px;
+  padding: 0 10px 20px;
+  width: 100%;
+  position: relative;
+  z-index: 3;
 }
 
-.quest_button {
-  width: 150px;
-  height: 60px;
-  font-size: 20px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  border: none;
-  background-size: 300% 100%;
-  border-radius: 2rem;
-  color: hsl(0, 0%, 100%);
-  background-color: #d23232;
-  box-shadow: 0 4px 15px 0 rgba(210, 50, 50, 0.5);
-  transition: all 0.3s ease;
-}
-
-/* 반응형으로 작은 화면에서도 잘 보이게 */
 @media (max-width: 500px) {
   .game-selection {
     flex-direction: column;
@@ -237,6 +226,7 @@
   }
 
   .quest_button {
-    width: 200px;
+    width: 180px;
+    margin: 5px 0;
   }
 }

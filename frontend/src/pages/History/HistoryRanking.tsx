@@ -6,9 +6,9 @@ import MyButton from "../../components/MyButton/MyButton";
 import { useEffect, useState } from "react";
 
 // 이미지
-import duk1Img from "../Ranking/duk1.png";
-import duk2Img from "../Ranking/duk2.png";
-import duk3Img from "../Ranking/duk3.png";
+import duk1Img from "/assets/images/duk1.png";
+import duk2Img from "/assets/images/duk2.png";
+import duk3Img from "/assets/images/duk3.png";
 import {
   MOCK_USER2,
   MOCK_USER3,

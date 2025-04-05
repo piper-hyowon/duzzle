@@ -145,9 +145,9 @@ const Ranking: React.FC = () => {
         <div className="top-ranking">
           {rankings.slice(0, 3).map((user, index) => {
             const imageSrc = [
-              "/src/pages/Ranking/duk1.png",
-              "/src/pages/Ranking/duk2.png",
-              "/src/pages/Ranking/duk3.png",
+              "/assets/images/duk1.png",
+              "/assets/images/duk2.png",
+              "/assets/images/duk3.png",
             ][index];
 
             return (

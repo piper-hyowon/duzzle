@@ -43,11 +43,7 @@ function Quest() {
   return (
     <div className="Quest">
       <div className="random">Mini Game</div>
-      <img
-        src={new URL("/assets/images/tree.gif", import.meta.url).href}
-        alt="Tree"
-      />
-
+      <img src="/assets/images/tree_1.gif" alt="Tree" className="Tree" />
       <div className="snowflakes" aria-hidden="true">
         <div className="snowflake">❄️</div>
         <div className="snowflake">❄️</div>

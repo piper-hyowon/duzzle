@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import "./Store.css";
 
 import RPC from "../../../ethersRPC";
-import { itemList } from "../../util/item";
 import Loading from "../../components/Loading/Loading";
 import Error from "../../components/Error/Error";
 import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
@@ -39,19 +38,11 @@ function Store() {
         setLoadingMessage(state);
       });
 
-      const foundNFTItem = itemList.find(
-        (it) => it.metadata_name === metadata.name
-      );
-
-      if (foundNFTItem) {
-        setCurNFTItem(foundNFTItem);
-      } else {
-        setCurNFTItem({
-          metadata_name: metadata.name,
-          item_name: metadata.name.split("#")[0],
-          item_img: metadata.image,
-        });
-      }
+      setCurNFTItem({
+        metadata_name: metadata.name,
+        item_name: metadata.name.split("#")[0],
+        item_img: metadata.image,
+      });
 
       setUserDal((prevDal) => Math.max(0, prevDal - 2));
     } catch (error) {

@@ -67,16 +67,16 @@ export default class EthereumRpc {
   ): Promise<NFTMetadata> {
     try {
       onStateChange?.("트랜잭션 시작...");
-      await this.delay(800);
+      await this.delay(600);
 
       onStateChange?.("트랜잭션을 전송하는 중...");
-      await this.delay(1000);
+      await this.delay(900);
 
       onStateChange?.(`트랜잭션이 처리되고 있습니다...\n(예상 시간: 10-15초)`);
-      await this.delay(3000);
+      await this.delay(2700);
 
       onStateChange?.("아이템 정보를 가져오는 중...");
-      await this.delay(1000);
+      await this.delay(800);
 
       const randomItems: NFTMetadata[] = [
         {

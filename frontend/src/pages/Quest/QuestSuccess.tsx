@@ -37,7 +37,7 @@ function QuestSuccess() {
   return (
     <div className="Questsuccess">
       <div className="text_suc">미션 성공</div>
-      <img src="/src/pages/Quest/happy.gif" alt="happy" className="happy" />
+      <img src="/assets/images/happy.gif" alt="happy" className="happy" />
       {renderContent()}
     </div>
   );

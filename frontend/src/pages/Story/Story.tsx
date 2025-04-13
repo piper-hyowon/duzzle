@@ -28,7 +28,7 @@ const Story: React.FC = () => {
     <div className="c1">
       <div className="container_story">
         <h1 className="Story_title">DUZZLE STORY</h1>
-        <img className="img_story" src="/src/pages/Story/mainImg.png" />
+        <img className="img_story" src="/assets/images/mainImg.png" />
         <ul className="ul_story">
           {zones.map((zone) => (
             <li className="li_story" key={zone.zoneId}>

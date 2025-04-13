@@ -17,7 +17,11 @@ function Mypage() {
         로그아웃
       </p>
       <div className="user_image">
-        <img src="/assets/images/mock/user/goblin_baby.png" />
+        <img
+          src="/assets/images/mock/user/goblin_baby.png"
+          alt="Profile"
+          title="Baby Goblin from Squad-Busters (Supercell)"
+        />
       </div>
       <div className="user_info">
         <p className="user_name">{MOCK_USER_DATA.name}</p>

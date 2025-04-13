@@ -159,7 +159,7 @@ function Profile() {
         <p>나의 정보</p>
       </div>
       <div className="profile_img">
-        <img src={image} alt="Profile" />
+        <img src={image} alt="Profile" title={MOCK_USER_DATA.title} />
         <button onClick={handleClick}>
           <svg
             data-slot="icon"

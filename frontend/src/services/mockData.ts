@@ -7,6 +7,7 @@ export const MOCK_USER_DATA = {
   name: "파이퍼스나이퍼",
   email: "pipersniper@duzzle.com",
   image: "/assets/images/mock/user/goblin_baby.png",
+  title: "Baby Goblin from Squad-Busters (Supercell)",
   profileType: "PUBLIC",
   history: {
     rankedFirst: 5,
@@ -992,7 +993,8 @@ export const MOCK_MATERIAL_NFTS = [
             date: new Date("2025-01-15"),
             to: MOCK_USER_DATA.name,
             toWalletAddress: MOCK_USER_DATA.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe1742ae373b9383b06e3481ad55de8615bb0b1d0/42",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xe1742ae373b9383b06e3481ad55de8615bb0b1d0/42",
           },
         ],
       },
@@ -1005,7 +1007,8 @@ export const MOCK_MATERIAL_NFTS = [
             date: new Date("2025-01-20"),
             to: MOCK_USER_DATA.name,
             toWalletAddress: MOCK_USER_DATA.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe1742ae373b9383b06e3481ad55de8615bb0b1d0/42",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xe1742ae373b9383b06e3481ad55de8615bb0b1d0/42",
           },
         ],
       },
@@ -1026,7 +1029,8 @@ export const MOCK_MATERIAL_NFTS = [
             date: new Date("2025-02-10"),
             to: MOCK_USER2.name,
             toWalletAddress: MOCK_USER2.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xbc1351c028ab3dcf259f29971dec78eb896fe7e1/24",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xbc1351c028ab3dcf259f29971dec78eb896fe7e1/24",
           },
         ],
       },
@@ -1047,7 +1051,8 @@ export const MOCK_MATERIAL_NFTS = [
             date: new Date("2025-02-05"),
             to: MOCK_USER3.name,
             toWalletAddress: MOCK_USER3.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe12910381a2b62d06fdf01ee4cd33317e83bb6fb/66",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xe12910381a2b62d06fdf01ee4cd33317e83bb6fb/66",
           },
         ],
       },
@@ -1068,7 +1073,8 @@ export const MOCK_MATERIAL_NFTS = [
             date: new Date("2025-03-01"),
             to: MOCK_USER_DATA.name,
             toWalletAddress: MOCK_USER_DATA.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0x73d24f126af6112c20579de5a2571f5f3c1851af/54",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0x73d24f126af6112c20579de5a2571f5f3c1851af/54",
           },
         ],
       },
@@ -1112,7 +1118,8 @@ export const MOCK_BLUEPRINT_PUZZLE_NFTS = [
             date: new Date("2025-01-05"),
             to: MOCK_USER_DATA.name,
             toWalletAddress: MOCK_USER_DATA.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xa07b3f7f489013558f56b77a17a664421fefc5df/43",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xa07b3f7f489013558f56b77a17a664421fefc5df/43",
           },
         ],
       },
@@ -1131,7 +1138,8 @@ export const MOCK_BLUEPRINT_PUZZLE_NFTS = [
             date: new Date("2025-01-10"),
             to: MOCK_USER2.name,
             toWalletAddress: MOCK_USER2.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xa07b3f7f489013558f56b77a17a664421fefc5df/43",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xa07b3f7f489013558f56b77a17a664421fefc5df/43",
           },
         ],
       },
@@ -1150,7 +1158,8 @@ export const MOCK_BLUEPRINT_PUZZLE_NFTS = [
             date: new Date("2025-02-15"),
             to: MOCK_USER3.name,
             toWalletAddress: MOCK_USER3.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe9ee0fb75f7214e2301b47a3da6a088783531421/66",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xe9ee0fb75f7214e2301b47a3da6a088783531421/66",
           },
         ],
       },
@@ -1169,7 +1178,8 @@ export const MOCK_BLUEPRINT_PUZZLE_NFTS = [
             date: new Date("2025-02-25"),
             to: MOCK_USER_DATA.name,
             toWalletAddress: MOCK_USER_DATA.walletAddress,
-            blockExplorerUrl: "https://testnets.opensea.io/assets/amoy/0xe9ee0fb75f7214e2301b47a3da6a088783531421/66",
+            blockExplorerUrl:
+              "https://testnets.opensea.io/assets/amoy/0xe9ee0fb75f7214e2301b47a3da6a088783531421/66",
           },
         ],
       },

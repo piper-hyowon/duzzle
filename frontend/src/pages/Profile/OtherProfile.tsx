@@ -5,6 +5,7 @@ import MyButton from "../../components/MyButton/MyButton";
 import { useParams } from "react-router-dom";
 import { mockApiService } from "../../services/mockServices";
 import { OtherUserProfileResponse } from "../../services/type";
+import { MOCK_USER_DATA } from "../../services/mockData";
 
 function OtherProfile() {
   const [User, setUser] = useState<OtherUserProfileResponse>(null);
@@ -47,7 +48,14 @@ function OtherProfile() {
       {User && (
         <>
           <div className="profile_img">
-            <img src={User.image} />
+            <img
+              src={User.image}
+              title={
+                User.walletAddress === MOCK_USER_DATA.walletAddress
+                  ? MOCK_USER_DATA.title
+                  : ""
+              }
+            />
           </div>
           <div className="profile_list">
             <div className="profile_info">

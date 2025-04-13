@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import "./Quest.css";
-import MyBottomNavBar from "../../components/MyBottomNavBar/MyBottomNavBar";
 import { QuestType } from "../../enum/quest.enum";
 import { mockApiService } from "../../services/mockServices";
+
+import treeGif from "/public/assets/images/tree.gif";
 
 function Quest() {
   const nav = useNavigate();
@@ -41,8 +42,12 @@ function Quest() {
 
   return (
     <div className="Quest">
-      <div className="random"> Mini Game</div>
-      <img src="/src/pages/Quest/Tree.gif" alt="Tree" className="Tree" />
+      <div className="random">Mini Game</div>
+      <img
+        src={new URL("/assets/images/tree.gif", import.meta.url).href}
+        alt="Tree"
+      />
+
       <div className="snowflakes" aria-hidden="true">
         <div className="snowflake">❄️</div>
         <div className="snowflake">❄️</div>
@@ -51,7 +56,6 @@ function Quest() {
         <div className="snowflake">❄️</div>
         <div className="snowflake">❄️</div>
       </div>
-
       <div className="game-selection">
         <button
           className="quest_button"

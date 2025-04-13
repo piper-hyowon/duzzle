@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import "./QuestFail.css";
-import CanvasAnimation from "./Speed/CanvasAnimation";
 
 function QuestFail() {
   const nav = useNavigate();
@@ -8,7 +7,7 @@ function QuestFail() {
     <div className="QuestFail">
       {/* <CanvasAnimation /> */}
       <div className="text_suc">미션 실패</div>
-      <img src="/src/pages/Quest/sad.gif" alt="Sad" className="Sad" />
+      <img src="/assets/images/sad.gif" alt="Sad" className="Sad" />
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

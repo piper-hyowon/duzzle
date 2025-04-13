@@ -10,6 +10,10 @@ import {
 import { mockApiService } from "../../services/mockServices";
 import AlertModal from "../../components/Modal/AlertModal";
 
+import duk1Img from "/assets/images/duk1.png";
+import duk2Img from "/assets/images/duk2.png";
+import duk3Img from "/assets/images/duk3.png";
+
 interface UserRanking {
   rank: number;
   name: string;
@@ -144,11 +148,7 @@ const Ranking: React.FC = () => {
         <h1 className="title">RANKING</h1>
         <div className="top-ranking">
           {rankings.slice(0, 3).map((user, index) => {
-            const imageSrc = [
-              "/src/pages/Ranking/duk1.png",
-              "/src/pages/Ranking/duk2.png",
-              "/src/pages/Ranking/duk3.png",
-            ][index];
+            const imageSrc = [duk1Img, duk2Img, duk3Img][index];
 
             return (
               <div key={index} className={`podium-rank rank-${index + 1}`}>

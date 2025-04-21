@@ -82,7 +82,7 @@
 # 서비스 아키텍처
 
 <div align="center">
-<img src="./duzzle-diagram.svg" width="500">
+<img src="./duzzle-diagram_bg.svg" width="500">
 </div>
 
 
@@ -109,7 +109,7 @@
 - `erc-721`: *MaterialItem*, *BlueprintItem*, *PuzzlePiece*
 
 <div align="center">
-<img src="./duzzlecontract-diagram.svg" width="500">
+<img src="./duzzlecontract_bg.svg" width="500">
 </div>
 
 ### 컨트랙트 기능

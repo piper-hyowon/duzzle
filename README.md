@@ -1,9 +1,8 @@
-# Duzzle (모노레포)
+# Duzzle(더즐)
 
 <h4> 🔗 데모 사이트: <a href="http://try-duzzle.com" rel="noopener">Try Duzzle</a> </h4>
 
-## ⚠️ 이 브랜치는 서비스 이해를 돕기 위한 데모 버전입니다.
-## 
+### ⚠️ 이 브랜치는 서비스 이해를 돕기 위한 데모 버전입니다.
 > **전체 기능이 구현된 원본 코드는 아래 링크에서 확인할 수 있습니다:**
 > 
 > **원본 프로젝트:** 
@@ -12,7 +11,8 @@
 > - 스마트 컨트랙트: [Duksung-Kkureogi/duzzle-contract](https://github.com/Duksung-Kkureogi/duzzle-contract.git)
 > 
 > 
-> ## 데모 버전 배경 및 특징
+><details>
+><summary><span style="font-size: 20px; font-weight: bold;">데모 버전 배경 및 특징</span></summary>
 >
 >**배경:**
 >- 실제 블록체인 서비스는 인프라 및 RPC 비용 이슈로 인해 현재 중단된 상태
@@ -28,3 +28,149 @@
 >- ERC20 토큰 보상 지급 과정 생략- 로그아웃 기능 비활성화 (항상 로그인 상태 유지)
 >- ERC721 토큰(NFT)에 대한 소유권 이전 생략
 >    - 퍼즐 조각 NFT 발행, 조각/아이템 NFT 거래
+></details>
+
+
+# 프로젝트 소개
+모든 유저가 함께 **캠퍼스 NFT 퍼즐**을 완성하며 잠금 해제(Minting) 현황을 실시간으로 공유
+- 별도로 암호화폐 지갑을 생성하고 관리할 필요없이 **소셜로그인** 지원(가입 축하 메일 발송)
+- 웹소켓 기반 미니게임을 통해 🌙 ***DAL 토큰***`(ERC-20)` 을 획득
+- 상점에서 **랜덤** 재료 ***아이템 NFT*** 구입(2 DAL 소각) 
+- 아이템을 모아서 ***퍼즐 NFT*** 잠금해제 🔓 🎉
+- `거래`: 필요한 아이템은 다른 유저와 교환 🤝
+- `스토리`: 미니게임이 어렵다면 스토리로 학습
+- 누가누가 많이 얻었는지 `랭킹`을 통해 확인
+- `마이페이지`에서 보유 NFT 조회
+- 지나간 시즌의 퍼즐과 랭킹은 `히스토리`에서 조회
+- `1:1 문의`에서 간편하게 관리자에게 문의 내용 남기기
+
+
+## 장점 & 기대효과
+<details>
+<summary> 🔽</summary>
+
+
+1) 쉽고 재미있는 Web3 온보딩
+   1) 애플리케이션 설치 없이 모바일, PC 등 웹브라우저로 서비스 이용
+   2) 암호화폐 지갑 생성 및 관리과정 불필요(`Web3Auth` 사용)
+   3) 앱 기능 구조 단순화으로 조작 부담감 감소
+2) 학교 관련 정보 제공 및 가이드 역할 수행
+   1) 퀘스트(미니게임)와 스토리를 통해 교내 건축물들의 이해를 돕고 상세한 정보 제공
+3) 실시간 데이터 처리 및 투명성
+   1) 5초 간격 스케줄러를 통해 NFT 퍼즐 발행 현황 업데이트
+   2) 소유권 이전 과정을 추적하여 유저간 거래 내역 공개
+4) 게임화를 통한 사용자 참여 유도
+   1) 랜덤 미니게임, 랜덤 재료 획득
+   2) 퍼즐을 함께 완성하는 과정을 통한 협력, 재미 요소
+   3) 랭킹 시스템을 통한 경쟁 요소
+   4) 시즌제 운영으로 지속적인 사용자 참여 유도
+5) 캠퍼스 변화 디지털 아카이빙
+   1) 시즌이 거듭되고 시간이 흐르면서 달라지는 학교의 모습을 계속해서 반영
+   2) 사용자들이 디지털 공간에서 학교의 변화와 발전을 지속적으로 체험하고 추억
+   3) 졸업생들에게 모교와의 지속적인 연결고리
+   4) 대학의 역사를 블록체인에 기록하여 영구 보존
+</details>
+
+#### [ Stack ]
+- **Backend**: `TypeScript`, `Node.js`, `NestJS`, `TypeORM`, `WebSocket`
+- **Blockchain**: `Polygon`, `Solidity(스마트컨트랙트 작성 언어)`, `Hardhat`, `OpenZeppelin`, `TypeScript(테스트코드 작성 언어)`
+- **Frontend**: `React`, `Vite`, `Web3Auth`
+- **Database**: `PostgreSQL`, `Redis`
+- **Cloud**: `AWS S3`, `DigitalOcean Droplet` (`GitHub Actions`)
+
+
+# 서비스 아키텍처
+
+<div align="center">
+<img src="./duzzle-diagram.svg" width="500">
+</div>
+
+
+
+## 스마트 컨트랙트
+<details>
+<summary> 🔽</summary>
+
+시즌별 퍼즐의 총 조각 수, 각 조각 NFT 발행에 필요한 아이템 NFT, 각 NFT의 최대 발행 한도 등 모든 핵심 규칙이 스마트 컨트랙트에 기록됩니다. 블록체인에 저장된 이 규칙은 누구도 수정할 수 없기 때문에 게임의 공정성을 보장합니다.
+
+- 권한 관리를 통한 안전한 운영
+  - 시즌 시작 및 데이터 세팅: 관리자만.
+  - NFT 발행 권한: PlayDuzzle 컨트랙트에 의해서만. 
+  - NFT 교환: 백엔드에서만.
+- DAL토큰과 각 NFT의 최대 발행량 제한으로 희소성 보장
+- 이벤트 로깅(모든 주요 액션은 블록체인 이벤트로 기록하여 추적 가능)
+
+#### 컨트랙트 구조
+- `서비스 컨트랙트`: *PlayDuzzle*, *NFTSwap*
+- `erc-20`: *Dal* = 화페로 쓰이는 토큰
+- `erc-721`: *MaterialItem*, *BlueprintItem*, *PuzzlePiece*
+
+<div align="center">
+<img src="./duzzlecontract-diagram.svg" width="500">
+</div>
+
+### 컨트랙트 기능
+**PlayDuzzle**
+- 시즌 시스템과 게임 핵심 로직을 관리
+  - [관리자만 호출]
+    - `startSeason`: 새 시즌 시작(사용 아이템과 퍼즐 규칙 입력)
+    - `setZoneData`: 특정 구역 조각 수와 필요한 아이템 구성
+  - [누구나 호출 가능]
+    - `getRandomItem`: DAL토큰사용하여 랜덤 아이템 NFT 구매
+    - `unlockPuzzlePiece`: 필요한 재료와 설계도면 아이템을 소각하여 퍼즐 조각 잠금 해제
+
+
+**NFTSwap**
+- 백엔드에서만 호출 가능하여 유저간 안전한 NFT 교환
+- 모든 아이템/퍼즐 NFT 들의 교환 원자성 보장
+- ReentrancyGuard: NFT 전송중 재진입 공격 방지
+
+**DuzzlieLibrary**
+- 시즌별 퍼즐 정보
+  - 구역별 조각 구성
+  - 잠금해제에 필요한 재료 아이템
+  - 설계도면 발행 현황
+
+**Utils**
+- 의사 랜덤(pseudo-random) 숫자를 생성
+  - 블록 타임스탬프와 prevrandao 값을 시드로 활용 
+
+#### 배포 및 테스트 예시
+**컨트랙트 배포**
+```javascript
+// PlayDuzzle 컨트랙트 배포 예시
+const playDuzzleContract = await ethers.getContractFactory("PlayDuzzle");
+const playDuzzleInstance = await playDuzzleContract.deploy(
+  capOfDalToken,        // DAL 토큰의 최대 발행량
+  bluePrintBaseUri,     // 설계도면 NFT 메타데이터 URI
+  puzzlePieceBaseUri    // 퍼즐 조각 NFT 메타데이터 URI
+);
+```
+
+**시즌 시작**
+```javascript// 시즌 시작 예시
+await playDuzzleInstance.startSeason(
+  existedItemCollections,  // 기존 재료 아이템 컨트랙트 주소 배열
+  newItemNames,            // 새 재료 아이템 이름 배열
+  newItemSymbols,          // 새 재료 아이템 심볼 배열
+  newItemBaseUris,         // 새 재료 아이템 메타데이터 URI 배열
+  maxSupplys,              // 각 재료 아이템의 최대 발행량
+  totalPieceCount          // 시즌의 총 퍼즐 조각 수
+);
+```
+
+**구역 데이터 설정**
+```javascript
+// 각 구역의 데이터 설정 예시
+for (let zoneId = 0; zoneId < 20; zoneId++) {
+  await playDuzzleInstance.setZoneData(
+    zoneId,                      // 구역 ID (0-19)
+    pieceCountOfZones[zoneId],   // 해당 구역의 퍼즐 조각 수
+    requiredItemsForMinting[zoneId],  // 해당 구역 잠금해제에 필요한 재료 주소 배열
+    requiredItemAmount[zoneId]        // 각 재료의 필요 수량
+  );
+}
+```
+
+
+</details>

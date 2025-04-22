@@ -87,6 +87,7 @@
 
 
 
+
 ## 스마트 컨트랙트
 <details>
 <summary> 🔽</summary>
@@ -180,3 +181,11 @@ for (let zoneId = 0; zoneId < 20; zoneId++) {
 
 
 </details>
+
+
+## ERD
+<div align="center">
+<a href="./duzzle_erd.png" target="_blank">
+  <img src="./duzzle_erd_thumb.jpg" alt="ERD 썸네일" width="400"/>
+</a>
+</div>

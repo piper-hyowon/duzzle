@@ -60,6 +60,7 @@
 
 #### 해결책
 - 블록체인 기반 NFT로 희소성과 소유권 보장
+  - 시즌 시작시 최대 발행량을 블록체인에 기록
 - 소셜 로그인으로 Web3 진입 장벽 해소
 - 게임화를 통한 자연스러운 학습 경험
 
@@ -88,6 +89,8 @@
 
 3) **실시간 데이터 처리 및 투명성**
    - 5초 간격 스케줄러를 통해 NFT 퍼즐 발행 현황 업데이트
+   - 블록체인 데이터를 주기적으로 DB에 동기화하여 빠른 API 응답 제공
+   - RPC 호출 횟수를 줄여 비용 절감
    - 소유권 이전 과정을 추적하여 유저간 거래 내역 공개
 
 4) **게임화를 통한 사용자 참여 유도**
@@ -108,6 +111,7 @@
 - **Frontend**: `React`, `Vite`, `Web3Auth`
 - **Database**: `PostgreSQL`, `Redis`
 - **Cloud**: `AWS S3`, `DigitalOcean Droplet` (`GitHub Actions`)
+
 
 ## 서비스 아키텍처
 
@@ -151,8 +155,15 @@
 
 **NFTSwap**
 - 백엔드에서만 호출 가능하여 유저간 안전한 NFT 교환
+- 상태 기반 동시성 제어로 동시 수락 방지 (LISTED→MATCHED→PENDING→COMPLETED)
 - 모든 아이템/퍼즐 NFT 들의 교환 원자성 보장
-- ReentrancyGuard: NFT 전송중 재진입 공격 방지
+- 안전한 NFT 교환: ReentrancyGuard 및 상태 기반 동시성 제어
+- Gasless Transaction: approval 로 미리 권한 부여, 가스비는 백엔드가 지불
+
+**가스비 최적화**
+- 동적 배열 크기 사전 할당으로 메모리 효율성 향상
+- 스토리지 읽기/쓰기 최소화
+- uint8/16/24 등 적절한 데이터 타입 사용으로 스토리지 비용 절감
 
 **DuzzlieLibrary**
 - 시즌별 퍼즐 정보

@@ -116,7 +116,7 @@
 ## 서비스 아키텍처
 
 <div align="center">
-<img src="./duzzle-diagram_bg.svg" width="500">
+  <img width="500"alt="image" src="https://github.com/user-attachments/assets/9f02d913-6916-47a2-be1d-2c26063493e1" />
 </div>
 
 ## 스마트 컨트랙트
@@ -137,7 +137,7 @@
 - `erc-721`: *MaterialItem*, *BlueprintItem*, *PuzzlePiece*
 
 <div align="center">
-<img src="./duzzlecontract_bg.svg" width="500">
+  <img width="500"  alt="image" src="https://github.com/user-attachments/assets/67ad0147-228f-468d-99d6-55e6183d98b5" />
 </div>
 
 ### 컨트랙트 기능

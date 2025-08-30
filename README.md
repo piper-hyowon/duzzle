@@ -45,11 +45,13 @@ Web3Auth 소셜 로그인으로 암호화폐 지갑 없이도 NFT를 경험할 �
 ### 1. Web3 온보딩 간소화
 Web3Auth 소셜 로그인으로 지갑 생성/관리 과정 제거
 
-### 2. 안전한 P2P NFT 거래
-사용자는 approve만 수행하고 백엔드가 BACKEND_ROLE로 거래 실행
+### 2. 가스비 절감 NFT 거래
+- 사용자는 approve만, 실제 거래는 백엔드가 실행하여 사용자 경험 향상
 
 ### 3. 시즌제 NFT 발행 시스템
-시즌별 제한된 수량 발행으로 희소성 보장, offset으로 tokenId 충돌 방지
+- 시즌별 제한된 수량 발행으로 희소성 보장, offset으로 tokenId 충돌 방지
+- 재료 아이템 maxSupply: 아이템별 발행 제한으로 인플레이션 방지
+- 이전 시즌 아이템 재사용
 
 ### 4. 실시간 협업 퍼즐 게임
 WebSocket 기반 실시간 미니게임과 퍼즐 완성 현황 공유
@@ -64,54 +66,20 @@ WebSocket 기반 실시간 미니게임과 퍼즐 완성 현황 공유
 - **Dal.sol**: ERC-20 게임 화폐
 - **MaterialItem.sol, BlueprintItem.sol, PuzzlePiece.sol**: ERC-721 NFT
 
-#### 핵심 구현
 
-**시즌 관리 및 토큰 ID 충돌 방지**
-```solidity
-// contracts/contracts/service/PlayDuzzle.sol
-function startSeason(...) public onlyRole(DEFAULT_ADMIN_ROLE) {
-    offset = offset + seasons[thisSeasonId].totalPieceCount;
-    if (seasonIds.length > 0) {
-        ++thisSeasonId;
-    }
-    // 시즌 데이터 설정...
-}
-```
+### NFT 교환 시스템
+- 사용자는 appove만 수행, 백엔드가 BACKEND_ROLE 권한으로 실제 거래 실행
+- 거래 시점 NFT 잔액 재검증
+    - 제안자 NFT 부족시 SYSTEM_CANCELLED 처리
+    - 수락자 NFT 부족시 MATCHED -> LISTED 롤백
+- Entity -> Contract 파라미터 매핑(NftExchangeMappingService)
 
-**P2P NFT 거래 보안**
-```solidity
-// contracts/contracts/service/NFTSwap.sol
-contract NFTSwap is ReentrancyGuard, AccessControl {
-    bytes32 public constant BACKEND_ROLE = keccak256("BACKEND_ROLE");
-    
-    function executeNFTSwap(
-        address[] calldata nftContractsGivenByA,
-        uint256[] calldata tokenIdsGivenByA,
-        address[] calldata nftContractsGivenByB,
-        uint256[] calldata tokenIdsGivenByB,
-        address userA,
-        address userB
-    ) external nonReentrant onlyRole(BACKEND_ROLE) {
-        // 사용자 대신 백엔드가 안전하게 거래 실행
-    }
-}
-```
+![NFT 교환 상태 다이어그램](image.png)
 
-**랜덤 아이템 획득**
-```solidity
-// contracts/contracts/library/Utils.sol
-function getRandomNumber(uint256 from, uint256 to) internal view returns (uint256) {
-    uint256 seed = uint256(
-        keccak256(abi.encodePacked(block.timestamp, block.prevrandao))
-    );
-    // 다단계 해싱으로 예측 불가능한 랜덤 생성
-    return ((result % (to - from)) + from);
-}
-```
 
 ### Backend
 
-#### RPC 비용 최적화 스케줄러
+#### 4개 RPC 제공자를 시간대별로 순환하여 무료 한도 내에서 운영
 ```typescript
 // backend/src/module/scheduler/transaction-collection.scheduler.service.ts
 
@@ -135,7 +103,7 @@ const ApiRequestLimits = {
 };
 ```
 
-#### 퀘스트 시스템
+#### 시간 제한 미니게임으로 DAL 토큰 획득
 ```typescript
 // backend/src/module/quest/quest.service.ts
 async getResult(userId: number | null, params: GetResultRequest): Promise<boolean> {
@@ -155,7 +123,7 @@ async getResult(userId: number | null, params: GetResultRequest): Promise<boolea
 }
 ```
 
-#### 블록체인 데이터 동기화
+#### 5초 간격으로 온체인 이벤트를 DB에 반영
 ```typescript
 // backend/src/module/blockchain/blockchain.transaction.service.ts
 async syncAllNftOwnersOfLogs(logs: Partial<LogTransactionEntity>[]) {

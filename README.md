@@ -32,7 +32,7 @@ Web3Auth 소셜 로그인으로 암호화폐 지갑 없이도 NFT를 경험할 �
 
 ### Service Architecture
 <div align="center">
-  <img width="600" alt="Service Architecture" src="https://github.com/user-attachments/assets/9f02d913-6916-47a2-be1d-2c26063493e1" />
+  <img width="600" alt="Service Architecture" src="duzzle-architecture.png" />
 </div>
 
 ### Contract Structure

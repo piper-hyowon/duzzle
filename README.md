@@ -67,14 +67,19 @@ WebSocket 기반 실시간 미니게임과 퍼즐 완성 현황 공유
 - **MaterialItem.sol, BlueprintItem.sol, PuzzlePiece.sol**: ERC-721 NFT
 
 
-### NFT 교환 시스템
+### NFT P2P 교환 시스템
 - 사용자는 appove만 수행, 백엔드가 BACKEND_ROLE 권한으로 실제 거래 실행
 - 거래 시점 NFT 잔액 재검증
     - 제안자 NFT 부족시 SYSTEM_CANCELLED 처리
     - 수락자 NFT 부족시 MATCHED -> LISTED 롤백
 - Entity -> Contract 파라미터 매핑(NftExchangeMappingService)
 
-![NFT 교환 상태 다이어그램](image.png)
+#### NFT 교환 상태 다이어그램
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/2f3e1842-bcab-427e-9bb8-1ce3b6f4d8e7" />
+
+#### 구현 화면
+<img width="800"  alt="image" src="https://github.com/user-attachments/assets/f2c745f6-d93f-4650-bda0-dd060b46db20" />
+<img width="800"  alt="image" src="https://github.com/user-attachments/assets/73ca4b25-d21e-48b4-86d0-96c8944bb4cc" />
 
 
 ### Backend
@@ -143,12 +148,6 @@ async syncAllNftOwnersOfLogs(logs: Partial<LogTransactionEntity>[]) {
 ```
 
 ### Database
-
-#### 주요 테이블
-- `log_transaction`: 블록체인 트랜잭션 로그 (Transfer, Mint, Burn 이벤트)
-- `log_quest`: 퀘스트 진행 상태 및 보상 지급 내역
-- `port_allocations`: DB 인스턴스용 NodePort 할당 (30000-31999)
-- `puzzle_pieces`, `items`: NFT 소유권 및 메타데이터
 
 #### ERD
 <details>
